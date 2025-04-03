@@ -1,0 +1,6 @@
+Discussed how we want to implement database as well as building a datbase model. Also nailed down who is going to work on what for the next week.
+Alec - Working on SQL
+Matt - working on SQL
+Nina - Front End 
+Varun - Front End/Home-Login-Register
+Vivian - Front End/StartPage
