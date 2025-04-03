@@ -36,7 +36,7 @@ CREATE TABLE profiles (
 -- table of user photos, can be attached to posts or profiles
 CREATE TABLE photos (
     id SERIAL PRIMARY KEY, -- photo identifier number (integer)
-    url TEXT NOT NULL, -- TODO: decide if we want to store the URL or the raw image data
+    image_data BYTEA, -- TODO: decide if we want to store the URL or the raw image data 
     description TEXT,
     uploaded_at TIMESTAMP DEFAULT NOW()
 );
