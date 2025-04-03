@@ -8,7 +8,8 @@
     "express": "^4.6.1",
     "express-session": "^1.17.3",
     "express-handlebars": "^7.1.2",
-    "pg-promise": "^10.11.1"
+    "pg-promise": "^10.11.1",
+    "bcryptjs": "^2.4.0"
   },
   "scripts": {
     "prestart": "npm install",
