@@ -138,44 +138,35 @@ app.get('/register', (req, res) => {
 
 // POST /register route
 app.post('/register', async (req, res) => {
-try {
-  const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
 
-  // console.log('Received data:', { username, password }); 
+    // Check if the username already exists
+    const userExists = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
 
-  // Check if the username already exists
-  const userExists = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
-  // console.log('User exists:', userExists);
+    if (userExists) {
+      return res.render('pages/register', { 
+        message: 'Username already exists. Please choose another.',
+        error: true
+      });
+    }
 
-  if (userExists) {
-    return res.render('pages/register', { 
-      message: 'Username already exists. Please choose another.',
-    error: true 
-    });
+    // Hash the password before storing it in the database
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert into the users table
+    await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, hashedPassword]);
+
+    // Store success message in session and redirect to login
+    req.session.message = { text: 'Registration successful! You can now log in.' };
+    res.redirect('/login'); // Redirect to login page after successful registration
+  } catch (error) {
+    console.error('Registration error details:', error.message);
+    return res.render('pages/register', { message: 'Registration failed. Please try again.' });
   }
-
-  // Hash the password before storing it in the database
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  // Insert into the users table
-  const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
-  await db.query(query, [username, hashedPassword]);
-
-  // Store success message in session and redirect
-  req.session.message = { text: 'Registration successful! You can now log in.'};
-  res.redirect('/login');
-
-  // if (query && query.length > 0) {
-  //   return res.render('pages/login', { message: 'Registration successful! Please log in.' });
-  // } else {
-  //   throw new Error('User registration failed');
-  // }
-} catch (error) {
-  console.error('Registration error details:', error.message);
-  return res.render('pages/register', { message: 'Registration failed. Please try again.' });
-}
-
 });
+
+
 
 // -------------------------------------  EXPLORE ROUTE  ----------------------------------------------
 app.get('/explore', (req, res) => {
