@@ -1,0 +1,7 @@
+Daniel- Working test cases (lab 11)
+Verun- Working on Homepage and personal profile page
+Nina - Finishing login and register then working on front end for both
+John- working on settings
+Vivian- css styling about page
+Alec- Working on the external database and the take picture feature.
+Matt - chat page
