@@ -82,14 +82,91 @@ app.get('/about', (req, res) => {
 });
 
 // -------------------------------------  LOGIN ROUTE  ----------------------------------------------
+// GET /login route to render the login page
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+  const message = req.session.message;
+  req.session.message = null; // Clear message after displaying
+
+  res.render('pages/login', { message });
+});
+
+// POST /login route
+app.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Find user in the database
+    const user = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
+
+    if (!user) {
+      // If user is not found, redirect to register page
+      return res.redirect('/register');
+    }
+
+    // Check if password matches using bcrypt
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      // If password doesn't match, show error message
+      return res.render('pages/login', { 
+        message: 'Incorrect username or password.', 
+        error: true 
+      });
+    }
+
+    // Save user details in session
+    req.session.user = user;
+    req.session.save(() => {
+      // Redirect to /discover route after successful login
+      res.redirect('/discover');
+    });
+
+  } catch (error) {
+    console.error('Login error:', error.message);
+    return res.render('pages/login', { 
+      message: 'An error occurred during login. Please try again.', 
+      error: true 
+    });
+  }
 });
 
 // -------------------------------------  REGISTER ROUTE  ----------------------------------------------
+// GET /register route to render the registration page
 app.get('/register', (req, res) => {
-  res.render('pages/register');
+  res.render('pages/register'); // Renders the register.hbs file
 });
+
+// POST /register route
+app.post('/register', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Check if the username already exists
+    const userExists = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
+
+    if (userExists) {
+      return res.render('pages/register', { 
+        message: 'Username already exists. Please choose another.',
+        error: true
+      });
+    }
+
+    // Hash the password before storing it in the database
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert into the users table
+    await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, hashedPassword]);
+
+    // Store success message in session and redirect to login
+    req.session.message = { text: 'Registration successful! You can now log in.' };
+    res.redirect('/login'); // Redirect to login page after successful registration
+  } catch (error) {
+    console.error('Registration error details:', error.message);
+    return res.render('pages/register', { message: 'Registration failed. Please try again.' });
+  }
+});
+
+
 
 // -------------------------------------  EXPLORE ROUTE  ----------------------------------------------
 app.get('/explore', (req, res) => {
