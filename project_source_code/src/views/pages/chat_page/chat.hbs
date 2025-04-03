@@ -1,0 +1,15 @@
+<div class="container py-4">
+  {{> chat_header user=chatPartner }}
+
+  <div class="card">
+    <div class="card-body overflow-auto" style="height: 400px;" id="chat-box">
+      {{#each messages}}
+        {{> message_bubble this }}
+      {{/each}}
+    </div>
+
+    <div class="card-footer">
+      {{> chat_input chatPartnerId=chatPartner.id }}
+    </div>
+  </div>
+</div>
