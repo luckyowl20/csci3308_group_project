@@ -76,21 +76,31 @@ app.get('/', (req, res) => {
   res.render('pages/about');
 });
 
-// -------------------------------------  LOGIN ROUTE  ----------------------------------------------
-
-app.get('/login', (req, res) => {
-  res.render('pages/login');
-});
-
 // -------------------------------------  ABOUT ROUTE  ----------------------------------------------
 app.get('/about', (req, res) => {
   res.render('pages/about');
+});
+
+// -------------------------------------  LOGIN ROUTE  ----------------------------------------------
+app.get('/login', (req, res) => {
+  res.render('pages/login');
 });
 
 // -------------------------------------  REGISTER ROUTE  ----------------------------------------------
 app.get('/register', (req, res) => {
   res.render('pages/register');
 });
+
+// -------------------------------------  EXPLORE ROUTE  ----------------------------------------------
+app.get('/explore', (req, res) => {
+  res.render('pages/explore');
+});
+
+// -------------------------------------  EXPLORE ROUTE  ----------------------------------------------
+app.get('/profile', (req, res) => {
+  res.render('pages/personal_profile');
+});
+
 
 
 // -------------------------------------  REGISTER ROUTE  ----------------------------------------------
