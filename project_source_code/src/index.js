@@ -2,6 +2,8 @@
 Lines 5-62 are from the lab 8 index.js code, excluding the axios dependency.
 */
 
+// ----------------------------------   DEPENDENCIES  ----------------------------------------------
+
 const express = require('express'); // To build an application server or API
 const app = express();
 const handlebars = require('express-handlebars');
@@ -12,32 +14,13 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcryptjs'); //  To hash passwords
 
+
+// -------------------------------------  APP CONFIG   ----------------------------------------------
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
 const hbs = handlebars.create({
   extname: 'hbs',
   layoutsDir: __dirname + '/views/layouts',
   partialsDir: __dirname + '/views/partials',
-});
-
-// database configuration
-const dbConfig = {
-    host: 'db', // the database server
-    port: 5432, // the database port
-    database: process.env.POSTGRES_DB, // the database name
-    user: process.env.POSTGRES_USER, // the user account to connect with
-    password: process.env.POSTGRES_PASSWORD, // the password of the user account
-  };
-  
-const db = pgp(dbConfig);
-
-// test your database
-db.connect()
-.then(obj => {
-    console.log('Database connection successful'); // you can view this message in the docker compose logs
-    obj.done(); // success, release the connection;
-})
-.catch(error => {
-    console.log('ERROR:', error.message || error);
 });
 
 // Register `hbs` as our view engine using its bound `engine()` function.
@@ -61,8 +44,57 @@ app.use(
   })
 );
 
-// placeholder endpoint for now
-app.length('/week_photos', async (req, res) => {
+// -------------------------------------  DB CONFIG AND CONNECT   ---------------------------------------
+const dbConfig = {
+    host: 'db', // the database server
+    port: 5432, // the database port
+    database: process.env.POSTGRES_DB, // the database name
+    user: process.env.POSTGRES_USER, // the user account to connect with
+    password: process.env.POSTGRES_PASSWORD, // the password of the user account
+  };
+  
+const db = pgp(dbConfig);
+
+// test your database
+db.connect()
+.then(obj => {
+    console.log('Database connection successful'); // you can view this message in the docker compose logs
+    obj.done(); // success, release the connection;
+})
+.catch(error => {
+    console.log('ERROR:', error.message || error);
+});
+
+// -------------------------------------  START THE SERVER   ----------------------------------------------
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is listening on http://localhost:${PORT}`);
+});
+
+
+app.get('/', (req, res) => {
+  res.render('pages/about');
+});
+
+// -------------------------------------  LOGIN ROUTE  ----------------------------------------------
+
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+
+// -------------------------------------  ABOUT ROUTE  ----------------------------------------------
+app.get('/about', (req, res) => {
+  res.render('pages/about');
+});
+
+// -------------------------------------  REGISTER ROUTE  ----------------------------------------------
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+
+
+// -------------------------------------  REGISTER ROUTE  ----------------------------------------------
+app.get('/week_photos', async (req, res) => {
     const user_id = req.session.user_id; // need to add a check that the user session is actually valid
     
     if (!user_id) {
