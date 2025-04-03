@@ -67,10 +67,14 @@ db.connect()
 
 // -------------------------------------  START THE SERVER   ----------------------------------------------
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+module.exports = app.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
 
+
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
 
 app.get('/', (req, res) => {
   res.render('pages/about');
