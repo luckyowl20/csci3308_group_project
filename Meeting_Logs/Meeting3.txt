@@ -1,0 +1,7 @@
+Alec- working on external database
+Matt - working on chat
+Varun- working home page and profile
+Daniel - working on test cases
+Nina-finishing up login and register
+Vivian- styling about with css
+John - Home and other profile
