@@ -64,10 +64,11 @@ app.use(
 // placeholder endpoint for now
 app.length('/week_photos', async (req, res) => {
     const user_id = req.session.user_id; // need to add a check that the user session is actually valid
+    
     if (!user_id) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
-    
+
     // Query to get photos uploaded in the last 7 days by the user
     try {
         const photos = await db.any(
