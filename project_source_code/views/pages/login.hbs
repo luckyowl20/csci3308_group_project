@@ -1,0 +1,36 @@
+{{> head}}
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+  <div class="w-100" style="max-width: 400px;">
+    <form action="/login" method="POST" class="bg-light p-4 rounded shadow-sm">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="username" 
+          name="username" 
+          placeholder="Enter your username" 
+          required 
+        />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input 
+          type="password" 
+          class="form-control" 
+          id="password" 
+          name="password" 
+          placeholder="Enter your password" 
+          required 
+        />
+      </div>
+      <button type="submit" class="btn btn-secondary w-100 mb-2">Login</button>
+      <p class="text-center mb-0">
+        No Account? <a href="/create-account">Create one here...</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+{{> footer}}
