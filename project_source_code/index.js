@@ -52,15 +52,29 @@ db.connect()
   .catch(error => {
     console.log('ERROR:', error.message || error);
   });
-
-// -------------------------------------  LOGIN ROUTE ONLY  ----------------------------------------------
-
-app.get('/', (req, res) => {
-  res.render('pages/login');
-});
-
+  
 // -------------------------------------  START THE SERVER   ----------------------------------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
+
+
+
+
+// -------------------------------------  LOGIN ROUTE  ----------------------------------------------
+
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+
+// -------------------------------------  ABOUT ROUTE  ----------------------------------------------
+app.get('/about', (req, res) => {
+  res.render('pages/about');
+});
+
+// -------------------------------------  REGISTER ROUTE  ----------------------------------------------
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+
