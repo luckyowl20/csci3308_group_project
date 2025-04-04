@@ -99,3 +99,18 @@ CREATE TABLE IF NOT EXISTS messages (
     CHECK (sender_id <> receiver_id), -- to prevent self-messaging
     CHECK (conversation_type IN ('friend', 'match')) -- to ensure valid conversation types and for sorting later
 );
+
+-- user setting tablle
+CREATE TABLE user_settings (
+    id SERIAL PRIMARY KEY, -- setting identifier number (integer)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user the settings belong to
+    user_id INTEGER UNIQUE NOT NULL,
+    notification_preferences TEXT,
+    privacy_settings TEXT,
+    account_status TEXT,
+    location_settings TEXT,
+    appearance_preferences TEXT,
+    language_preferences TEXT,
+    chat_settings TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
