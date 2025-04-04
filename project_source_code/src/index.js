@@ -19,8 +19,10 @@ const bcrypt = require('bcryptjs'); //  To hash passwords
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
 const hbs = handlebars.create({
   extname: 'hbs',
-  layoutsDir: __dirname + '/views/layouts',
-  partialsDir: __dirname + '/views/partials',
+  layoutsDir: path.join(__dirname, 'views/layouts'),
+  partialsDir: [
+    path.join(__dirname, 'views/partials')
+  ]
 });
 
 // Register `hbs` as our view engine using its bound `engine()` function.
@@ -131,3 +133,32 @@ app.get('/week_photos', async (req, res) => {
 
 
 // -------------------------------------  CHAT ROUTE  ----------------------------------------------
+app.get('/chat', async (req, res) => {
+  // const friends = await db.any(
+  //   `SELECT u.id, u.display_name, u.profile_picture_url
+  //    FROM users u
+  //    JOIN friends f ON f.friend_id = u.id
+  //    WHERE f.user_id = $1`,
+  //   [req.session.user_id]
+  // );
+  // res.render('pages/chat', {
+  //   friends,
+  //   chatPartner,
+  //   messages,
+  // });
+  res.render('pages/chat');
+});
+
+app.post('/messages/send', (req, res) => {
+  const { receiver_id, message_text } = req.body;
+
+  // You can add session check here if needed:
+  // if (!req.session.user_id) {
+  //   return res.status(401).json({ error: 'Unauthorized' });
+  // }
+
+  console.log('Receiver ID:', receiver_id);
+  console.log('Message Text:', message_text);
+
+  res.status(200).json({ status: 'Message received and logged.' });
+});
