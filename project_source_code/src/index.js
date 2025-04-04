@@ -190,7 +190,11 @@ app.get('/profile', (req, res) => {
   res.render('pages/personal_profile');
 });
 
+// -------------------------------------  SETTINGS ROUTE  ----------------------------------------------
 
+app.get('/settings', (req, res) => {
+  res.render('pages/settings');
+});
 
 // -------------------------------------  REGISTER ROUTE  ----------------------------------------------
 app.get('/week_photos', async (req, res) => {
