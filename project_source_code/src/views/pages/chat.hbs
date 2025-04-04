@@ -1,0 +1,76 @@
+<div class="container py-4">
+  <div class="row">
+    <!-- Friends List Sidebar -->
+    <div class="col-md-3 border-end">
+      <h5 class="mb-3">Friends</h5>
+      <ul class="list-unstyled">
+        {{#each friends}}
+          <li class="mb-3">
+            <a href="/chat/{{id}}" class="d-flex align-items-center text-decoration-none">
+              <img src="{{profile_picture_url}}" width="32" height="32" class="rounded-circle me-2" alt="{{display_name}}">
+              <span>{{display_name}}</span>
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <!-- Chat Panel -->
+    <div class="col-md-9">
+      {{> chat_header user=chatPartner }}
+
+      <div class="card">
+        <div class="card-body overflow-auto" style="height: 400px;" id="chat-box">
+          {{#each messages}}
+            {{> message_bubble this }}
+          {{/each}}
+        </div>
+
+        <div class="card-footer">
+          {{> chat_input chatPartnerId=chatPartner.id }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('chat-form');
+    const chatBox = document.getElementById('chat-box');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Prevent form redirect
+
+      const formData = new FormData(form);
+      const receiver_id = formData.get('receiver_id');
+      const message_text = formData.get('message_text');
+
+      try {
+        const res = await fetch('/messages/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ receiver_id, message_text })
+        });
+
+        const data = await res.json();
+        console.log('Message sent:', data);
+
+        // (Optional) Clear input field
+        form.reset();
+
+        // (Optional) Append message to chat box immediately
+        const messageEl = document.createElement('div');
+        messageEl.className = 'text-end mb-2';
+        messageEl.innerHTML = `<span class="badge bg-primary">${message_text}</span>`;
+        chatBox.appendChild(messageEl);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } catch (err) {
+        console.error('Failed to send message:', err);
+      }
+    });
+  });
+</script>
+

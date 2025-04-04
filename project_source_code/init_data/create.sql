@@ -1,7 +1,7 @@
-create database lucky_moment_db;
+-- create database lucky_moment_db;
 
 -- table of users
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,      -- creates a unique identifier for each user as a serialized integer
     username VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE users (
 );
 
 -- table of user posts
-CREATE TABLE posts (
+CREATE TABLE IF NOT EXISTS posts (
     id SERIAL PRIMARY KEY,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user created the post
     FOREIGN KEY (photo_id) REFERENCES photos(id) ON DELETE SET NULL, -- to track which photo is associated with the post
@@ -21,7 +21,7 @@ CREATE TABLE posts (
 );
 
 -- table of user profiles
-CREATE TABLE profiles (
+CREATE TABLE IF NOT EXISTS profiles (
     id SERIAL PRIMARY KEY,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user the profile belongs to
     user_id INTEGER UNIQUE NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE profiles (
 );
 
 -- table of user photos, can be attached to posts or profiles
-CREATE TABLE photos (
+CREATE TABLE IF NOT EXISTS photos (
     id SERIAL PRIMARY KEY, -- photo identifier number (integer)
     url TEXT NOT NULL, -- TODO: decide if we want to store the URL or the raw image data
     description TEXT,
@@ -43,7 +43,7 @@ CREATE TABLE photos (
 
 
 -- table of pending user swipes, awating matches or friend requests
-CREATE TABLE swipes (
+CREATE TABLE IF NOT EXISTS swipes (
     swiper_id INTEGER NOT NULL, -- the user doing the swiping (id number)
     swipee_id INTEGER NOT NULL, -- the user being swiped on (id number)
     is_liked BOOLEAN NOT NULL,  -- TRUE for "yes/right", FALSE for "no/left"
@@ -64,7 +64,7 @@ WHERE s1.is_liked = TRUE AND s2.is_liked = TRUE;
 */
 
 -- table of user friends
-CREATE TABLE friends (
+CREATE TABLE IF NOT EXISTS friends (
     user_id INTEGER NOT NULL, -- the user id number
     friend_id INTEGER NOT NULL, -- to track the friend of the user
     created_at TIMESTAMP DEFAULT NOW(),
@@ -76,7 +76,7 @@ CREATE TABLE friends (
 
 
 -- track user matches with other users, populated when a match is confirmed between two users
-CREATE TABLE matches (
+CREATE TABLE IF NOT EXISTS matches (
     user_id INTEGER NOT NULL, -- the user id number
     matched_user_id INTEGER NOT NULL, -- to track the matched user
     matched_at TIMESTAMP DEFAULT NOW(),
@@ -87,7 +87,7 @@ CREATE TABLE matches (
 );
 
 -- table of user messages
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY, -- message identifier number (integer)
     sender_id INTEGER NOT NULL, -- the user sending the message
     receiver_id INTEGER NOT NULL, -- the user receiving the message
