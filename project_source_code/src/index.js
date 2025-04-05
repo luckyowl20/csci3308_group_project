@@ -105,7 +105,7 @@ app.post('/login', async (req, res) => {
     console.log('Login attempt with username and password:', username, password);
     // Find user in the database
     const user = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
-    console.log('User:', user);
+
     if (!user) {
       // If user is not found, redirect to register page
       return res.redirect('/register');
@@ -149,11 +149,13 @@ app.get('/register', (req, res) => {
 app.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log('Registration attempt with username and password:', username, password);
 
     // Check if the username already exists
     const userExists = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
 
     if (userExists) {
+      console.log('Username already exists');
       return res.render('pages/register', { 
         message: 'Username already exists. Please choose another.',
         error: true
@@ -161,6 +163,7 @@ app.post('/register', async (req, res) => {
     }
 
     // Hash the password before storing it in the database
+    console.log("hashing password");
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert into the users table
@@ -170,8 +173,8 @@ app.post('/register', async (req, res) => {
     req.session.message = { text: 'Registration successful! You can now log in.' };
     res.redirect('/login'); // Redirect to login page after successful registration
   } catch (error) {
-    console.error('Registration error details:', error.message);
-    return res.render('pages/register', { message: 'Registration failed. Please try again.' });
+      console.error('Registration error details:', error.message);
+      return res.render('pages/register', { message: 'Registration failed. Please try again.' });
   }
 });
 
