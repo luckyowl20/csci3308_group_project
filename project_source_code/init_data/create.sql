@@ -4,20 +4,29 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,      -- creates a unique identifier for each user as a serialized integer
     username VARCHAR(100) UNIQUE NOT NULL,
-    --email VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE,
     password_hash TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- table of user photos, can be attached to posts or profiles
+CREATE TABLE IF NOT EXISTS photos (
+    id SERIAL PRIMARY KEY, -- photo identifier number (integer)
+    url TEXT NOT NULL, -- TODO: decide if we want to store the URL or the raw image data
+    description TEXT,
+    uploaded_at TIMESTAMP DEFAULT NOW()
 );
 
 -- table of user posts
 CREATE TABLE IF NOT EXISTS posts (
     id SERIAL PRIMARY KEY,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user created the post
-    FOREIGN KEY (photo_id) REFERENCES photos(id) ON DELETE SET NULL, -- to track which photo is associated with the post
+    FOREIGN KEY (photo_id) REFERENCES photos(id) ON DELETE SET NULL, -- to track which photo is associated with the post in the photos table
+    photo_id INTEGER, -- the id of the photo in the photos table
     user_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     body TEXT,
-    created_at TIMESTAMP DEFAULT NOW(),
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- table of user profiles
@@ -32,15 +41,6 @@ CREATE TABLE IF NOT EXISTS profiles (
     profile_picture_url TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
-
--- table of user photos, can be attached to posts or profiles
-CREATE TABLE IF NOT EXISTS photos (
-    id SERIAL PRIMARY KEY, -- photo identifier number (integer)
-    url TEXT NOT NULL, -- TODO: decide if we want to store the URL or the raw image data
-    description TEXT,
-    uploaded_at TIMESTAMP DEFAULT NOW()
-);
-
 
 -- table of pending user swipes, awating matches or friend requests
 CREATE TABLE IF NOT EXISTS swipes (
