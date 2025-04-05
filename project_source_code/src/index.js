@@ -59,12 +59,12 @@ const db = pgp(dbConfig);
 
 // test your database
 db.connect()
-.then(obj => {
-    console.log('Database connection successful'); // you can view this message in the docker compose logs
-    obj.done(); // success, release the connection;
-})
-.catch(error => {
-    console.log('ERROR:', error.message || error);
+  .then(obj => {
+      console.log('Database connection successful'); // you can view this message in the docker compose logs
+      obj.done(); // success, release the connection;
+  })
+  .catch(error => {
+      console.log('ERROR:', error.message || error);
 });
 
 // -------------------------------------  START THE SERVER   ----------------------------------------------
