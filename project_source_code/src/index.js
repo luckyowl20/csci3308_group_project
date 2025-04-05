@@ -67,6 +67,8 @@ db.connect()
       console.log('ERROR:', error.message || error);
 });
 
+// -------------------------------------  HANDLEBARS HELPERS   ----------------------------------------------
+
 // -------------------------------------  START THE SERVER   ----------------------------------------------
 const PORT = process.env.PORT || 3000;
 module.exports = app.listen(PORT, () => {
@@ -100,20 +102,21 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-
+    console.log('Login attempt with username and password:', username, password);
     // Find user in the database
     const user = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
-
+    console.log('User:', user);
     if (!user) {
       // If user is not found, redirect to register page
       return res.redirect('/register');
     }
 
     // Check if password matches using bcrypt
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.password_hash);
 
     if (!match) {
       // If password doesn't match, show error message
+      console.log('Incorrect password entered');
       return res.render('pages/login', { 
         message: 'Incorrect username or password.', 
         error: true 
@@ -161,8 +164,8 @@ app.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert into the users table
-    await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, hashedPassword]);
-
+    await db.query('INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *', [username, hashedPassword]);
+    console.log('User registered successfully');
     // Store success message in session and redirect to login
     req.session.message = { text: 'Registration successful! You can now log in.' };
     res.redirect('/login'); // Redirect to login page after successful registration
