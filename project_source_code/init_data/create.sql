@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS messages (
 );
 
 -- user setting tablle
-CREATE TABLE user_settings (
+CREATE TABLE IF NOT EXISTS user_settings (
     id SERIAL PRIMARY KEY, -- setting identifier number (integer)
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user the settings belong to
     user_id INTEGER UNIQUE NOT NULL,
