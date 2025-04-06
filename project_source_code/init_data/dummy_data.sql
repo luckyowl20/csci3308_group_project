@@ -63,3 +63,55 @@ VALUES
   -- Posts for Judy (user_id = 10)
   (10, 1, 'Judy''s First Post', 'Judy is excited to be here.'),
   (10, NULL, 'Judy''s Second Post', 'Another update from Judy.');
+
+-- Insert dummy friendships between users
+INSERT INTO friends (user_id, friend_id)
+VALUES
+  (1, 2),
+  (1, 3),
+  (1, 4),
+  (2, 3),
+  (2, 5),
+  (3, 6),
+  (4, 7),
+  (5, 8),
+  (6, 9),
+  (7, 10),
+  (8, 9),
+  (9, 10);
+
+
+INSERT INTO messages (sender_id, receiver_id, conversation_type, content)
+VALUES
+  -- Conversation between Alice (1) and Bob (2)
+  (1, 2, 'friend', 'Hey Bob, how are you doing today?'),
+  (2, 1, 'friend', 'Hi Alice, I''m good! How about you?'),
+
+  -- Conversation between Charlie (3) and Dave (4)
+  (3, 4, 'match', 'Hi Dave, glad we matched. Want to chat?'),
+  (4, 3, 'match', 'Sure Charlie, let''s talk about our interests.'),
+
+  -- Conversation between Eve (5) and Frank (6)
+  (5, 6, 'friend', 'Frank, let''s catch up soon over coffee.'),
+  (6, 5, 'friend', 'Sounds great, Eve. I''ll message you later.'),
+
+  -- Conversation between Grace (7) and Heidi (8)
+  (7, 8, 'match', 'Heidi, I really liked your profile picture!'),
+  (8, 7, 'match', 'Thanks Grace, I appreciate it.'),
+
+  -- Conversation between Ivan (9) and Judy (10)
+  (9, 10, 'friend', 'Hey Judy, any plans for the weekend?'),
+  (10, 9, 'friend', 'Hi Ivan, not yet. Maybe we can plan something.'),
+
+  -- Additional conversations
+  (2, 3, 'friend', 'Charlie, want to join our hiking trip next week?'),
+  (3, 2, 'friend', 'I''d love to, Bob. Count me in!'),
+  
+  (4, 5, 'match', 'Eve, your recent post really caught my attention.'),
+  (5, 4, 'match', 'Thank you, Dave. I''m glad you enjoyed it.'),
+  
+  (6, 7, 'friend', 'Grace, let''s collaborate on that new project you mentioned.'),
+  (7, 6, 'friend', 'Absolutely, Frank. I''ll send you some ideas soon.'),
+  
+  (8, 9, 'match', 'Ivan, your artwork is amazing!'),
+  (9, 8, 'match', 'Thanks Heidi, I appreciate the compliment.');
