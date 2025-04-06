@@ -3,16 +3,15 @@
     <!-- Friends List Sidebar -->
     <div class="col-md-3 border-end">
       <h5 class="mb-3">Friends</h5>
-      <ul class="list-unstyled">
-        {{#each friends}}
-          <li class="mb-3">
-            <a href="/chat/{{id}}" class="d-flex align-items-center text-decoration-none">
-              <img src="{{profile_picture_url}}" width="32" height="32" class="rounded-circle me-2" alt="{{display_name}}">
-              <span>{{display_name}}</span>
-            </a>
-          </li>
-        {{/each}}
-      </ul>
+        <ul class="list-unstyled">
+          {{#each friends}}
+            <li class="mb-3">
+              <a href="/chat/{{id}}" class="text-decoration-none">
+                <span>{{username}}</span>
+              </a>
+            </li>
+          {{/each}}
+        </ul>
     </div>
 
     <!-- Chat Panel -->

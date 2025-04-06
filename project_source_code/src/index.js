@@ -14,6 +14,26 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcryptjs'); //  To hash passwords
 
+// -------------------------------------  DB CONFIG AND CONNECT   ---------------------------------------
+const dbConfig = {
+  host: 'db', // the database server
+  port: 5432, // the database port
+  database: process.env.POSTGRES_DB, // the database name
+  user: process.env.POSTGRES_USER, // the user account to connect with
+  password: process.env.POSTGRES_PASSWORD, // the password of the user account
+};
+
+const db = pgp(dbConfig);
+
+// test your database
+db.connect()
+.then(obj => {
+    console.log('Database connection successful'); // you can view this message in the docker compose logs
+    obj.done(); // success, release the connection;
+})
+.catch(error => {
+    console.log('ERROR:', error.message || error);
+});
 
 // -------------------------------------  APP CONFIG   ----------------------------------------------
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
@@ -31,6 +51,7 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
 
+// -------------------------------------  HANDLEBARS HELPERS   ----------------------------------------------
 // initialize session variables
 app.use(
   session({
@@ -38,7 +59,7 @@ app.use(
     saveUninitialized: false,
     resave: false,
   })
-);
+);  
 
 app.use(
   bodyParser.urlencoded({
@@ -46,28 +67,14 @@ app.use(
   })
 );
 
-// -------------------------------------  DB CONFIG AND CONNECT   ---------------------------------------
-const dbConfig = {
-    host: 'db', // the database server
-    port: 5432, // the database port
-    database: process.env.POSTGRES_DB, // the database name
-    user: process.env.POSTGRES_USER, // the user account to connect with
-    password: process.env.POSTGRES_PASSWORD, // the password of the user account
-  };
-  
-const db = pgp(dbConfig);
-
-// test your database
-db.connect()
-  .then(obj => {
-      console.log('Database connection successful'); // you can view this message in the docker compose logs
-      obj.done(); // success, release the connection;
-  })
-  .catch(error => {
-      console.log('ERROR:', error.message || error);
+// Make session user available as a local variable in templates
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
 });
 
-// -------------------------------------  HANDLEBARS HELPERS   ----------------------------------------------
+
+
 
 // -------------------------------------  START THE SERVER   ----------------------------------------------
 const PORT = process.env.PORT || 3000;
@@ -127,7 +134,7 @@ app.post('/login', async (req, res) => {
     req.session.user = user;
     req.session.save(() => {
       // Redirect to /discover route after successful login
-      res.redirect('/discover');
+      res.redirect('/');
     });
 
   } catch (error) {
@@ -137,6 +144,22 @@ app.post('/login', async (req, res) => {
       error: true 
     });
   }
+});
+
+// -------------------------------------  LOGOUT ROUTE  ----------------------------------------------
+app.get('/logout', (req, res) => {
+  // Destroy the session to log the user out
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Logout error:', err);
+      // Optionally, you can send an error page or message here.
+      return res.status(500).send('Error logging out.');
+    }
+    // Clear the cookie from the browser by setting it to an empty value
+    res.clearCookie('connect.sid');
+    // Redirect the user back to the homepage (or login page)
+    res.redirect('/');
+  });
 });
 
 // -------------------------------------  REGISTER ROUTE  ----------------------------------------------
@@ -219,21 +242,58 @@ app.get('/week_photos', async (req, res) => {
 });
 
 // -------------------------------------  CHAT ROUTE  ----------------------------------------------
-app.get('/chat', async (req, res) => {
-  // const friends = await db.any(
-  //   `SELECT u.id, u.display_name, u.profile_picture_url
-  //    FROM users u
-  //    JOIN friends f ON f.friend_id = u.id
-  //    WHERE f.user_id = $1`,
-  //   [req.session.user_id]
-  // );
-  // res.render('pages/chat', {
-  //   friends,
-  //   chatPartner,
-  //   messages,
-  // });
-  res.render('pages/chat');
+// Updated GET /chat route with optional chat partner parameter
+app.get('/chat/:chatPartnerId?', async (req, res) => {
+  // Ensure the user is logged in
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  
+  // Use the logged-in user's ID (assuming req.session.user contains the full user object)
+  const userId = req.session.user.id;
+  
+  // Get the friends list for the logged-in user
+  const friends = await db.any(
+    `SELECT u.id, username
+     FROM users u
+     JOIN friends f ON f.friend_id = u.id
+     WHERE f.user_id = $1`,
+    [userId]
+  );
+
+  // Initialize chatPartner and messages
+  let chatPartner = null;
+  let messages = [];
+  
+  // Check if a chat partner ID is provided in the route parameter
+  const chatPartnerId = req.params.chatPartnerId;
+  console.log('Chat partner ID:', chatPartnerId);
+  if (chatPartnerId) {
+    // Fetch the chat partner's information
+    chatPartner = await db.oneOrNone(
+      'SELECT id, username FROM users WHERE id = $1',
+      [chatPartnerId]
+    );
+
+    // Fetch the messages exchanged between the current user and the chat partner, ordered by time
+    messages = await db.any(
+      `SELECT * FROM messages
+       WHERE (sender_id = $1 AND receiver_id = $2)
+          OR (sender_id = $2 AND receiver_id = $1)
+       ORDER BY sent_at ASC`,
+      [userId, chatPartnerId]
+    );
+  }
+  console.log('Messages:', messages);
+
+  // Render the chat page with one render call, passing all necessary data
+  res.render('pages/chat', {
+    friends,
+    chatPartner,
+    messages,
+  });
 });
+
 
 app.post('/messages/send', (req, res) => {
   const { receiver_id, message_text } = req.body;
