@@ -80,7 +80,7 @@ VALUES
   (8, 9),
   (9, 10);
 
-
+-- dummy messages
 INSERT INTO messages (sender_id, receiver_id, conversation_type, content)
 VALUES
   -- Conversation between Alice (1) and Bob (2)
