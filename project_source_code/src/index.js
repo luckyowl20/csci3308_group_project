@@ -9,6 +9,10 @@ const pgp = require('pg-promise')();
 const bcrypt = require('bcryptjs');
 const customHelpers = require('./helpers/handlebars_helpers'); // custom functions for use in .hbs files
 
+// socket stuff for live chat messages
+const http = require('http');
+const socketIo = require('socket.io');
+
 // -------------------------------------
 // Database Config and Connection
 // -------------------------------------
@@ -82,6 +86,29 @@ app.use('/', indexRoutes);
 app.use('/auth', authRoutes); 
 app.use('/chat', chatRoutes);
 app.use('/photos', photosRoutes);
+
+// -------------------------------------
+// http server setup
+// -------------------------------------
+const http_server = http.createServer(app);
+const io = socketIo(http_server);
+
+// make io accessible to routes via app.locals
+app.locals.io = io;
+
+// Set up the connection handler
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('join', (userId) => {
+    socket.join(`user_${userId}`);
+    console.log(`User ${userId} joined their room.`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
 
 // -------------------------------------
 // Start the Server

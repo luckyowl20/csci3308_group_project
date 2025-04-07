@@ -1,12 +1,29 @@
 // root/project_source_code/src/resources/js/chatScript.js
+
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('chat-form');
+  console.log("dom content loaded")
+  // Connect to the Socket.IO server
+  const socket = io();
+  console.log("socket connection established");
+
+  // Have the client join its user-specific room on the server
+  socket.emit('join', currentUserId);
+
+  // // Listen for incoming messages and update the chat box accordingly
+  socket.on('new message', (message) => {
+    console.log('Received new message:', message);
+    const messageElement = document.createElement('div');
+    messageElement.textContent = `${message.sender_id}: ${message.content}`;
+    chatBox.appendChild(messageElement);
+  });
+
+  // Retrieve the chat box element and current user ID from its data attribute
   const chatBox = document.getElementById('chat-box');
-
-  // Retrieve currentUserId from data attribute
   const currentUserId = parseInt(chatBox.getAttribute('data-current-user-id'), 10);
-  console.log('currentUserId from data attribute:', currentUserId); // Debug
+  console.log('currentUserId from data attribute:', currentUserId);
 
+  // Get the chat form element
+  const form = document.getElementById('chat-form');
   if (!form) return;
 
   // prevents the form from forcing the page to reload 

@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
+const app = require('..');
 
 // GET /chat/:chatPartnerId? - Load chat page with optional chat partner
 router.get('/:chatPartnerId?', isAuthenticated, async (req, res) => {
@@ -60,7 +61,7 @@ router.post('/messages/send', isAuthenticated, async (req, res) => {
       const db = req.app.locals.db;
       const senderId = req.session.user.id;  // Active user's ID from the session
       const { receiver_id, message_text } = req.body; // Data from the form submission
-      
+
       console.log("User:", senderId, "sending message to:", receiver_id, "message:", message_text);
   
       // Basic validation to ensure required fields are provided
@@ -75,7 +76,11 @@ router.post('/messages/send', isAuthenticated, async (req, res) => {
         RETURNING id, sender_id, receiver_id, content, sent_at;
       `;
       const result = await db.one(insertQuery, [senderId, receiver_id, message_text]);
-  
+      
+      // emit the new message to the receivers room
+      const io = req.app.locals.io;
+      io.to(`user_${senderId}`).emit('new message', result);
+
       // Send back a JSON response with the newly created message
       // console.log("message success");
       res.json({ success: true, message: result });
