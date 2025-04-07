@@ -1,4 +1,8 @@
-<div class="d-flex align-items-center mb-3">
-  <img src="{{user.profile_picture_url}}" class="rounded-circle me-2" width="40" height="40" alt="Profile Picture">
-  <h5 class="mb-0">{{user.display_name}}</h5>
+<!-- views/partials/chat_header.hbs -->
+<div class="p-3 border mb-3">
+  {{#if user}}
+    <h5 class="mb-0">Chat with: {{user.username}}</h5>
+  {{else}}
+    <h5 class="mb-0">Select a friend to chat</h5>
+  {{/if}}
 </div>

@@ -5,4 +5,23 @@
   {{{ body }}}
 </main>
 
+{{!-- 
+  to create a new section using the section helper
+  define the section in the page/partial you want as 
+
+  {#section "(section name)""} 
+    <script></script>
+  {/script}
+  reference it to be included as a part of a layout using:
+  _sections.(section name)       
+--}}
+
+{{{ _sections.scripts }}} 
+{{! --
+  this specifically includes scripts at the END of the page for 
+  1. improved page perfomance
+  2. avoiding render blocking where the template can block the browser from rendering until all scripts are downloaded
+  3. seperation of concerns: allows the template to remain concise and scripts become easier to manage for each page
+--}}
+
 {{> footer }}
