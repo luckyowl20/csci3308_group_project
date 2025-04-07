@@ -70,16 +70,16 @@
               </div>
               <div class = "mb-3" style="margin-top: 10px;">
                   <label class="form-label">Change Password</label>
-                  <input type="text" name = "newPassword" class="form-control"  placeholder="Enter New Password">
+                  <input type="password" name = "newPassword" class="form-control"  placeholder="Enter New Password">
               </div>
               <div class = "mb-3" style="margin-top: 10px;">
                   <label class="form-label">Confirm New Password</label>
-                  <input type="text" name = "passwordCheck" class="form-control"  placeholder="Confirm New Password">
+                  <input type="password" name = "passwordCheck" class="form-control"  placeholder="Confirm New Password">
               </div>
               {{!-- password conformation --}}
               <div class = "mb-3" style="margin-top: 10px;">
                   <label class="form-label"><strong>Enter password to confirm changes.</strong></label>
-                  <input type="text" name = "password" class="form-control" placeholder="Enter Password" required>
+                  <input type="password" name = "password" class="form-control" placeholder="Enter Password" required>
               </div>
               <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
             </form>
@@ -94,11 +94,7 @@
           <a>
             <form action="/settings" method="post">
               {{!-- forms --}}
-              {{!-- password conformation --}}
-              <div class = "mb-3" style="margin-top: 10px;">
-                  <label class="form-label"><strong>Enter password to confirm changes.</strong></label>
-                  <input type="text" name = "password" class="form-control" placeholder="Enter Password" required>
-              </div>
+
               <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
             </form>
           </a>
@@ -121,11 +117,6 @@
                 <label class="form-label">Match Notifications</label>
                 <input id = "match_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "matchNotifs" type="checkbox" class="onoffswitch-checkbox"> 
               </div>
-              {{!-- password conformation --}}
-              <div class = "mb-3" style="margin-top: 10px;">
-                  <label class="form-label"><strong>Enter password to confirm changes.</strong></label>
-                  <input type="text" name = "password" class="form-control" placeholder="Enter Password" required>
-              </div>
               <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
             </form>
           </a>
@@ -140,11 +131,6 @@
           <a>
             <form action="/settings" method="post">
               {{!-- forms --}}
-              {{!-- password conformation --}}
-              <div class = "mb-3" style="margin-top: 10px;">
-                  <label class="form-label"><strong>Enter password to confirm changes.</strong></label>
-                  <input type="text" name = "password" class="form-control" placeholder="Enter Password" required>
-              </div>
               <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
             </form>
           </a>
@@ -159,11 +145,6 @@
           <a>
             <form action="/settings" method="post">
               {{!-- forms --}}
-              {{!-- password conformation --}}
-              <div class = "mb-3" style="margin-top: 10px;">
-                  <label class="form-label"><strong>Enter password to confirm changes.</strong></label>
-                  <input type="text" name = "password" class="form-control" placeholder="Enter Password" required>
-              </div>
               <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
             </form>
           </a>
@@ -178,11 +159,11 @@
           <a>
             <form action="/settings" method="post">
               {{!-- forms --}}
-              {{!-- password conformation --}}
-              <div class = "mb-3" style="margin-top: 10px;">
-                  <label class="form-label"><strong>Enter password to confirm changes.</strong></label>
-                  <input type="text" name = "password" class="form-control" placeholder="Enter Password" required>
-              </div>
+              <label class="form-label">Page Apperance</label>
+              <select type = "text" class="form-select" id = "mode_select">
+                <option value="light">Light Mode</option>
+                <option value="dark">Dark Mode</option>
+              </select>
               <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
             </form>
           </a>
@@ -204,6 +185,15 @@
             */
           }
           else if(id == 'chatDropdown') {
+
+          }
+          else if(id == 'apperanceDropdown') {
+            /*
+              Select Dark Mode / Light Mode based on current settings
+            */
+            
+            mode_select = document.getElementById('mode_select');
+            mode_select.value = "dark";
 
           }
         }
