@@ -66,8 +66,8 @@ session({
 
 // Make session user available in templates
 app.use((req, res, next) => {
-res.locals.user = req.session.user || null;
-next();
+  res.locals.user = req.session.user || null;
+  next();
 });
 
 // Make db accessible to routes via app.locals
@@ -90,8 +90,8 @@ app.use('/photos', photosRoutes);
 // -------------------------------------
 // http server setup
 // -------------------------------------
-const http_server = http.createServer(app);
-const io = socketIo(http_server);
+const http_server = http.createServer(app); // wraps the express app in an http server to enable socket and http support
+const io = socketIo(http_server); // enables socker support on http server
 
 // make io accessible to routes via app.locals
 app.locals.io = io;
@@ -114,7 +114,11 @@ io.on('connection', (socket) => {
 // Start the Server
 // -------------------------------------
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+
+// change to http_server since this is still an express app, but with additional web services
+// was:
+// app.listen(...) => ...
+http_server.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
 

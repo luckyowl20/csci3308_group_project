@@ -1,7 +1,14 @@
 // root/project_source_code/src/resources/js/chatScript.js
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("dom content loaded")
+
+  // Retrieve the chat box element and current user ID from its data attribute
+  const chatBox = document.getElementById('chat-box');
+
+  const currentUserId = parseInt(chatBox.getAttribute('data-current-user-id'), 10);
+  console.log("dom content loaded, attempting to connect to socket...")
+  
+  console.log('currentUserId from data attribute:', currentUserId);
   // Connect to the Socket.IO server
   const socket = io();
   console.log("socket connection established");
@@ -9,18 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Have the client join its user-specific room on the server
   socket.emit('join', currentUserId);
 
-  // // Listen for incoming messages and update the chat box accordingly
+  // Listen for incoming messages and update the chat box accordingly by adding a new message bubble
+  // adds a new message bubble when a message is received from the server when sent by another user
   socket.on('new message', (message) => {
     console.log('Received new message:', message);
-    const messageElement = document.createElement('div');
-    messageElement.textContent = `${message.sender_id}: ${message.content}`;
-    chatBox.appendChild(messageElement);
-  });
-
-  // Retrieve the chat box element and current user ID from its data attribute
-  const chatBox = document.getElementById('chat-box');
-  const currentUserId = parseInt(chatBox.getAttribute('data-current-user-id'), 10);
-  console.log('currentUserId from data attribute:', currentUserId);
+    const isOutgoing = Number(message.sender_id) === currentUserId;
+    const messageEl = document.createElement('div');
+    messageEl.className = isOutgoing ? 'text-end mb-2' : 'text-start mb-2';
+    messageEl.innerHTML = isOutgoing
+      ? `<span class="badge bg-primary">${message.content}</span>`
+      : `<span class="badge bg-secondary">${message.content}</span>`;
+    chatBox.appendChild(messageEl);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }); 
 
   // Get the chat form element
   const form = document.getElementById('chat-form');
@@ -49,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isOutgoing = Number(newMessage.sender_id) === currentUserId;
         console.log('New message sender:', newMessage.sender_id, 'Is outgoing:', isOutgoing);
 
-        // Create a new message bubble element
+        // Create a new message bubble element for the sender
         const messageEl = document.createElement('div');
         messageEl.className = isOutgoing ? 'text-end mb-2' : 'text-start mb-2';
         messageEl.innerHTML = isOutgoing
