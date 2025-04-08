@@ -1,9 +1,20 @@
-{{#if is_sender}}
+<!-- views/partials/message_bubble.hbs -->
+{{!-- 
+  We receive:
+  message -> the current message object
+  currentUserId -> the logged-in user’s ID
+  
+  We'll compare message.sender_id to currentUserId 
+  to decide alignment and color.
+--}}
+{{#if (eq message.sender_id message.currentUserId)}}
+  <!-- Outgoing message bubble (right/aligned end, in blue) -->
   <div class="text-end mb-2">
-    <span class="badge bg-primary">{{message_text}}</span>
+    <span class="badge bg-primary">{{message.content}}</span>
   </div>
 {{else}}
+  <!-- Incoming message bubble (left/aligned start, in grey) -->
   <div class="text-start mb-2">
-    <span class="badge bg-secondary">{{message_text}}</span>
+    <span class="badge bg-secondary">{{message.content}}</span>
   </div>
 {{/if}}

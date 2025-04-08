@@ -2,22 +2,36 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
     <div class="container-fluid justify-content-end">
       <ul class="navbar-nav d-flex flex-row gap-4">
+        <!-- Always visible links -->
         <li class="nav-item">
           <a class="nav-link fw-semibold" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-semibold" href="/explore">Explore</a>
+          <a class="nav-link fw-semibold" href="/index/explore">Explore</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="/chat">Chat</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link fw-semibold d-flex align-items-center" href="/profile">
-            <span class="me-2">Profile</span>
-            <div style="width: 28px; height: 28px; border: 2px solid black; border-radius: 50%;"></div>
-          </a>
-        </li>
-    
+        
+        {{!-- Conditional links based on user authentication --}}
+        {{#if user}}
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/chat">Chat</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold d-flex align-items-center" href="/index/profile">
+              <span class="me-2">Profile</span>
+              <div style="width: 28px; height: 28px; border: 2px solid black; border-radius: 50%;"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/auth/logout">Logout</a>
+          </li>
+        {{else}}
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/auth/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="/auth/register">Register</a>
+          </li>
+        {{/if}}
       </ul>
     </div>
   </nav>

@@ -1,4 +1,5 @@
-<form id="chat-form" method="POST" action="/messages/send">
+<!-- views/partials/chat_input.hbs -->
+<form id="chat-form" method="POST" action="/chat/messages/send">
   <input type="hidden" name="receiver_id" value="{{chatPartnerId}}">
   <div class="input-group">
     <input type="text" class="form-control" name="message_text" placeholder="Type a message..." required>
