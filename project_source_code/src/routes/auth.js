@@ -65,9 +65,10 @@ router.post('/register', async (req, res) => {
         console.log("Attempting to register user:", username);
 
         const db = req.app.locals.db;
-        const userExists = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
+        // queries the database for a user that may or may not exist based on the username
+        const user = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
 
-        if (userExists) {
+        if (user) {
             console.log("User already exists:",username);
             return res.render('pages/register', { message: 'Username already exists. Please choose another.', error: true });
         }
@@ -77,6 +78,7 @@ router.post('/register', async (req, res) => {
         req.session.message = { text: 'Registration successful! You can now log in.' };
         console.log("Successfully registered user:", username);
         res.redirect('/auth/login');
+        
     } catch (error) {
         console.error('Registration error:', error.message);
         res.render('pages/register', { message: 'Registration failed. Please try again.', error: true });
