@@ -13,6 +13,10 @@ const pgp = require('pg-promise')(); // To connect to the Postgres DB from the n
 const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcryptjs'); //  To hash passwords
+// For external image database
+const supabase = require('./supabaseClient');
+const { v4: uuidv4 } = require('uuid');
+const multer = require('multer');
 
 
 // -------------------------------------  APP CONFIG   ----------------------------------------------
@@ -182,6 +186,9 @@ app.get('/profile', (req, res) => {
   res.render('pages/personal_profile');
 });
 
+app.get('/take_picture', (req, res) => {
+  res.render('pages/take_picture');
+});
 
 
 // -------------------------------------  REGISTER ROUTE  ----------------------------------------------
@@ -209,3 +216,44 @@ app.get('/week_photos', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage });
+
+app.post('/take_picture', upload.single('file'), async (req, res) =>{
+
+  const file = req.file;
+
+  if(!file) return res.status(400).send('No file uploaded');
+
+  const ext = file.originalname.split('.').pop();
+  const fileName = `${uuidv4()}.${ext}`;
+
+  try {
+    const {error} = await supabase.storage
+    .from('images')
+    .upload(fileName, file.buffer, {contentType: file.mimetype,
+
+    });
+
+    const { data: publicUrlData } = supabase.storage
+    .from('images')
+    .getPublicUrl(fileName);
+
+    const publicUrl = publicUrlData.publicUrl;
+
+    await db.none(
+      'INSERT INTO photos (url) VALUES ($1)',
+      [publicUrl]
+    );
+
+    res.status(200).json({
+      message: 'Upload successful',
+      url: publicUrlData.publicUrl,
+    });
+
+  }catch (err) {console.error('Error on Upload', err);
+    res.status(500).send('Upload failed');
+  }
+  });
+
