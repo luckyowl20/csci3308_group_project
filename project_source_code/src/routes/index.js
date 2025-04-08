@@ -27,4 +27,7 @@ router.get('/profile', (req, res) => {
     res.render('pages/personal_profile');
 });
 
+router.get('/swipe', (req, res) => {
+    res.render('pages/swipe');
+});
 module.exports = router;

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Moment Swiping Page</title>
+</head>
+<body>
+    <div class="swipe-container" style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; position: relative;">
+        <div class="card" id="card" style="width: 50%; height: 70%; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img src="/resources/img/placeholder.jpg" alt="User Photo" style="width: 100%; height: auto; max-height: 60%;">
+            <div class="info" style="padding: 10px; text-align: center;">
+                <h2 id="user-name">User Name</h2>
+                <p id="user-location">Location</p>
+            </div>
+        </div>
+        <button id="left-swipe" style="position: absolute; left: 15%; top: 50%; transform: translateY(-50%); padding: 10px 20px; border: none; border-radius: 5px; background-color: #ff4d4d; color: white; cursor: pointer;">No</button>
+        <button id="right-swipe" style="position: absolute; right: 15%; top: 50%; transform: translateY(-50%); padding: 10px 20px; border: none; border-radius: 5px; background-color: #4caf50; color: white; cursor: pointer;">Yes</button>
+    </div>
+    <script src="/resources/js/swipe_script.js"></script>
+</body>
+</html>
