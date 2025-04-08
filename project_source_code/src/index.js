@@ -168,6 +168,11 @@ app.post('/register', async (req, res) => {
 
     // Insert into the users table
     await db.query('INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *', [username, hashedPassword]);
+
+    // Create row in user_settings for user
+    user = await db.one('SELECT * FROM users WHERE users.username = $1', [username]);
+    await db.query('INSERT INTO user_settings (user_id) VALUES ($1) RETURNING *', [user.id]);
+
     console.log('User registered successfully');
     // Store success message in session and redirect to login
     req.session.message = { text: 'Registration successful! You can now log in.' };
@@ -192,8 +197,27 @@ app.get('/profile', (req, res) => {
 
 // -------------------------------------  SETTINGS ROUTE  ----------------------------------------------
 
-app.get('/settings', (req, res) => {
-  res.render('pages/settings');
+app.get('/settings', async (req, res) => {
+  const user = req.session.user; // need to add a check that the user session is actually valid
+
+  if (!user) {
+    return res.status(401).json({ error: 'Unauthorized'});
+  }
+  //getting current user settings
+  try {
+    const user_settings = await db.oneOrNone(
+        `SELECT *
+        FROM user_settings
+        WHERE user_settings.user_id = $1`,
+       [user.id]
+    );
+    res.render('pages/settings', {user : user, settings : user_settings});
+    // res.json(user_settings.apperance_mode);
+  } catch (err) {
+    console.error('Error querying user settings:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+  
 });
 
 // -------------------------------------  REGISTER ROUTE  ----------------------------------------------
