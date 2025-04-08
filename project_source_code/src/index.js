@@ -17,11 +17,11 @@ const socketIo = require('socket.io');
 // Database Config and Connection
 // -------------------------------------
 const dbConfig = {
-host: 'db', // database server hostname
-port: 5432,
-database: process.env.POSTGRES_DB,
-user: process.env.POSTGRES_USER,
-password: process.env.POSTGRES_PASSWORD,
+  host: 'db', // database server hostname
+  port: 5432,
+  database: process.env.POSTGRES_DB,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
 };
 const db = pgp(dbConfig);
 
@@ -81,11 +81,16 @@ const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
 const photosRoutes = require('./routes/photos');
+const profileRoutes = require('./routes/profile');
+const spotifyRoutes = require('./routes/spotify');
 
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
 app.use('/chat', chatRoutes);
 app.use('/photos', photosRoutes);
+app.use('/profile', profileRoutes);
+app.use('/spotify', spotifyRoutes);
+
 
 // -------------------------------------
 // http server setup

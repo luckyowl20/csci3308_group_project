@@ -1,5 +1,6 @@
 const Handlebars = require('handlebars');
 
+
 module.exports = {
     eq: function (a, b) {
         // console.log("Equating two user id:",a,b);
@@ -19,5 +20,10 @@ module.exports = {
         if (!this._sections) this._sections = {};
         this._sections[name] = options.fn(this);
         return null;
+    },
+
+    formatDate: function(date) {
+        if (!date) return '';
+        return new Date(date).toISOString().split('T')[0]; // Returns YYYY-MM-DD
     }
 };
