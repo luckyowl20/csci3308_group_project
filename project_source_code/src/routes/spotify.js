@@ -26,7 +26,7 @@ router.get('/search', async (req, res) => {
 
   try {
     const results = await searchTracks(q);
-    console.log("found something!")
+    // console.log("found something!", results);
     res.json(results); // You can clean/filter data if needed
   } catch (err) {
     console.error('Spotify search error:', err);

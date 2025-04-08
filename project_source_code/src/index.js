@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const pgp = require('pg-promise')();
 const bcrypt = require('bcryptjs');
+
+const injectProfileData = require('./middleware/injectProfileData'); // for setting the profile data as a public var within the session, used in nav bar
 const customHelpers = require('./helpers/handlebars_helpers'); // custom functions for use in .hbs files
 
 // socket stuff for live chat messages
@@ -53,20 +55,42 @@ app.set('views', path.join(__dirname, 'views'));
 // serve static files from src/resources to access client side javascript files in there
 app.use('/resources', express.static(path.join(__dirname, '/resources')));
 
+// make profile available to the whole session
+app.use(injectProfileData);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
-session({
-  secret: process.env.SESSION_SECRET,
-  saveUninitialized: false,
-  resave: false,
-})
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: false,
+  })
 );
 
 // Make session user available in templates
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.user = req.session.user || null;
+
+  if (!req.session?.user) return next();
+
+  // make sure profile picture is available in templates too by a query to the database based on the session user
+  try {
+    const db = req.app.locals.db;
+
+    const { profile_picture_url } = await db.oneOrNone(
+      'SELECT profile_picture_url FROM profiles WHERE user_id = $1',
+      [req.session.user.id]
+    ) || {};
+
+    // Add profile_picture_url to the existing user object
+    res.locals.user.profile_picture_url = profile_picture_url || null;
+
+  } catch (err) {
+    console.error('Error fetching profile picture:', err);
+  }
+
   next();
 });
 
@@ -83,6 +107,7 @@ const chatRoutes = require('./routes/chat');
 const photosRoutes = require('./routes/photos');
 const profileRoutes = require('./routes/profile');
 const spotifyRoutes = require('./routes/spotify');
+const userRoutes = require('./routes/users');
 
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
@@ -90,6 +115,7 @@ app.use('/chat', chatRoutes);
 app.use('/photos', photosRoutes);
 app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
+app.use('/users', userRoutes);
 
 
 // -------------------------------------
