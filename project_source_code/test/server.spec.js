@@ -27,6 +27,19 @@ describe('Server!', () => {
   });
 });
 
-// *********************** TODO: WRITE 2 UNIT TESTCASES **************************
+// *********************** TESING REGISTER API **************************
+describe('Testing Add User API', () => {
+  it('positive : /register', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'john', password: 'password'})
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        // expect(res.session.message).to.equals('Registration successful! You can now log in.');
+        done();
+      });
+  });
+});
 
 // ********************************************************************************

@@ -77,10 +77,12 @@ router.post('/register', async (req, res) => {
         await db.query('INSERT INTO users (username, password_hash) VALUES ($1, $2)', [username, hashedPassword]);
         req.session.message = { text: 'Registration successful! You can now log in.' };
         console.log("Successfully registered user:", username);
+        res.status(200);
         res.redirect('/auth/login');
         
     } catch (error) {
         console.error('Registration error:', error.message);
+        res.status(400);
         res.render('pages/register', { message: 'Registration failed. Please try again.', error: true });
     }
 });
