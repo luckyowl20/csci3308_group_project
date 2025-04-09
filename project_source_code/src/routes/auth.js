@@ -6,9 +6,17 @@ const bcrypt = require('bcryptjs');
 // GET /auth/login - Render login page
 router.get('/login', (req, res) => {
     const message = req.session.message;
+    const error = req.session.error;
     req.session.message = null;
-    res.render('pages/login', { message });
-});
+    req.session.error = null;
+  
+    res.render('pages/login', {
+      layout: 'landing',
+      title: 'Login | LuckyMoment',
+      message,
+      error
+    });
+  });
 
 // POST /auth/login - Process login
 router.post('/login', async (req, res) => {
@@ -26,18 +34,27 @@ router.post('/login', async (req, res) => {
 
         const match = await bcrypt.compare(password, user.password_hash);
         if (!match) {
-            return res.render('pages/login', { message: 'Incorrect username or password.', error: true });
-        }
+            return res.render('pages/login', {
+                layout: 'landing',
+                title: 'Login | LuckyMoment',
+                message: 'Incorrect username or password.',
+                error: true
+              });
+                    }
 
         req.session.user = user;
         req.session.save(() => {
             console.log("Successfully logged in user:", username)
-            res.redirect('/');
+            res.redirect('/home');
         });
     } catch (error) {
         console.error('Login error:', error.message);
-        res.render('pages/login', { message: 'An error occurred. Please try again.', error: true });
-    }
+        return res.render('pages/login', {
+            layout: 'landing',
+            title: 'Login | LuckyMoment',
+            message: 'An error occured, please try again.',
+            error: true
+          });    }
 });
 
 // GET /auth/logout - Logout the user
@@ -55,7 +72,7 @@ router.get('/logout', (req, res) => {
 
 // GET /auth/register - Render registration page
 router.get('/register', (req, res) => {
-    res.render('pages/register');
+    res.render('pages/register', { layout: 'landing', title: 'About | LuckyMoment' });
 });
 
 // POST /auth/register - Process registration
@@ -70,7 +87,12 @@ router.post('/register', async (req, res) => {
 
         if (user) {
             console.log("User already exists:",username);
-            return res.render('pages/register', { message: 'Username already exists. Please choose another.', error: true });
+            return res.render('pages/register', {
+                layout: 'landing',
+                title: 'Register | LuckyMoment',
+                message: 'Username already exists. Please choose another.',
+                error: true
+              });;
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -81,7 +103,12 @@ router.post('/register', async (req, res) => {
         
     } catch (error) {
         console.error('Registration error:', error.message);
-        res.render('pages/register', { message: 'Registration failed. Please try again.', error: true });
+        return res.render('pages/register', {
+            layout: 'landing',
+            title: 'Register | LuckyMoment',
+            message: 'Registration failed. Try again later.',
+            error: true
+          });
     }
 });
 

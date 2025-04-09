@@ -7,20 +7,16 @@ router.get('/welcome', (req, res) => {
     res.json({ status: 'success', message: 'Welcome!' });
 });
 
-// Home page
+// About/enter page
 router.get('/', (req, res) => {
-    res.render('pages/about');
+    res.render('pages/about', { layout: 'landing', title: 'About | LuckyMoment' });
 });
 
 // About page
 router.get('/about', (req, res) => {
-    res.render('pages/about');
+    res.render('pages/about', { layout: 'landing', title: 'About | LuckyMoment' });
 });
 
-// Explore page
-router.get('/explore', (req, res) => {
-    res.render('pages/explore');
-});
 
 // Profile page handled in the profile.js routes
 

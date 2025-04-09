@@ -110,6 +110,8 @@ const profileRoutes = require('./routes/profile');
 const spotifyRoutes = require('./routes/spotify');
 const userRoutes = require('./routes/users');
 const exploreRoutes = require('./routes/explore');
+const learnmoreRoutes = require('./routes/learnMore');
+const homeRoutes = require('./routes/home');
 
 
 app.use('/', indexRoutes); 
@@ -120,6 +122,8 @@ app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
 app.use('/users', userRoutes);
 app.use('/explore', exploreRoutes);
+app.use('/learnmore', learnmoreRoutes);
+app.use('/home', homeRoutes);
 
 // -------------------------------------
 // http server setup

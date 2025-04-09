@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="/css/styles.css" />
 {{> head }}
-{{> nav }}
-
+{{#unless hideNav}}
+  {{> nav }}
+{{/unless}}
 <main class="container-fluid px-4 py-5">
   {{{ body }}}
 </main>
