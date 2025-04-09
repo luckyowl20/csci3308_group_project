@@ -5,6 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 const express = require('express');
 const router = express.Router();
+const { isAuthenticated } = require('../middleware/auth');
+
 //pulling supabase url and API key to send to database
 const supabase = createClient(
     process.env.SUPABASE_URL,
@@ -12,7 +14,7 @@ const supabase = createClient(
   );
 
 
-router.get('/', (req, res) => {
+router.get('/', isAuthenticated, (req, res) => {
   res.render('pages/take_picture');
 });
   
@@ -42,16 +44,24 @@ router.post('/take_picture', upload.single('file'), async (req, res) =>{
     .getPublicUrl(fileName);
 
     const publicUrl = publicUrlData.publicUrl;
-
     const db = req.app.locals.db;
     const caption = req.body.caption || null;
-    
-    //inserting photo url and cation into our sql database
-    await db.none(
-      'INSERT INTO photos (url, description) VALUES ($1, $2)',
-      [publicUrl, caption]
-    );
+    const userID = req.session.user.id;
+    const title = req.body.title || 'Untitled';
 
+
+    //inserting photo url and cation into our sql database
+  const photoResult = await db.one(
+  'INSERT INTO photos (url, description) VALUES ($1, $2) RETURNING id',
+  [publicUrl, caption]
+  );
+
+  const photoId = photoResult.id;
+
+    await db.none(
+      'INSERT INTO posts (user_id, photo_id, title, body) VALUES ($1,$2,$3,$4)',
+      [userID, photoId, title, caption]
+    );
     //working upload message
     res.status(200).json({
       message: 'Uploaded!'

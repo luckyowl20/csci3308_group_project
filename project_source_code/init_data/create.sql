@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS posts (
     FOREIGN KEY (photo_id) REFERENCES photos(id) ON DELETE SET NULL, -- to track which photo is associated with the post in the photos table
     photo_id INTEGER, -- the id of the photo in the photos table
     user_id INTEGER NOT NULL,
-    title TEXT NOT NULL,
+    title TEXT NOT NULL,   
     body TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
@@ -115,4 +115,13 @@ CREATE TABLE IF NOT EXISTS user_settings (
     language_preferences TEXT,
     chat_settings TEXT,
     created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS daily_pictures (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  photo_id INTEGER NOT NULL REFERENCES photos(id) ON DELETE CASCADE,
+  post_date DATE NOT NULL,
+  posted_at TIMESTAMP DEFAULT NOW(),
+  UNIQUE (user_id, post_date)
 );

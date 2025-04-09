@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await res.json();
     
         if (res.ok) {
-          alert('Upload successful! Public URL: ' + result.url);
+          alert('Upload successful!');
         } else {
           throw new Error(result.message || 'Upload failed');
         }
