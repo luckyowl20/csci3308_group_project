@@ -7,7 +7,7 @@ router.get('/welcome', (req, res) => {
     res.json({ status: 'success', message: 'Welcome!' });
 });
 
-// Home page (you can change this to your landing page)
+// Home page
 router.get('/', (req, res) => {
     res.render('pages/about');
 });
@@ -22,9 +22,6 @@ router.get('/explore', (req, res) => {
     res.render('pages/explore');
 });
 
-// Profile page
-router.get('/profile', (req, res) => {
-    res.render('pages/personal_profile');
-});
+// Profile page handled in the profile.js routes
 
 module.exports = router;
