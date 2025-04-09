@@ -30,15 +30,30 @@ describe('Server!', () => {
 
 // *********************** TESING REGISTER API **************************
 describe('Testing Add User API', () => {
-  // positive test case
-  it('positive : /register', done => {
+  it('positive : /auth/register', done => {
     chai
       .request(server)
       .post('/auth/register') // requires full path to register route
       .send({username: 'john', password: 'password'})
       .end((err, res) => {
         expect(res).to.have.status(200);
-        // expect(res.session.message).to.equals('Registration successful! You can now log in.');
+        expect(res.text).to.include('Registration successful! You can now log in.');
+        res.should.be.html;
+        done();
+      });
+  });
+});
+
+describe('Testing Add User API', () => {
+  // Re register with same username, should fail
+  it('negative : /auth/register', done => {
+    chai
+      .request(server)
+      .post('/auth/register') // requires full path to register route
+      .send({username: 'john', password: 'password_2'})
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.text).to.include('Username already exists. Please choose another.');
         done();
       });
   });
