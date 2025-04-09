@@ -22,7 +22,7 @@
   "scripts": {
     "prestart": "npm install",
     "start": "nodemon src/index.js",
-    "test": "mocha",
+    "test": "mocha --exit",
     "testandrun": "npm run prestart && npm run test && npm start" 
   }
 }
