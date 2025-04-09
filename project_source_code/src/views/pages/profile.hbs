@@ -1,40 +1,7 @@
 {{#section 'scripts'}}
 <!-- Bootstrap JS bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Picture Viewer Script -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const panel = document.getElementById('viewerPanel');
-    const slides = document.querySelectorAll('.day-slide');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-
-    let currentIndex = 0;
-
-    const updateView = () => {
-      const offset = -currentIndex * 150; // slide width
-      panel.style.transform = `translateX(${offset}px)`;
-      panel.style.transition = 'transform 0.3s ease';
-    };
-
-    prevBtn.addEventListener('click', () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateView();
-      }
-    });
-
-    nextBtn.addEventListener('click', () => {
-      if (currentIndex < slides.length - 3) {
-        currentIndex++;
-        updateView();
-      }
-    });
-
-    updateView();
-  });
-</script>
+<script src="/resources/js/profile/profileScript.js"></script>
 {{/section}}
 
 <div class="container-fluid py-4" style="background-color: #fffaf0;">
