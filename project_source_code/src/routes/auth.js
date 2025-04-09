@@ -76,7 +76,7 @@ router.post('/register', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         await db.query('INSERT INTO users (username, password_hash) VALUES ($1, $2)', [username, hashedPassword]);
-        console.log("Successfully registered user-9182:", username);
+        console.log("Successfully registered user:", username);
         
         res.status(200);
         return res.render('pages/login', { message: 'Registration successful! You can now log in.', error: false });
