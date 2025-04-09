@@ -11,6 +11,10 @@ const supabase = createClient(
     process.env.SUPABASE_API_KEY
   );
 
+
+router.get('/', (req, res) => {
+  res.render('pages/take_picture');
+});
   
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage });
