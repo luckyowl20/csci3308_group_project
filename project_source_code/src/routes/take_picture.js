@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 const express = require('express');
 const router = express.Router();
-
+//pulling supabase url and API key to send to database
 const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_API_KEY
@@ -25,16 +25,18 @@ router.post('/take_picture', upload.single('file'), async (req, res) =>{
 
   if(!file) return res.status(400).send('No file uploaded');
 
+
   const ext = file.originalname.split('.').pop();
   const fileName = `${uuidv4()}.${ext}`;
 
   try {
+    //uploading to supabase storage
     const {error} = await supabase.storage
     .from('images')
     .upload(fileName, file.buffer, {contentType: file.mimetype,
-
     });
 
+    //this is the url that references the images store in supa base
     const { data: publicUrlData } = supabase.storage
     .from('images')
     .getPublicUrl(fileName);
@@ -44,14 +46,15 @@ router.post('/take_picture', upload.single('file'), async (req, res) =>{
     const db = req.app.locals.db;
     const caption = req.body.caption || null;
     
+    //inserting photo url and cation into our sql database
     await db.none(
       'INSERT INTO photos (url, description) VALUES ($1, $2)',
       [publicUrl, caption]
     );
 
+    //working upload message
     res.status(200).json({
-      message: 'Upload successful',
-      url: publicUrlData.publicUrl,
+      message: 'Uploaded!'
     });
 
   }catch (err) {console.error('Error on Upload', err);
