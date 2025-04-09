@@ -53,6 +53,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware Setup
 // -------------------------------------
 // serve static files from src/resources to access client side javascript files in there
+
 app.use('/resources', express.static(path.join(__dirname, '/resources')));
 
 // make profile available to the whole session
