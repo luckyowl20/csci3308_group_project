@@ -58,6 +58,11 @@ router.post('/take_picture', upload.single('file'), async (req, res) =>{
 
   const photoId = photoResult.id;
 
+  //inserting photo id, caption, and user id to link the user and the photo together. 
+  // Use this table to fetch a post matching with a user. 
+  // THe below line is an inqury for a photo using a user id. It pulls the most recent id. 
+  // 'SELECT photos.url FROM posts JOIN photos ON posts.photo_id = photos.id WHERE posts.user_id = $1 ORDER BY posts.created_at DESC LIMIT 1'
+
     await db.none(
       'INSERT INTO posts (user_id, photo_id, title, body) VALUES ($1,$2,$3,$4)',
       [userID, photoId, title, caption]
