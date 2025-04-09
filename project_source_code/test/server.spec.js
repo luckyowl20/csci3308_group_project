@@ -57,6 +57,13 @@ describe('Testing Add User API', () => {
         done();
       });
   });
+
+  after(async () => {
+    // Clean up: delete test users and their related data
+    // friends relation is also removed due to the ON DELETE CASCASE line in the database create.sql file
+    // this means that if the user is deleted, the rest of their info is also deleted.
+    await db.none('DELETE FROM users WHERE username = $1', ['john']);
+  });
 });
 
 
