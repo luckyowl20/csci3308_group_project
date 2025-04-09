@@ -30,6 +30,7 @@ describe('Server!', () => {
 
 // *********************** TESING REGISTER API **************************
 describe('Testing Add User API', () => {
+  // positive test case
   it('positive : /register', done => {
     chai
       .request(server)
