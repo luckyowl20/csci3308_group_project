@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS photos (
     uploaded_at TIMESTAMP DEFAULT NOW()
 );
 
+
 -- table of user posts
 CREATE TABLE IF NOT EXISTS posts (
     id SERIAL PRIMARY KEY,

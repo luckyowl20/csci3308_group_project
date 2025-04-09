@@ -81,11 +81,13 @@ const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
 const photosRoutes = require('./routes/photos');
+const take_picture = require('./routes/take_picture');
 
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
 app.use('/chat', chatRoutes);
 app.use('/photos', photosRoutes);
+app.use('/take_picture', take_picture);
 
 // -------------------------------------
 // http server setup
