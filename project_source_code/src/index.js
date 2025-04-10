@@ -18,15 +18,11 @@ const socketIo = require('socket.io');
 // -------------------------------------
 // Database Config and Connection
 // -------------------------------------
-const dbConfig = {
-  host: 'db', // database server hostname
-  port: 5432,
-  database: process.env.POSTGRES_DB,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-};
-const db = pgp(dbConfig);
+// import database from utils and assign it to app locals
+const db = require('./utils/database');
+app.locals.db = db;
 
+// test the database to make sure it works correctly
 db.connect()
 .then(obj => {
   console.log('Database connection successful');
@@ -35,6 +31,9 @@ db.connect()
 .catch(error => {
   console.log('ERROR:', error.message || error);
 });
+
+// Make db accessible to routes via app.locals
+app.locals.db = db;
 
 // -------------------------------------
 // View Engine Setup (Handlebars)
@@ -95,9 +94,6 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Make db accessible to routes via app.locals
-app.locals.db = db;
-
 
 // -------------------------------------
 // Mount Routes  
@@ -112,7 +108,7 @@ const userRoutes = require('./routes/users');
 const exploreRoutes = require('./routes/explore');
 const learnmoreRoutes = require('./routes/learnMore');
 const homeRoutes = require('./routes/home');
-
+const take_picture = require('./routes/take_picture');
 
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
@@ -124,6 +120,7 @@ app.use('/users', userRoutes);
 app.use('/explore', exploreRoutes);
 app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);
+app.use('/take_picture', take_picture);
 
 // -------------------------------------
 // http server setup

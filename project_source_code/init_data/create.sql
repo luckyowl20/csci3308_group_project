@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS photos (
     uploaded_at TIMESTAMP DEFAULT NOW()
 );
 
+
 -- table of user posts
 CREATE TABLE IF NOT EXISTS posts (
     id SERIAL PRIMARY KEY,
@@ -24,7 +25,7 @@ CREATE TABLE IF NOT EXISTS posts (
     FOREIGN KEY (photo_id) REFERENCES photos(id) ON DELETE SET NULL, -- to track which photo is associated with the post in the photos table
     photo_id INTEGER, -- the id of the photo in the photos table
     user_id INTEGER NOT NULL,
-    title TEXT NOT NULL,
+    title TEXT NOT NULL,   
     body TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
@@ -115,3 +116,4 @@ CREATE TABLE IF NOT EXISTS user_settings (
     chat_settings TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
+
