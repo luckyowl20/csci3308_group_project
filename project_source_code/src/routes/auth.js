@@ -118,15 +118,3 @@ router.post('/register', async (req, res) => {
 
 module.exports = router;
 
-        // if (user) {
-        //     console.log("User already exists:",username);
-        //     res.status(400);
-        //     return res.render('pages/register', { message: 'Username already exists. Please choose another.', error: true });
-        // }
-
-        // const hashedPassword = await bcrypt.hash(password, 10);
-        // await db.query('INSERT INTO users (username, password_hash) VALUES ($1, $2)', [username, hashedPassword]);
-        // console.log("Successfully registered user:", username);
-
-        // res.status(200);
-        // return res.render('pages/login', { message: 'Registration successful! You can now log in.', error: false });
