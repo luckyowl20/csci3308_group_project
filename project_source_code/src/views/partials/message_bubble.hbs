@@ -10,11 +10,11 @@
 {{#if (eq message.sender_id message.currentUserId)}}
   <!-- Outgoing message bubble (right/aligned end, in blue) -->
   <div class="text-end mb-2">
-    <span class="badge bg-primary">{{message.content}}</span>
+    <span class="badge bg-primary" style="font-family: 'Montserrat">{{message.content}}</span>
   </div>
 {{else}}
   <!-- Incoming message bubble (left/aligned start, in grey) -->
   <div class="text-start mb-2">
-    <span class="badge bg-secondary">{{message.content}}</span>
+    <span class="badge bg-secondary" style="font-family: 'Montserrat">{{message.content}}</span>
   </div>
 {{/if}}
