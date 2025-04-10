@@ -1,0 +1,106 @@
+/* resources/css/swipe.css */
+.swipe-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.card {
+    width: 80%;
+    max-width: 400px;
+    height: 70%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-photo {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+}
+
+.info {
+    padding: 20px;
+    text-align: center;
+}
+
+.swipe-button {
+    position: absolute;
+    top: 50%; /* Positioned lower to be near the bottom of the card */
+    transform: translateY(-50%);
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-button {
+    left: 25%;
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.yes-button {
+    right: 25%;
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Pulse animation for buttons */
+@keyframes pulse {
+    0% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.1); }
+    100% { transform: translateY(-50%) scale(1); }
+}
+
+.swipe-button:hover {
+    animation: pulse 1s infinite;
+}
+
+/* Rest of your existing CSS... */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+}
+
+.no-users {
+    text-align: center;
+    padding: 20px;
+}
+
+    .username {
+        color: #666;
+        font-style: italic;
+        margin-top: -15px;
+    }
