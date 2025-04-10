@@ -88,7 +88,7 @@ router.post('/register', async (req, res) => {
 
         if (user) {
             console.log("User already exists:", username);
-            res.setMaxListeners(400);
+            res.status(400);
             return res.render('pages/register', {
                 layout: 'landing',
                 title: 'Register | LuckyMoment',
@@ -104,6 +104,20 @@ router.post('/register', async (req, res) => {
         res.status(200);
         return res.render('pages/login', { message: 'Registration successful! You can now log in.', error: false });
 
+    } catch (error) {
+        console.error('Registration error:', error.message);
+        res.status(400);
+        return res.render('pages/register', {
+            layout: 'landing',
+            title: 'Register | LuckyMoment',
+            message: 'Registration failed. Try again later.',
+            error: true
+        });
+    }
+});
+
+module.exports = router;
+
         // if (user) {
         //     console.log("User already exists:",username);
         //     res.status(400);
@@ -116,16 +130,3 @@ router.post('/register', async (req, res) => {
 
         // res.status(200);
         // return res.render('pages/login', { message: 'Registration successful! You can now log in.', error: false });
-
-    } catch (error) {
-        console.error('Registration error:', error.message);
-        return res.render('pages/register', {
-            layout: 'landing',
-            title: 'Register | LuckyMoment',
-            message: 'Registration failed. Try again later.',
-            error: true
-        });
-    }
-});
-
-module.exports = router;
