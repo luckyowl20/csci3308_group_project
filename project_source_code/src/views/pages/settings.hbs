@@ -10,10 +10,6 @@
   cursor: pointer;
 }
 
-.dropbtn:hover{
-  background-color: #60b963;
-}
-
 .dropdown-content {
   display: none;
   position: relative;
@@ -40,7 +36,7 @@
     display: flex;
     height: 50px;
     width: 70dvw;
-    background-color: #3e8e41;
+    background-color: rgb(88, 88, 88);
     text-align: center;
 }
 
@@ -115,7 +111,7 @@ input[type="radio"]:checked + label {
               {{!-- forms --}}
               <div style="display: flex; flex-direction: row; align-items: center;">
                 <label class="form-label">Public Friends</label>
-                <input checked = {{settings.public_friends}} id = "message_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "public_friends" type="checkbox" class="onoffswitch-checkbox"> 
+                <input id = "public_friends_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "public_friends" value = 1 type="checkbox" class="onoffswitch-checkbox"> 
               </div>
               <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
             </form>
@@ -133,11 +129,11 @@ input[type="radio"]:checked + label {
               {{!-- forms --}}
               <div style="display: flex; flex-direction: row; align-items: center;">
                 <label class="form-label">Message Notifications</label>
-                <input checked = {{settings.message_notifs}} id = "message_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "messageNotifs" type="checkbox" class="onoffswitch-checkbox"> 
+                <input id = "message_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "messageNotifs" value = 1 type="checkbox" class="onoffswitch-checkbox"> 
               </div>
               <div style="display: flex; flex-direction: row; align-items: center;">
                 <label class="form-label">Match Notifications</label>
-                <input checked = {{settings.match_notifs}} id = "match_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "matchNotifs" type="checkbox" class="onoffswitch-checkbox"> 
+                <input id = "match_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "matchNotifs" value = 1 type="checkbox" class="onoffswitch-checkbox"> 
               </div>
               <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
             </form>
@@ -186,33 +182,33 @@ input[type="radio"]:checked + label {
               <label class="form-label">UI Color</label>
               <div class="d-flex gap-3">
 
-                <!-- Red -->
-                <input type="radio" name="color" id="colorRed" value="Red">
-                <label for="colorRed" class="color-option" style="background-color: rgb(206, 65, 65);"></label>
+                <!-- red -->
+                <input type="radio" name="color" id="colorred" value="red">
+                <label for="colorred" class="color-option" style="background-color: rgb(128, 31, 31);"></label>
 
-                <!-- Orange -->
-                <input type="radio" name="color" id="colorOrange" value="Orange">
-                <label for="colorOrange" class="color-option" style="background-color: rgb(205, 126, 70)"></label>
+                <!-- orange -->
+                <input type="radio" name="color" id="colororange" value="orange">
+                <label for="colororange" class="color-option" style="background-color: rgb(183, 111, 60)"></label>
 
-                <!-- Yellow -->
-                <input type="radio" name="color" id="colorYellow" value="Yellow">
-                <label for="colorYellow" class="color-option" style="background-color: rgb(237, 221, 93);"></label>
+                <!-- yellow -->
+                <input type="radio" name="color" id="coloryellow" value="yellow">
+                <label for="coloryellow" class="color-option" style="background-color: rgb(156, 120, 0);"></label>
 
-                <!-- Green -->
-                <input type = "radio" name="color" id="colorGreen" value="Green">
-                <label for="colorGreen" class="color-option" style="background-color: rgb(4, 170, 109);"></label>
+                <!-- green -->
+                <input type = "radio" name="color" id="colorgreen" value="green">
+                <label for="colorgreen" class="color-option" style="background-color: rgb(46, 116, 36);"></label>
 
-                <!-- Blue -->
-                <input type="radio" name="color" id="colorBlue" value="Blue">
-                <label for="colorBlue" class="color-option" style="background-color: rgb(56, 86, 183);"></label>
+                <!-- blue -->
+                <input type="radio" name="color" id="colorblue" value="blue">
+                <label for="colorblue" class="color-option" style="background-color: rgb(44, 66, 135);"></label>
 
-                <!-- Purple -->
-                <input type="radio" name="color" id="colorPurple" value="Purple">
-                <label for="colorPurple" class="color-option" style="background-color: rgb(170, 52, 177);"></label>
+                <!-- purple -->
+                <input type="radio" name="color" id="colorpurple" value="purple">
+                <label for="colorpurple" class="color-option" style="background-color: rgb(115, 45, 118);"></label>
 
               </div>
               <label style="margin-top: 10px;" class="form-label">Page Apperance</label>
-              <select type = "text" class="form-select" id = "mode_select">
+              <select type = "text" name = "mode" class="form-select" id = "mode_select">
                 <option value="light">Light Mode</option>
                 <option value="dark">Dark Mode</option>
               </select>
@@ -222,8 +218,114 @@ input[type="radio"]:checked + label {
         </div>
     </div>
     </div>
-    {{!-- dropdown script --}}
+    {{!-- script --}}
     <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        colors = JSON.parse('{{{color_string}}}');
+        ui = document.getElementsByClassName('dropdown-button')
+        for(var i = 0; i < ui.length; i++) {
+            ui[i].style.backgroundColor = colors[JSON.parse('{{{settings.color_id}}}')-1].code;
+        }
+
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        drop_buttons = document.getElementsByClassName('dropbtn')
+        for (var i = 0 ; i < drop_buttons.length; i++) {
+            var id = drop_buttons[i].id;
+            drop_buttons[i].addEventListener('click' , myFunction.bind(this, id), false ); 
+        }
+
         
+
+        apperance_form = document.getElementById('apperanceForm');
+
+        apperance_form.addEventListener('change', function(){
+            radio = document.getElementsByName('color')
+            radio_selection = ''
+            for(var i = 0; i < radio.length; i++) {
+                if(radio[i].checked) {
+                radio_selection = radio[i].value;
+                }
+            }
+            if(radio_selection != '') {
+              switch(radio_selection) {
+                  case "red":
+                  ui_color = colors[2].code;
+                  break;
+                  case "orange":
+                  ui_color = colors[3].code;
+                  break;
+                  case "yellow":
+                  ui_color = colors[4].code;
+                  break;
+                  case "green":
+                  ui_color = colors[5].code;
+                  break;
+                  case "blue":
+                  ui_color = colors[6].code;
+                  break;
+                  case "purple":
+                  ui_color = colors[7].code;
+                  break;
+                  
+                  default:
+                  console.log('error');
+              }
+              ui = document.getElementsByClassName('dropdown-button')
+              for(var i = 0; i < ui.length; i++) {
+                  ui[i].style.backgroundColor = ui_color;
+              }
+            }
+            mode_select = document.getElementById('mode_select');
+            mode = mode_select.value;
+            id;
+            switch(mode) {
+              case 'light':
+              id = 0;
+              break;
+              case 'dark':
+              id = 1;
+              break;
+              default:
+              console.log('error');
+            }
+            /*
+            body = document.getElementsByTagName("body")[0];
+            body.style.backgroundColor = colors[id].light_code
+            console.log(body.style.backgroundColor)
+            nav = document.getElementsByTagName("nav")[0];
+            nav.style.backgroundColor = colors[id].code
+            console.log(nav.style.backgroundColor)
+            dropdowns = document.getElementsByClassName("dropdown-content")
+            for(int i = 0; i < dropdowns.length; i++) {
+              dropdowns[0].style.backgroundColor = colors[id].code;
+            }
+            */
+            
+        }, false)
+
+        function myFunction(id){
+            document.getElementById(id+'Dropdown').classList.toggle("show");
+            /*Javascript for displaying current settings*/
+            if(id == 'privacy') {
+              checkbox = document.getElementById('public_friends_checkbox')
+              checkbox.checked = JSON.parse('{{{settings.public_friends}}}');
+            }
+            else if (id == 'notif') {
+              checkbox = document.getElementById('message_notif_checkbox')
+              checkbox.checked = JSON.parse('{{{settings.message_notifs}}}');
+              checkbox = document.getElementById('match_notif_checkbox')
+              checkbox.checked = JSON.parse('{{{settings.match_notifs}}}');
+            }
+            else if(id == 'apperance') {
+
+              color_select = document.getElementById('color{{settings.ui_color}}')
+              color_select.checked = true;
+          
+              mode_select = document.getElementById('mode_select');
+              mode_select.value = ('{{settings.apperance_mode}}');
+            }
+        } 
+      });
     </script>
 </div>
