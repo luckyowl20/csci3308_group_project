@@ -1,9 +1,12 @@
 {{> head }}
-{{> nav }}
-
+{{#unless hideNav}}
+  {{> nav }}
+{{/unless}}
 <main class="container-fluid px-4 py-5">
   {{{ body }}}
 </main>
+
+{{> footer }}
 
 {{!-- 
   to create a new section using the section helper
@@ -23,5 +26,3 @@
   2. avoiding render blocking where the template can block the browser from rendering until all scripts are downloaded
   3. seperation of concerns: allows the template to remain concise and scripts become easier to manage for each page
 --}}
-
-{{> footer }}

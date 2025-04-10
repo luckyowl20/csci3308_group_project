@@ -52,6 +52,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware Setup
 // -------------------------------------
 // serve static files from src/resources to access client side javascript files in there
+
 app.use('/resources', express.static(path.join(__dirname, '/resources')));
 
 // make profile available to the whole session
@@ -104,6 +105,9 @@ const photosRoutes = require('./routes/photos');
 const profileRoutes = require('./routes/profile');
 const spotifyRoutes = require('./routes/spotify');
 const userRoutes = require('./routes/users');
+const exploreRoutes = require('./routes/explore');
+const learnmoreRoutes = require('./routes/learnMore');
+const homeRoutes = require('./routes/home');
 const take_picture = require('./routes/take_picture');
 
 app.use('/', indexRoutes); 
@@ -113,7 +117,9 @@ app.use('/photos', photosRoutes);
 app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
 app.use('/users', userRoutes);
-
+app.use('/explore', exploreRoutes);
+app.use('/learnmore', learnmoreRoutes);
+app.use('/home', homeRoutes);
 app.use('/take_picture', take_picture);
 
 // -------------------------------------
