@@ -81,11 +81,11 @@ const chatRoutes = require('./routes/chat');
 const photosRoutes = require('./routes/photos');
 const swipeRoutes = require('./routes/swipe'); // Add this line to include the swipe route
 
+app.use('/swipe', swipeRoutes);
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
 app.use('/chat', chatRoutes);
 app.use('/photos', photosRoutes);
-app.use('/swipe', swipeRoutes); // Add this line to include the swipe route
 
 // -------------------------------------
 // http server setup

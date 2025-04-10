@@ -98,3 +98,9 @@
     text-align: center;
     padding: 20px;
 }
+
+    .username {
+        color: #666;
+        font-style: italic;
+        margin-top: -15px;
+    }
