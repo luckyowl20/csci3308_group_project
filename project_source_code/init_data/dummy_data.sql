@@ -12,17 +12,6 @@ VALUES
   ('ivan', 'ivan@example.com', '$2a$10$qhrqPEIXYAusTbup/M75Iu5TA055JV/mqVy5bhHbU725cgPd8Sk42'),
   ('judy', 'judy@example.com', '$2a$10$fUun/OcW7SR/zaK3fMlNKuDhQwR39vMJGHq31e9r0f3SeG2aDtISG'); -- pass10
 
-INSERT INTO profiles (user_id, display_name, profile_picture_url, biography) VALUES
-(1, 'Alice', '/resources/img/alice.jpg', 'Love hiking and photography'),
-(2, 'Bob', '/resources/img/bob.jpg', 'Foodie and travel enthusiast'),
-(3, 'Charlie', '/resources/img/charlie.jpg', 'Musician and bookworm'),
-(4, 'Dave', '/resources/img/dave.jpg', 'Digital nomad working remotely'),
-(5, 'Eve', '/resources/img/eve.jpg', 'Fitness trainer and nutritionist'),
-(6, 'Frank', '/resources/img/frank.jpg', 'Software engineer and gamer'),
-(7, 'Grace', '/resources/img/grace.jpg', 'Artist and poet'),
-(8, 'Heidi', '/resources/img/heidi.jpg', 'Teacher and volunteer'),
-(9, 'Ivan', '/resources/img/ivan.jpg', 'Photographer and filmmaker'),
-(10, 'Judy', '/resources/img/judy.jpg', 'Doctor and researcher');
 
 -- Insert dummy photos
 INSERT INTO photos (url, description)
