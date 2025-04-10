@@ -7,24 +7,17 @@ router.get('/welcome', (req, res) => {
     res.json({ status: 'success', message: 'Welcome!' });
 });
 
-// Home page (you can change this to your landing page)
+// About/enter page
 router.get('/', (req, res) => {
-    res.render('pages/about');
+    res.render('pages/about', { layout: 'landing', title: 'About | LuckyMoment' });
 });
 
 // About page
 router.get('/about', (req, res) => {
-    res.render('pages/about');
+    res.render('pages/about', { layout: 'landing', title: 'About | LuckyMoment' });
 });
 
-// Explore page
-router.get('/explore', (req, res) => {
-    res.render('pages/explore');
-});
 
-// Profile page
-router.get('/profile', (req, res) => {
-    res.render('pages/personal_profile');
-});
+// Profile page handled in the profile.js routes
 
 module.exports = router;

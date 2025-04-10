@@ -79,7 +79,11 @@ router.post('/messages/send', isAuthenticated, async (req, res) => {
     
     // emit the new message to the receivers room
     const io = req.app.locals.io;
-    io.to(`user_${senderId}`).emit('new message', result);
+    
+    // io.to(`user_${senderId}`).emit('new message', result); including this line creates double rendering
+    // rendering of the client side message bubble is done in the chatScript.js file when the user submits the form
+    // this message is the broadcasted to the receiver in the line below, including the sender in the socket emit also sends the message to the sender,
+    // who already got the message since they are the one who sent it.
     io.to(`user_${receiver_id}`).emit('new message', result);
 
     // Send back a JSON response with the newly created message
