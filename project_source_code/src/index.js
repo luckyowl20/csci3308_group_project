@@ -69,7 +69,52 @@ db.connect()
 
 // -------------------------------------  HANDLEBARS HELPERS   ----------------------------------------------
 
+<<<<<<< HEAD
 // -------------------------------------  START THE SERVER   ----------------------------------------------
+=======
+
+// -------------------------------------
+// Mount Routes  
+// -------------------------------------
+const indexRoutes = require('./routes/index');
+const authRoutes = require('./routes/auth');
+const chatRoutes = require('./routes/chat');
+const photosRoutes = require('./routes/photos');
+const settingsRoutes = require('./routes/settings');
+
+app.use('/', indexRoutes); 
+app.use('/auth', authRoutes); 
+app.use('/chat', chatRoutes);
+app.use('/photos', photosRoutes);
+app.use('/', settingsRoutes);
+
+// -------------------------------------
+// http server setup
+// -------------------------------------
+const http_server = http.createServer(app); // wraps the express app in an http server to enable socket and http support
+const io = socketIo(http_server); // enables socker support on http server
+
+// make io accessible to routes via app.locals
+app.locals.io = io;
+
+// Set up the connection handler
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('join', (userId) => {
+    socket.join(`user_${userId}`);
+    console.log(`User ${userId} joined their room.`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+// -------------------------------------
+// Start the Server
+// -------------------------------------
+>>>>>>> 2beb962 (pulled changes from main and added post route for account settings)
 const PORT = process.env.PORT || 3000;
 module.exports = app.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);

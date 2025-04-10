@@ -110,16 +110,16 @@ CREATE TABLE IF NOT EXISTS user_settings (
     message_notifs BOOLEAN DEFAULT TRUE,
     match_notifs BOOLEAN DEFAULT TRUE,
 
-    privacy_settings TEXT,
+    -- privacy_settings TEXT,
+    public_friends BOOLEAN DEFAULT TRUE,
+
     account_status TEXT,
     location_settings TEXT,
     
     -- appearance_preferences TEXT,
     apperance_mode TEXT DEFAULT 'light',
     ui_color_selection TEXT DEFAULT 'Green',
-    ui_light_color TEXT DEFUALT '#60b963',
-    ui_color  TEXT DEFAULT '#3e8e41',
-    ui_dark_color TEXT DEFAULT '',
+
 
     language_preferences TEXT,
     chat_settings TEXT,
