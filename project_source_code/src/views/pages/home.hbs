@@ -8,41 +8,31 @@
       <a href="/chat" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Chat</a>
     </div>
 
-    <!-- Main content -->
+    <!-- Instagram-style Feed -->
     <div class="col-md-10">
-      <div class="d-flex justify-content-end mb-3">
-        <button class="btn btn-light border">Filter</button>
-      </div>
-
-      <!-- Grid of friend cards -->
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {{!-- Repeat this div dynamically for each friend profile if needed --}}
-        <div class="col">
-          <div class="card bg-light" style="height: 300px;">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-white border me-2" style="width: 20px; height: 20px;"></div>
-                <span class="text-muted">Friend</span>
-              </div>
-              <div class="bg-secondary w-100 h-75 rounded"></div>
+      {{#each feed}}
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header d-flex align-items-center">
+            <div class="rounded-circle overflow-hidden me-3" style="width: 50px; height: 50px;">
+              {{#if this.profile_picture_url}}
+                <img src="{{this.profile_picture_url}}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+              {{else}}
+                <img src="https://via.placeholder.com/50?text=U" alt="Default" style="width: 100%; height: 100%; object-fit: cover;">
+              {{/if}}
             </div>
+            <h5 class="mb-0 text-success fw-bold">{{this.display_name}}</h5>
+          </div>
+          <div class="card-body text-center">
+            {{#if this.todays_photo_url}}
+              <img src="{{this.todays_photo_url}}" alt="Today's Post" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;">
+            {{else}}
+              <div class="d-flex align-items-center justify-content-center bg-secondary text-white rounded" style="height: 400px;">
+                <p class="mb-0">User has not posted a picture today</p>
+              </div>
+            {{/if}}
           </div>
         </div>
-
-        <div class="col">
-          <div class="card bg-light" style="height: 300px;">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-white border me-2" style="width: 20px; height: 20px;"></div>
-                <span class="text-muted">Friend</span>
-              </div>
-              <div class="bg-secondary w-100 h-75 rounded"></div>
-            </div>
-          </div>
-        </div>
-
-        {{!-- Add more cards as needed --}}
-      </div>
+      {{/each}}
     </div>
   </div>
 </div>
