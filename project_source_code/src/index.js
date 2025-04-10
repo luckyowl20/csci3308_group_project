@@ -93,8 +93,8 @@ app.use(async (req, res, next) => {
 
   next();
 });
-
-
+// Make db accessible to routes via app.locals
+app.locals.db = db;
 // -------------------------------------
 // Mount Routes  
 // -------------------------------------
@@ -105,6 +105,7 @@ const photosRoutes = require('./routes/photos');
 const profileRoutes = require('./routes/profile');
 const spotifyRoutes = require('./routes/spotify');
 const userRoutes = require('./routes/users');
+const settingsRoutes = require('./routes/settings');
 const exploreRoutes = require('./routes/explore');
 const learnmoreRoutes = require('./routes/learnMore');
 const homeRoutes = require('./routes/home');
@@ -117,6 +118,8 @@ app.use('/photos', photosRoutes);
 app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
 app.use('/users', userRoutes);
+app.use('/settings', settingsRoutes);
+
 app.use('/explore', exploreRoutes);
 app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);
