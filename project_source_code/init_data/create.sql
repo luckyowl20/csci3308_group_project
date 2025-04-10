@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS profiles (
     interests TEXT,
     birthday DATE,
     profile_picture_url TEXT,
-    created_at TIMESTAMP DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW(),
+    spotify_song_id TEXT
 );
 
 -- table of pending user swipes, awating matches or friend requests

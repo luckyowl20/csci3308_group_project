@@ -1,3 +1,9 @@
+<!-- views/chat.hbs -->
+{{#section "scripts"}}
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/resources/js/chat/chatScript.js"></script>
+{{/section}}
+
 <div class="container py-4">
   <div class="row">
     <!-- Friends List Sidebar -->
@@ -6,9 +12,12 @@
       <ul class="list-unstyled">
         {{#each friends}}
           <li class="mb-3">
-            <a href="/chat/{{id}}" class="d-flex align-items-center text-decoration-none">
-              <img src="{{profile_picture_url}}" width="32" height="32" class="rounded-circle me-2" alt="{{display_name}}">
-              <span>{{display_name}}</span>
+            <!-- 
+              Click friend to load messages. 
+              We pass friend.id in the URL to identify which conversation. 
+            -->
+            <a href="/chat/{{this.id}}" class="text-decoration-none">
+              <span>{{this.username}}</span>
             </a>
           </li>
         {{/each}}
@@ -17,60 +26,29 @@
 
     <!-- Chat Panel -->
     <div class="col-md-9">
-      {{> chat_header user=chatPartner }}
-
+      {{!-- Chat header partial displays friend’s name if selected; otherwise shows default text --}}
+      {{> chat_header user=chatPartner}}
+      
       <div class="card">
-        <div class="card-body overflow-auto" style="height: 400px;" id="chat-box">
-          {{#each messages}}
-            {{> message_bubble this }}
-          {{/each}}
+        <div class="card-body overflow-auto" style="height: 400px;" id="chat-box" data-current-user-id="{{currentUserId}}">
+          {{#if chatPartner}}
+            {{#if messages.length}}
+              {{#each messages}}
+                {{> message_bubble message=this }}
+              {{/each}}
+            {{else}}
+              <p class="text-muted">No messages yet.</p>
+            {{/if}}
+          {{else}}
+            <p class="text-muted">Select a friend from the list to start chatting.</p>
+          {{/if}}
         </div>
-
-        <div class="card-footer">
-          {{> chat_input chatPartnerId=chatPartner.id }}
-        </div>
+        {{!-- Only render the chat input if a chat partner is selected --}}
+        {{#if chatPartner}}
+          <div class="card-footer">
+            {{> chat_input chatPartnerId=chatPartner.id }}
+          </div>
+        {{/if}}
       </div>
-    </div>
   </div>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('chat-form');
-    const chatBox = document.getElementById('chat-box');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Prevent form redirect
-
-      const formData = new FormData(form);
-      const receiver_id = formData.get('receiver_id');
-      const message_text = formData.get('message_text');
-
-      try {
-        const res = await fetch('/messages/send', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ receiver_id, message_text })
-        });
-
-        const data = await res.json();
-        console.log('Message sent:', data);
-
-        // (Optional) Clear input field
-        form.reset();
-
-        // (Optional) Append message to chat box immediately
-        const messageEl = document.createElement('div');
-        messageEl.className = 'text-end mb-2';
-        messageEl.innerHTML = `<span class="badge bg-primary">${message_text}</span>`;
-        chatBox.appendChild(messageEl);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      } catch (err) {
-        console.error('Failed to send message:', err);
-      }
-    });
-  });
-</script>
-

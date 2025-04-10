@@ -1,37 +1,66 @@
-/*
-Lines 5-62 are from the lab 8 index.js code, excluding the axios dependency.
-*/
-
-// ----------------------------------   DEPENDENCIES  ----------------------------------------------
-
-const express = require('express'); // To build an application server or API
+// index.js
+const express = require('express');
 const app = express();
-const handlebars = require('express-handlebars');
-const Handlebars = require('handlebars');
 const path = require('path');
-const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
+const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
-const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
-const bcrypt = require('bcryptjs'); //  To hash passwords
+const session = require('express-session');
+const pgp = require('pg-promise')();
+const bcrypt = require('bcryptjs');
 
+const injectProfileData = require('./middleware/injectProfileData'); // for setting the profile data as a public var within the session, used in nav bar
+const customHelpers = require('./helpers/handlebars_helpers'); // custom functions for use in .hbs files
 
-// -------------------------------------  APP CONFIG   ----------------------------------------------
-// create `ExpressHandlebars` instance and configure the layouts and partials dir.
+// socket stuff for live chat messages
+const http = require('http');
+const socketIo = require('socket.io');
+
+// -------------------------------------
+// Database Config and Connection
+// -------------------------------------
+const dbConfig = {
+  host: 'db', // database server hostname
+  port: 5432,
+  database: process.env.POSTGRES_DB,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+};
+const db = pgp(dbConfig);
+
+db.connect()
+.then(obj => {
+  console.log('Database connection successful');
+  obj.done();
+})
+.catch(error => {
+  console.log('ERROR:', error.message || error);
+});
+
+// -------------------------------------
+// View Engine Setup (Handlebars)
+// -------------------------------------
 const hbs = handlebars.create({
   extname: 'hbs',
   layoutsDir: path.join(__dirname, 'views/layouts'),
-  partialsDir: [
-    path.join(__dirname, 'views/partials')
-  ]
+  partialsDir: [path.join(__dirname, 'views/partials')],
+  helpers: customHelpers
 });
-
-// Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
 
-// initialize session variables
+// -------------------------------------
+// Middleware Setup
+// -------------------------------------
+// serve static files from src/resources to access client side javascript files in there
+app.use('/resources', express.static(path.join(__dirname, '/resources')));
+
+// make profile available to the whole session
+app.use(injectProfileData);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -40,38 +69,40 @@ app.use(
   })
 );
 
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+// Make session user available in templates
+app.use(async (req, res, next) => {
+  res.locals.user = req.session.user || null;
 
-// -------------------------------------  DB CONFIG AND CONNECT   ---------------------------------------
-const dbConfig = {
-    host: 'db', // the database server
-    port: 5432, // the database port
-    database: process.env.POSTGRES_DB, // the database name
-    user: process.env.POSTGRES_USER, // the user account to connect with
-    password: process.env.POSTGRES_PASSWORD, // the password of the user account
-  };
-  
-const db = pgp(dbConfig);
+  if (!req.session?.user) return next();
 
-// test your database
-db.connect()
-  .then(obj => {
-      console.log('Database connection successful'); // you can view this message in the docker compose logs
-      obj.done(); // success, release the connection;
-  })
-  .catch(error => {
-      console.log('ERROR:', error.message || error);
+  // make sure profile picture is available in templates too by a query to the database based on the session user
+  try {
+    const db = req.app.locals.db;
+
+    const { profile_picture_url } = await db.oneOrNone(
+      'SELECT profile_picture_url FROM profiles WHERE user_id = $1',
+      [req.session.user.id]
+    ) || {};
+
+    // Add profile_picture_url to the existing user object
+    res.locals.user.profile_picture_url = profile_picture_url || null;
+
+  } catch (err) {
+    console.error('Error fetching profile picture:', err);
+  }
+
+  next();
 });
 
-// -------------------------------------  HANDLEBARS HELPERS   ----------------------------------------------
+// Make db accessible to routes via app.locals
+app.locals.db = db;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // -------------------------------------  START THE SERVER   ----------------------------------------------
 =======
+=======
+>>>>>>> 4f05ba3c3580bcac94c1e8bee14115a80add55b3
 
 // -------------------------------------
 // Mount Routes  
@@ -80,13 +111,26 @@ const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
 const photosRoutes = require('./routes/photos');
+<<<<<<< HEAD
 const settingsRoutes = require('./routes/settings');
+=======
+const profileRoutes = require('./routes/profile');
+const spotifyRoutes = require('./routes/spotify');
+const userRoutes = require('./routes/users');
+>>>>>>> 4f05ba3c3580bcac94c1e8bee14115a80add55b3
 
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
 app.use('/chat', chatRoutes);
 app.use('/photos', photosRoutes);
+<<<<<<< HEAD
 app.use('/', settingsRoutes);
+=======
+app.use('/profile', profileRoutes);
+app.use('/spotify', spotifyRoutes);
+app.use('/users', userRoutes);
+
+>>>>>>> 4f05ba3c3580bcac94c1e8bee14115a80add55b3
 
 // -------------------------------------
 // http server setup
@@ -114,12 +158,20 @@ io.on('connection', (socket) => {
 // -------------------------------------
 // Start the Server
 // -------------------------------------
+<<<<<<< HEAD
 >>>>>>> 2beb962 (pulled changes from main and added post route for account settings)
+=======
+>>>>>>> 4f05ba3c3580bcac94c1e8bee14115a80add55b3
 const PORT = process.env.PORT || 3000;
-module.exports = app.listen(PORT, () => {
+
+// change to http_server since this is still an express app, but with additional web services
+// was:
+// app.listen(...) => ...
+http_server.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
 
+<<<<<<< HEAD
 
 app.get('/welcome', (req, res) => {
   res.json({status: 'success', message: 'Welcome!'});
@@ -322,3 +374,6 @@ app.post('/messages/send', (req, res) => {
   res.status(200).json({ status: 'Message received and logged.' });
 });
 
+=======
+module.exports = app; 
+>>>>>>> 4f05ba3c3580bcac94c1e8bee14115a80add55b3
