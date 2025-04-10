@@ -104,6 +104,7 @@ const photosRoutes = require('./routes/photos');
 const profileRoutes = require('./routes/profile');
 const spotifyRoutes = require('./routes/spotify');
 const userRoutes = require('./routes/users');
+const take_picture = require('./routes/take_picture');
 
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
@@ -113,6 +114,7 @@ app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
 app.use('/users', userRoutes);
 
+app.use('/take_picture', take_picture);
 
 // -------------------------------------
 // http server setup
