@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Retrieve the chat box element and current user ID from its data attribute
   const chatBox = document.getElementById('chat-box');
 
-  const currentUserId = parseInt(chatBox.getAttribute('data-current-user-id'), 10);
+  const currentUserId = parseInt(chatBox.getAttribute('data-current-user-id'), 10); // get current user id
+  const currentChatPartnerId = parseInt(chatBox.getAttribute('data-current-chat-user-id'), 10); // get chat partner id
   console.log("dom content loaded, attempting to connect to socket...")
   
   console.log('currentUserId from data attribute:', currentUserId);
