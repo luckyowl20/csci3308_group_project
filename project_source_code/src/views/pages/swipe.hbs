@@ -15,14 +15,7 @@
         </div>
     {{else}}
         <div class="swipe-container">
-            <div class="card" id="card" data-user-id="{{user.id}}">
-                <img src="{{user.profile_picture_url}}" alt="User Photo" class="user-photo">
-                <div class="info">
-                    <h2 id="user-name">{{user.display_name}}</h2>
-                    <p class="username">@{{user.username}}</p> 
-                    <p id="user-bio">{{user.biography}}</p>
-                </div>
-            </div>
+            {{> swipe_users user=user}}
             <button id="left-swipe" class="swipe-button no-button">No</button>
             <button id="right-swipe" class="swipe-button yes-button">Yes</button>
         </div>
