@@ -27,8 +27,14 @@ router.get('/',isAuthenticated, async (req, res) => {
         const colors = await db.any(
             `SELECT * FROM colors`
         )
+        const user_color = await db.oneOrNone(
+            `SELECT *
+            FROM colors
+            WHERE id = $1` , [user_settings.color_id]
+        )
+        
         color_string = JSON.stringify(colors);
-        res.render('pages/settings', {user : user, settings : user_settings, color_string : color_string});
+        res.render('pages/settings', {user : user, settings : user_settings, color_string : color_string, user_color : user_color});
         // res.json(user_settings.apperance_mode);
     } catch (err) {
         console.error('Error querying user settings:', err);

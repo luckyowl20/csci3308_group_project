@@ -36,7 +36,7 @@
     display: flex;
     height: 50px;
     width: 70dvw;
-    background-color: rgb(88, 88, 88);
+    background-color: {{user_color.code}};
     text-align: center;
 }
 
@@ -222,10 +222,6 @@ input[type="radio"]:checked + label {
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         colors = JSON.parse('{{{color_string}}}');
-        ui = document.getElementsByClassName('dropdown-button')
-        for(var i = 0; i < ui.length; i++) {
-            ui[i].style.backgroundColor = colors[JSON.parse('{{{settings.color_id}}}')-1].code;
-        }
 
         /* When the user clicks on the button, 
         toggle between hiding and showing the dropdown content */

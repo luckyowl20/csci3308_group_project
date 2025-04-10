@@ -1,0 +1,48 @@
+<!-- views/pages/home.hbs -->
+<div class="container-fluid py-4 px-4" style="background-color: #fffaf0; min-height: 100vh;">
+  <div class="row">
+    <!-- Left buttons -->
+    <div class="col-md-2 d-flex flex-column align-items-start gap-4">
+      <a href="/meet" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Meet Someone</a>
+      <a href="/friends" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Meet Friends</a>
+      <a href="/chat" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Chat</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-md-10">
+      <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-light border">Filter</button>
+      </div>
+
+      <!-- Grid of friend cards -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {{!-- Repeat this div dynamically for each friend profile if needed --}}
+        <div class="col">
+          <div class="card bg-light" style="height: 300px;">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <div class="rounded-circle bg-white border me-2" style="width: 20px; height: 20px;"></div>
+                <span class="text-muted">Friend</span>
+              </div>
+              <div class="bg-secondary w-100 h-75 rounded"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card bg-light" style="height: 300px;">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <div class="rounded-circle bg-white border me-2" style="width: 20px; height: 20px;"></div>
+                <span class="text-muted">Friend</span>
+              </div>
+              <div class="bg-secondary w-100 h-75 rounded"></div>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Add more cards as needed --}}
+      </div>
+    </div>
+  </div>
+</div>

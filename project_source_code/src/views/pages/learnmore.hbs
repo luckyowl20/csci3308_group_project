@@ -1,0 +1,81 @@
+<!-- views/pages/learn-more.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learn More | LuckyMoment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fffaf0;
+      color: #2d6842;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .navbar {
+      margin-bottom: 0;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .navbar-nav .nav-link {
+      margin-left: 1rem;
+    }
+
+    .hero-img, .feature-img {
+      max-height: 400px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Clean Nav -->
+  <nav class="navbar navbar-expand-lg" style="background-color: #2d6842;">
+    <div class="container-fluid d-flex justify-content-between align-items-center px-4">
+      <a class="navbar-brand text-white fw-bold fs-4" href="/">LuckyMoment</a>
+      <ul class="navbar-nav d-flex flex-row">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/auth/login">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="container py-5">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4">
+        <h1 class="display-5 fw-bold">Meet People Authentically</h1>
+        <p class="lead">Lucky Moment is a new way to meet people by combining authentic, unfiltered photos with real-time connections. Each day, users get a random "Lucky Moment"—five minutes to snap and share a quick webcam photo. Whether you're at home or on campus, your snapshot helps others see the real you. Connect with people nearby or worldwide who are sharing their Lucky Moment at the same time, chat, and build meaningful connections beyond curated profiles.</p>
+      </div>
+      <div class="col-lg-6">
+        <img src="/resources/img/learn_more_pages/image1.jpg" class="img-fluid rounded shadow hero-img" alt="Social Preview">
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="container py-5">
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-2 mb-4">
+        <h2 class="fw-semibold">We Do It Differently</h2>
+        <p class="fs-5">Connect with others based on shared interests—from food and music to activities and experiences. With a spontaneous, BeReal-style format, users stay genuine and in-the-moment. No filters. No fakes. Just real people, real photos, and real connections.</p>
+        <p class="fs-5">Snap once a day to interact, explore new interests, and keep your streak alive. Authenticity is not only encouraged—it's required.</p>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <img src="/resources/img/learn_more_pages/image2.jpg" class="img-fluid rounded shadow feature-img" alt="Engagement Preview">
+      </div>
+    </div>
+  </section>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
