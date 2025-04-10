@@ -14,8 +14,14 @@ const supabase = createClient(
   );
 
 
+// Route for Instagram-style post (NOT profile)
 router.get('/', isAuthenticated, (req, res) => {
-  res.render('pages/take_picture');
+  res.render('pages/take_picture', { isProfile: false });
+});
+
+// Route for updating profile picture
+router.get('/profile', isAuthenticated, (req, res) => {
+  res.render('pages/take_picture', { isProfile: true });
 });
   
 const storage = multer.memoryStorage(); 
