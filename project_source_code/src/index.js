@@ -32,6 +32,8 @@ db.connect()
   console.log('ERROR:', error.message || error);
 });
 
+const userSocketMap = new Map(); // user_id => socket.id
+
 // Make db accessible to routes via app.locals
 app.locals.db = db;
 
@@ -140,11 +142,14 @@ io.on('connection', (socket) => {
 
   socket.on('join', (userId) => {
     socket.join(`user_${userId}`);
-    console.log(`User ${userId} joined their room.`);
+    console.log(`User ${userId} joined their room: Socket ${socket.id} joined room user_${userId}`);
+    userSocketMap.set(userId, socket.id);
+    console.log(`Mapped id ${userId} to ${userSocketMap.get(userId)}`);
   });
 
-  socket.on('disconnect', () => {
+  socket.on('disconnect', (userId) => {
     console.log('User disconnected');
+    userSocketMap.delete(userId);
   });
 });
 
@@ -160,4 +165,5 @@ http_server.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
 
+app.locals.userSocketMap = userSocketMap;
 module.exports = app; 
