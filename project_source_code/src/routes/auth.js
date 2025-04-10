@@ -9,14 +9,14 @@ router.get('/login', (req, res) => {
     const error = req.session.error;
     req.session.message = null;
     req.session.error = null;
-  
+
     res.render('pages/login', {
-      layout: 'landing',
-      title: 'Login | LuckyMoment',
-      message,
-      error
+        layout: 'landing',
+        title: 'Login | LuckyMoment',
+        message,
+        error
     });
-  });
+});
 
 // POST /auth/login - Process login
 router.post('/login', async (req, res) => {
@@ -39,8 +39,8 @@ router.post('/login', async (req, res) => {
                 title: 'Login | LuckyMoment',
                 message: 'Incorrect username or password.',
                 error: true
-              });
-                    }
+            });
+        }
 
         req.session.user = user;
         req.session.save(() => {
@@ -54,19 +54,20 @@ router.post('/login', async (req, res) => {
             title: 'Login | LuckyMoment',
             message: 'An error occured, please try again.',
             error: true
-          });    }
+        });
+    }
 });
 
 // GET /auth/logout - Logout the user
 router.get('/logout', (req, res) => {
     console.log("Logging out user:", req.session.user.username);
     req.session.destroy(err => {
-    if (err) {
-        console.error('Logout error:', err);
-        return res.status(500).send('Error logging out.');
-    }
-    res.clearCookie('connect.sid');
-    res.redirect('/');
+        if (err) {
+            console.error('Logout error:', err);
+            return res.status(500).send('Error logging out.');
+        }
+        res.clearCookie('connect.sid');
+        res.redirect('/');
     });
 });
 
@@ -86,24 +87,36 @@ router.post('/register', async (req, res) => {
         const user = await db.oneOrNone('SELECT * FROM users WHERE username = $1', [username]);
 
         if (user) {
-            console.log("User already exists:",username);
+            console.log("User already exists:", username);
+            res.setMaxListeners(400);
             return res.render('pages/register', {
                 layout: 'landing',
                 title: 'Register | LuckyMoment',
                 message: 'Username already exists. Please choose another.',
                 error: true
-              });;
+            });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         await db.query('INSERT INTO users (username, password_hash) VALUES ($1, $2)', [username, hashedPassword]);
         console.log("Successfully registered user:", username);
-        
+
         res.status(200);
         return res.render('pages/login', { message: 'Registration successful! You can now log in.', error: false });
-        
-        
-        
+
+        // if (user) {
+        //     console.log("User already exists:",username);
+        //     res.status(400);
+        //     return res.render('pages/register', { message: 'Username already exists. Please choose another.', error: true });
+        // }
+
+        // const hashedPassword = await bcrypt.hash(password, 10);
+        // await db.query('INSERT INTO users (username, password_hash) VALUES ($1, $2)', [username, hashedPassword]);
+        // console.log("Successfully registered user:", username);
+
+        // res.status(200);
+        // return res.render('pages/login', { message: 'Registration successful! You can now log in.', error: false });
+
     } catch (error) {
         console.error('Registration error:', error.message);
         return res.render('pages/register', {
@@ -111,7 +124,7 @@ router.post('/register', async (req, res) => {
             title: 'Register | LuckyMoment',
             message: 'Registration failed. Try again later.',
             error: true
-          });
+        });
     }
 });
 
