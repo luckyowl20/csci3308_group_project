@@ -30,7 +30,7 @@
       {{> chat_header user=chatPartner}}
       
       <div class="card">
-        <div class="card-body overflow-auto" style="height: 400px;" id="chat-box" data-chat-partner-id="{{chatPartnet.id}}" data-current-user-id="{{currentUserId}}">
+        <div class="card-body overflow-auto" style="height: 400px;" id="chat-box" data-chat-partner-id="{{chatPartnerId}}" data-current-user-id="{{currentUserId}}">
           {{#if chatPartner}}
             {{#if messages.length}}
               {{#each messages}}

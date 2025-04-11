@@ -20,7 +20,6 @@ const socketIo = require('socket.io');
 // -------------------------------------
 // import database from utils and assign it to app locals
 const db = require('./utils/database');
-app.locals.db = db;
 
 // test the database to make sure it works correctly
 db.connect()
@@ -31,8 +30,6 @@ db.connect()
 .catch(error => {
   console.log('ERROR:', error.message || error);
 });
-
-const userSocketMap = new Map(); // user_id => socket.id
 
 // Make db accessible to routes via app.locals
 app.locals.db = db;
@@ -92,11 +89,9 @@ app.use(async (req, res, next) => {
   } catch (err) {
     console.error('Error fetching profile picture:', err);
   }
-
   next();
 });
-// Make db accessible to routes via app.locals
-app.locals.db = db;
+
 // -------------------------------------
 // Mount Routes  
 // -------------------------------------
@@ -138,18 +133,15 @@ app.locals.io = io;
 
 // Set up the connection handler
 io.on('connection', (socket) => {
-  console.log('A user connected');
+  // console.log('A user connected');
 
   socket.on('join', (userId) => {
     socket.join(`user_${userId}`);
-    console.log(`User ${userId} joined their room: Socket ${socket.id} joined room user_${userId}`);
-    userSocketMap.set(userId, socket.id);
-    console.log(`Mapped id ${userId} to ${userSocketMap.get(userId)}`);
+    console.log(`User ${userId} joined their room.`);
   });
 
-  socket.on('disconnect', (userId) => {
+  socket.on('disconnect', () => {
     console.log('User disconnected');
-    userSocketMap.delete(userId);
   });
 });
 
@@ -165,5 +157,4 @@ http_server.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
 
-app.locals.userSocketMap = userSocketMap;
 module.exports = app; 
