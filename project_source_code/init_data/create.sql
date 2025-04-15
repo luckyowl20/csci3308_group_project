@@ -135,5 +135,5 @@ CREATE TABLE IF NOT EXISTS colors (
     name TEXT,
     light_code TEXT, --color codes
     code TEXT,
-    dark_code TEXT
+    dark_code TEXT 
 );
