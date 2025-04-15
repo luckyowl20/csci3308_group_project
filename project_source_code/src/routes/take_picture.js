@@ -16,12 +16,12 @@ const supabase = createClient(
 
 // Route for Instagram-style post (NOT profile)
 router.get('/', isAuthenticated, (req, res) => {
-  res.render('pages/take_picture', { isProfile: false });
+  res.render('pages/take_picture', { isProfile: false, hideNav: true});
 });
 
 // Route for updating profile picture
 router.get('/profile', isAuthenticated, (req, res) => {
-  res.render('pages/take_picture', { isProfile: true });
+  res.render('pages/take_picture', { isProfile: true, hideNav: true});
 });
   
 const storage = multer.memoryStorage(); 
@@ -54,25 +54,40 @@ router.post('/take_picture', upload.single('file'), async (req, res) =>{
     const caption = req.body.caption || null;
     const userID = req.session.user.id;
     const title = req.body.title || 'Untitled';
+    const profileIS = req.body.isProfile === 'true';
 
 
     //inserting photo url and cation into our sql database
-  const photoResult = await db.one(
-  'INSERT INTO photos (url, description) VALUES ($1, $2) RETURNING id',
-  [publicUrl, caption]
-  );
 
-  const photoId = photoResult.id;
-
-  //inserting photo id, caption, and user id to link the user and the photo together. 
-  // Use this table to fetch a post matching with a user. 
-  // THe below line is an inqury for a photo using a user id. It pulls the most recent id. 
-  // 'SELECT photos.url FROM posts JOIN photos ON posts.photo_id = photos.id WHERE posts.user_id = $1 ORDER BY posts.created_at DESC LIMIT 1'
-
+  if (profileIS){
     await db.none(
-      'INSERT INTO posts (user_id, photo_id, title, body) VALUES ($1,$2,$3,$4)',
-      [userID, photoId, title, caption]
+      `INSERT INTO profiles (user_id, profile_picture_url)
+       VALUES ($1, $2)
+       ON CONFLICT (user_id)
+       DO UPDATE SET profile_picture_url = EXCLUDED.profile_picture_url`,
+      [userID, publicUrl]
     );
+  }else{
+    const photoResult = await db.one(
+      'INSERT INTO photos (url, description) VALUES ($1, $2) RETURNING id',
+      [publicUrl, caption]
+      );
+
+      const photoId = photoResult.id;
+
+      //inserting photo id, caption, and user id to link the user and the photo together. 
+      // Use this table to fetch a post matching with a user. 
+      // THe below line is an inqury for a photo using a user id. It pulls the most recent id. 
+      // 'SELECT photos.url FROM posts JOIN photos ON posts.photo_id = photos.id WHERE posts.user_id = $1 ORDER BY posts.created_at DESC LIMIT 1'
+    
+        await db.none(
+          'INSERT INTO posts (user_id, photo_id, title, body) VALUES ($1,$2,$3,$4)',
+          [userID, photoId, title, caption]
+        );
+  }
+
+
+
     //working upload message
     res.status(200).json({
       message: 'Uploaded!'
