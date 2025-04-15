@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 const express = require('express');
 const router = express.Router();
+const { isAuthenticated } = require('../middleware/auth');
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
