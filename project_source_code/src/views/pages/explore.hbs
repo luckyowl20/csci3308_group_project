@@ -10,11 +10,37 @@
       Different<br />Activities
     </a>
 
-    <a href="/explore/restaurants" 
-       class="d-flex align-items-center justify-content-center text-white fw-semibold text-center rounded" 
-       style="width: 200px; height: 200px; background-color: #f29e75; text-decoration: none;">
+    <a href="#" 
+      id="restaurants-btn"
+      class="d-flex align-items-center justify-content-center text-white fw-semibold text-center rounded" 
+      style="width: 200px; height: 200px; background-color: #f29e75; text-decoration: none;">
       Restaurants
     </a>
+
+    <script>
+      document.getElementById('restaurants-btn').addEventListener('click', function (e) {
+        e.preventDefault(); // prevent default link behavior
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const lat = position.coords.latitude;
+              const lon = position.coords.longitude;
+              // Redirect to location-based restaurant page
+              window.location.href = `/explore/restaurants/loc?lat=${lat}&lon=${lon}`;
+            },
+            (err) => {
+              alert('Location access denied. Showing default results.');
+              // Optional fallback
+              window.location.href = '/explore';
+            }
+          );
+        } else {
+          alert('Geolocation not supported.');
+          window.location.href = '/explore';
+        }
+      });
+    </script>
 
     <a href="/explore/music" 
        class="d-flex align-items-center justify-content-center text-white fw-semibold text-center rounded" 
