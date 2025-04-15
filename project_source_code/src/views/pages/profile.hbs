@@ -4,7 +4,7 @@
 <script src="/resources/js/profile/profileScript.js"></script>
 {{/section}}
 
-<div class="container-fluid py-4" style="background-color: #fffaf0;">
+<div class="container-fluid py-4">
   <div class="row">
     <!-- Left Column -->
     <div class="col-lg-4 text-center mb-4">
@@ -16,53 +16,53 @@
         {{/if}}
       </div>
 
-      <h2 class="fw-bold text-success">{{profile.display_name}}</h2>
+      <h2 class="fw-bold text-success" style="font-family: 'Lalezar">{{profile.display_name}}</h2>
 
       {{#if isOwnProfile}}
-        <button class="btn btn-outline-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+        <button class="btn btn-outline-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#editProfileModal" style="font-family: 'Montserrat">
           Edit Profile
         </button>
       {{/if}}
 
       <!-- Friends List -->
-      <h5 class="mt-4 fw-semibold text-success">Friends</h5>
+      <h5 class="mt-4 fw-semibold text-success" style="font-family: 'Lalezar">Friends</h5>
       {{#if friends.length}}
         <ul class="list-unstyled">
           {{#each friends}}
             <li>
-              <a href="/users/{{this.id}}" class="text-decoration-none text-success">{{this.username}}</a>
+              <a href="/users/{{this.id}}" class="text-decoration-none text-success" style="font-family: 'Montserrat">{{this.username}}</a>
             </li>
           {{/each}}
         </ul>
       {{else}}
-        <p class="text-muted"><em>No friends yet.</em></p>
+        <p class="text-muted" style="font-family: 'Montserrat"><em>No friends yet.</em></p>
       {{/if}}
     </div>
 
     <!-- Right Column -->
     <div class="col-lg-8">
-      <h4 class="fw-semibold text-success">Biography</h4>
-      <p>{{profile.biography}}</p>
+      <h4 class="fw-semibold text-success" style="font-family: 'Lalezar">Biography</h4>
+      <p style="font-family: 'Montserrat">{{profile.biography}}</p>
 
-      <h4 class="fw-semibold text-success">Interests</h4>
-      <p>{{profile.interests}}</p>
+      <h4 class="fw-semibold text-success" style="font-family: 'Lalezar">Interests</h4>
+      <p style="font-family: 'Montserrat">{{profile.interests}}</p>
 
-      <h4 class="fw-semibold text-success">Birthday</h4>
-      <p>{{formatDate profile.birthday}}</p>
+      <h4 class="fw-semibold text-success" style="font-family: 'Lalezar">Birthday</h4>
+      <p style="font-family: 'Montserrat">{{formatDate profile.birthday}}</p>
 
-      <h4 class="fw-semibold text-success">Favorite Song</h4>
+      <h4 class="fw-semibold text-success" style="font-family: 'Lalezar">Favorite Song</h4>
       {{#if profile.spotify_song_id}}
         <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}"
           width="100%" height="80" frameBorder="0"
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
         </iframe>
       {{else}}
-        <p><em>No favorite song selected yet.</em></p>
+        <p style="font-family: 'Lalezar"><em>No favorite song selected yet.</em></p>
       {{/if}}
 
       <!-- Picture Viewer Section -->
       <div class="text-center mt-5">
-        <h4 class="fw-bold text-success mb-4">Picture Viewer</h4>
+        <h4 class="fw-bold text-success mb-4" style="font-family: 'Lalezar">Picture Viewer</h4>
 
         <div class="d-flex align-items-center justify-content-center gap-3">
           <!-- Left Arrow -->
@@ -73,31 +73,31 @@
           <!-- Image Strip -->
           <div class="d-flex gap-4" id="viewerPanel" style="overflow: hidden; max-width: 600px;">
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Monday</p>
+            <p class="fw-semibold mb-1" style="font-family: 'Montserrat">Monday</p>
             <img src="/resources/img/placeholders/monday.jpg" alt="Monday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Tuesday</p>
+            <p class="fw-semibold mb-1" style="font-family: 'Montserrat">Tuesday</p>
             <img src="/resources/img/placeholders/tuesday.jpg" alt="Tuesday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Wednesday</p>
+            <p class="fw-semibold mb-1" style="font-family: 'Montserrat">Wednesday</p>
             <img src="/resources/img/placeholders/wednesday.jpg" alt="Wednesday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Thursday</p>
+            <p class="fw-semibold mb-1" style="font-family: 'Montserrat">Thursday</p>
             <img src="/resources/img/placeholders/thursday.jpg" alt="Thursday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Friday</p>
+            <p class="fw-semibold mb-1" style="font-family: 'Montserrat">Friday</p>
             <img src="/resources/img/placeholders/friday.jpg" alt="Friday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Saturday</p>
+            <p class="fw-semibold mb-1" style="font-family: 'Montserrat">Saturday</p>
             <img src="/resources/img/placeholders/saturday.jpg" alt="Saturday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Sunday</p>
+            <p class="fw-semibold mb-1" style="font-family: 'Montserrat">Sunday</p>
             <img src="/resources/img/placeholders/sunday.jpg" alt="Sunday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
             </div>
           </div>

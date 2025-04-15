@@ -1,3 +1,5 @@
+
+
 <!-- views/chat.hbs -->
 {{#section "scripts"}}
   <script src="/socket.io/socket.io.js"></script>
@@ -8,8 +10,8 @@
   <div class="row">
     <!-- Friends List Sidebar -->
     <div class="col-md-3 border-end">
-      <h5 class="mb-3">Friends</h5>
-      <ul class="list-unstyled">
+      <p class="mb-1 h-1 green-text" style="font-size: 2rem;">Friends</p>
+      {{!-- <ul class="list-unstyled">
         {{#each friends}}
           <li class="mb-3">
             <!-- 
@@ -21,7 +23,19 @@
             </a>
           </li>
         {{/each}}
-      </ul>
+      </ul> --}}
+      <ul class="list-unstyled">
+  {{#each friends}}
+    <li class="mb-3 d-flex align-items-center">
+      <img src="{{this.profilePicture}}" alt="{{this.username}}'s profile picture" 
+           class="rounded-circle me-2" width="40" height="40">
+      <a href="/chat/{{this.id}}" class="text-decoration-none" style="font-family: 'Montserrat'">
+        <span>{{this.username}}</span>
+      </a>
+    </li>
+  {{/each}}
+</ul>
+
     </div>
 
     <!-- Chat Panel -->
@@ -30,17 +44,17 @@
       {{> chat_header user=chatPartner}}
       
       <div class="card">
-        <div class="card-body overflow-auto" style="height: 400px;" id="chat-box" data-current-user-id="{{currentUserId}}">
+        <div class="card-body overflow-auto" style="height: 400px;" id="chat-box" data-chat-partner-id="{{chatPartnerId}}" data-current-user-id="{{currentUserId}}">
           {{#if chatPartner}}
             {{#if messages.length}}
               {{#each messages}}
                 {{> message_bubble message=this }}
               {{/each}}
             {{else}}
-              <p class="text-muted">No messages yet.</p>
+              <p class="text-muted" style="font-family: 'Montserrat'">No messages yet.</p>
             {{/if}}
           {{else}}
-            <p class="text-muted">Select a friend from the list to start chatting.</p>
+            <p class="text-muted" style="font-family: 'Montserrat'">Select a friend from the list to start chatting.</p>
           {{/if}}
         </div>
         {{!-- Only render the chat input if a chat partner is selected --}}
