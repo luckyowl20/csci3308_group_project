@@ -9,5 +9,36 @@
 <body>
   <p>Getting your location...</p>
   <p>Your location: {{lat}} {{lon}} </p>
+  <main class="container py-4">
+    <h2 class="mb-4">Nearby Restaurants</h2>
+
+    {{#if restaurants.length}}
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {{#each restaurants}}
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              {{#if photo}}
+                <img src="{{photo}}" alt="{{name}}" class="card-img-top" style="height: 200px; object-fit: cover;" referrerpolicy="no-referrer">
+                
+              {{else}}
+                <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                  No image
+                </div>
+              {{/if}}
+
+              <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                <p class="card-text">{{address}}</p>
+                {{#if rating}}<p class="card-text">⭐ {{rating}}</p>{{/if}}
+                
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>No restaurants found near you.</p>
+    {{/if}}
+  </main>
 </body>
 </html>

@@ -14,39 +14,41 @@ router.get('/', isAuthenticated, async (req, res) => {
 
 // GET /restaurants/loc - Show nearby restaurants based on user location
 router.get('/restaurants/loc', isAuthenticated, async (req, res) => {
-  try {
-    const { lat, lon } = req.query;
+  const { lat, lon } = req.query;
+  if (!lat || !lon) return res.status(400).send("Missing coordinates.");
 
-    if (!lat || !lon) {
-      return res.status(400).send('Latitude and longitude are required.');
-    }
+  const restaurants = await getNearbyRestaurants(lat, lon);
 
-    console.log('User location:', lat, lon);
+  res.render('pages/restaurants', {
+    lat, lon, restaurants
+  });
 
-    // 🔍 TODO: Replace with real DB or API query to find nearby restaurants
-    const nearbyRestaurants = await getMockNearbyRestaurants(lat, lon);
-
-    // Render the page with the data
-    res.render('pages/restaurants', {
-      lat,
-      lon,
-      restaurants: nearbyRestaurants
-    });
-
-  } catch (err) {
-    console.error('Error loading nearby restaurants:', err);
-    res.status(500).send('Something went wrong loading nearby restaurants.');
-  }
+  console.log(restaurants);
 });
 
-// You can move this to a separate file if needed
-async function getMockNearbyRestaurants(lat, lon) {
-  // This is just fake data for testing
-  return [
-    { name: 'Pizza Palace', distance: '0.3 miles' },
-    { name: 'Sushi World', distance: '0.5 miles' },
-    { name: 'Burger Shack', distance: '0.6 miles' }
-  ];
-}
+const axios = require('axios');
+
+async function getNearbyRestaurants(lat, lon) {
+  const apiKey = process.env.MAP_API_KEY;
+  const radius = 2000; // meters
+
+  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${radius}&type=restaurant&key=${apiKey}`;
+
+  try {
+    const response = await axios.get(url);
+    return response.data.results.map(place => ({
+      name: place.name,
+      address: place.vicinity,
+      rating: place.rating,
+      photo: place.photos?.[0]?.photo_reference
+      ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${place.photos[0].photo_reference}&key=${apiKey}`
+      : null
+    }));
+  } catch (error) {
+    console.error('Google Places API error:', error.response?.data || error.message);
+    return [];
+  }
+} 
+
 
 module.exports = router;
