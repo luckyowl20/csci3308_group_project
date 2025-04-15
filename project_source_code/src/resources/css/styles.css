@@ -1,0 +1,102 @@
+/* General Reset */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fffaf0;
+    font-family: 'Segoe UI', sans-serif;
+    color: #2d6842;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background-color: #2d6842;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .navbar .nav-link {
+    color: white;
+    margin-left: 1rem;
+  }
+  .navbar-brand {
+    font-weight: bold;
+    color: white;
+  }
+  
+  /* Section Headers */
+  h1, h2, h3, h5 {
+    color: #2d6842;
+  }
+  
+  /* Carousel */
+  .carousel-inner img {
+    object-fit: cover;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    background-color: #efb2e8;
+    color: white;
+    border: none;
+  }
+  .btn-secondary {
+    background-color: #f29e75;
+    color: white;
+    border: none;
+  }
+  .btn-secondary:hover,
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
+  .btn-outline-success {
+    color: #2d6842;
+    border-color: #2d6842;
+  }
+  .btn-outline-success:hover {
+    background-color: #2d6842;
+    color: white;
+  }
+  
+  /* Learn More Images */
+  .hero-img,
+  .feature-img {
+    max-height: 400px;
+    object-fit: cover;
+  }
+  
+  /* Login & Register Panels */
+  .login-container {
+    min-height: 100vh;
+  }
+  .left-panel {
+    background-color: #efb2e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .left-panel h1 {
+    color: white;
+    font-weight: 700;
+    font-size: 3rem;
+    text-align: center;
+  }
+  .login-form,
+  .register-form {
+    background-color: white;
+    padding: 3rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 5px;
+  }
+  .login-form .form-control,
+  .register-form .form-control,
+  .login-form .btn,
+  .register-form .btn {
+    background-color: #f29e75;
+    border: none;
+    color: white;
+  }
+  .form-control::placeholder {
+    color: #ffffffcc;
+  }
+  .btn:hover {
+    background-color: #e18855;
+  }
