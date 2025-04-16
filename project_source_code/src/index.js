@@ -38,10 +38,10 @@ app.locals.db = db;
 // View Engine Setup (Handlebars)
 // -------------------------------------
 const hbs = handlebars.create({
-  extname: 'hbs',
-  layoutsDir: path.join(__dirname, 'views/layouts'),
-  partialsDir: [path.join(__dirname, 'views/partials')],
-  helpers: customHelpers
+    extname: 'hbs',
+    layoutsDir: path.join(__dirname, 'views/layouts'),
+    partialsDir: [path.join(__dirname, 'views/partials')],
+    helpers: customHelpers
 });
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
@@ -107,6 +107,7 @@ const exploreRoutes = require('./routes/explore');
 const learnmoreRoutes = require('./routes/learnMore');
 const homeRoutes = require('./routes/home');
 const take_picture = require('./routes/take_picture');
+const swipeRoutes = require('./routes/swipe');
 
 const blogRoutes = require('./routes/blogs');
 
@@ -118,7 +119,7 @@ app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
 app.use('/users', userRoutes);
 app.use('/settings', settingsRoutes);
-
+app.use('/swipe', swipeRoutes);
 app.use('/explore', exploreRoutes);
 app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);
@@ -137,16 +138,15 @@ app.locals.io = io;
 
 // Set up the connection handler
 io.on('connection', (socket) => {
-  // console.log('A user connected');
+    //console.log('a user joined');
+    socket.on('join', (userId) => {
+        socket.join(`user_${userId}`);
+        console.log(`User ${userId} joined their room.`);
+    });
 
-  socket.on('join', (userId) => {
-    socket.join(`user_${userId}`);
-    console.log(`User ${userId} joined their room.`);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
 });
 
 // -------------------------------------
@@ -158,7 +158,13 @@ const PORT = process.env.PORT || 3000;
 // was:
 // app.listen(...) => ...
 http_server.listen(PORT, () => {
-  console.log(`Server is listening on http://localhost:${PORT}`);
+    console.log(`Server is listening on http://localhost:${PORT}`);
 });
 
-module.exports = app; 
+module.exports = app;
+
+// Add logging middleware
+// app.use((req, res, next) => {
+//     console.log(`${req.method} ${req.url}`);
+//     next();
+// });
