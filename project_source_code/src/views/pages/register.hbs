@@ -1,189 +1,62 @@
-{{!-- <div class="container mt-5">
-  {{> message}}
-  <h1>Register</h1>
-
-  <form action="/register" method="POST">
-  <div class="mb-3">
-    <label for="username">Username</label>
-    <input class="form-control" type="text" id="username" name="username" required>
-    
-    <label for="password">Password</label>
-    <input class="form-control" type="password" id="password" name="password" required>
-  </div>
-  <div class="mb-3">
-    <button class="btn btn-primary" type="submit">Register</button>
-  </div>
-  <div class="mb-3">
-    <p>Already have an account? <a href="/login">Login</a> </p>
-  </div>
-  </div>
-</form> --}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Register | LuckyMoment</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>
-    body {
-      background-color: #fffaf0;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    .navbar .nav-link {
-      color: white;
-      margin-left: 1rem;
-    }
-  </style>
-</head>
-<body>
-
-{{!-- <!-- Page Content -->
-<div class="container-fluid py-5 px-4">
-  <div class="row justify-content-center align-items-center">
-    <!-- Left side welcome -->
-    <div class="col-lg-5 mb-4 d-flex align-items-center justify-content-center" style="background-color: #efb2e8; height: 400px;">
-      <h1 class="text-white fw-bold display-4 text-center">Hello,<br />Welcome!</h1>
-    </div>
-
-    <!-- Right side form -->
-    <div class="col-lg-5">
-      <div class="bg-white p-4 rounded shadow">
-        <h3 class="fw-bold text-success">Register</h3>
-        <p class="text-success mb-4">Sign up for a free account on Lucky Moment!</p>
-
-        {{> message }}
-
-        <form action="/auth/register" method="POST">
-          <div class="mb-3">
-            <label for="username" class="form-label text-success">Username</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              id="username" 
-              name="username" 
-              placeholder="Enter your username" 
-              autocomplete="username" 
-              required 
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="password" class="form-label text-success">Password</label>
-            <input 
-              type="password" 
-              class="form-control" 
-              id="password" 
-              name="password" 
-              placeholder="Enter your password" 
-              autocomplete="current-password" 
-              required 
-            />
-          </div>
-
-          <button type="submit" class="btn w-100 fw-bold" style="background-color: #f29e75; color: white;">Register</button>
-        </form>
-
-        <p class="mt-3 mb-0 text-center text-success">
-          Already have an account? <a href="/auth/login" class="text-decoration-none fw-semibold text-success">Login</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html> --}}
-
-
 <div class="container">
-    <div class="body d-md-flex align-items-center justify-content-between">
-         <div class="box-1 d-flex flex-column h-100" style="background-color: #FFB2E5; display: flex; justify-content: center; align-items: center; color: white;">
-            <p class="mb-1 h-1 cursor typewriter-animation" style="font-family: 'Lalezar'; font-size: 3rem;">
-                <span>Hello,</span><br>
-                <span>Welcome!</span>
-            </p>
-            {{!-- <img src="https://images.pexels.com/photos/2033997/pexels-photo-2033997.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                class="" alt=""> --}}
-        </div>
-        <div class="box-2 d-flex flex-column h-100" style="background-color: white;">
-          {{> message }}
-          <form action="/auth/register" method="POST">
-            <div class="mt-4">
-                <p class="mb-1 h-1 green-text" style="font-size: 2rem;">Create Account</p>
-                <p class="mb-2 green-text" style="font-family: 'Montserrat'">Sign up for a free account on Lucky Moment!</p>
-                <p></p>
-                <div class="d-flex flex-column">
-                    <div class="mb-3">
-                        <label for="username" class="form-label green-text" style="font-family: 'Montserrat'">Username</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            style="font-family: 'Montserrat'"
-                            id="username" 
-                            name="username" 
-                            placeholder="Enter your username" 
-                            autocomplete="username" 
-                            {{!-- style="color: green;" --}}
-                            required 
-                        />
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="password" class="form-label green-text" style="font-family: 'Montserrat'">Password</label>
-                        <input 
-                            type="password" 
-                            class="form-control" 
-                            style="font-family: 'Montserrat'"
-                            id="password" 
-                            name="password" 
-                            placeholder="Enter your password" 
-                            autocomplete="current-password" 
-                            required 
-                        />
-                    </div>
+  <div class="body d-md-flex align-items-center justify-content-between">
 
-                    <button type="submit" class="btn btn-primary w-100" style="font-family: 'Montserrat'">Register</button>
-{{!-- <button type="submit" class="blob-btn">
-  Register
-  <span class="blob-btn__inner">
-    <span class="blob-btn__blobs">
-      <span class="blob-btn__blob"></span>
-      <span class="blob-btn__blob"></span>
-      <span class="blob-btn__blob"></span>
-      <span class="blob-btn__blob"></span>
-    </span>
-  </span>
-</button>
-
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-  <defs>
-    <filter id="goo">
-      <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
-      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
-      <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
-    </filter>
-  </defs>
-</svg> --}}
-
-
-
-                </div>
-                <div class="mt-3">
-                    <p class="mb-0 green-text" style="font-family: 'Montserrat'">Already have an account? <a href="/auth/login" style="font-family: 'Montserrat'">Login</a> </p>
-                </div>
-              </div>
-            </form>
-            {{!-- <div class="mt-auto">
-                <p class="footer text-muted mb-0 mt-md-0 mt-4">By registering you agree with our
-                    <span class="p-color me-1">terms and conditions</span> and
-                    <span class="p-color ms-1">privacy policy</span>
-                </p>
-            </div> --}}
-        </div>
-        {{!-- <span class="fas fa-times"></span> --}}
+    <!-- Left box: now just rely on .box-1 styling in your CSS -->
+    <div class="box-1 d-flex flex-column h-100">
+      <p class="mb-1 h-1 cursor typewriter-animation">
+        <span>Hello,</span><br>
+        <span>Welcome!</span>
+      </p>
     </div>
+
+    <!-- Right box: rely on .box-2 + existing classes for background, text, etc. -->
+    <div class="box-2 d-flex flex-column h-100">
+      {{> message }}
+      <form action="/auth/register" method="POST">
+        <div class="mt-4">
+
+          <!-- Example: Use .h-1 + .green-text and your CSS for the size. 
+                     If you want it bigger than .h-1’s 24px, define .big-heading or another utility class. -->
+          <p class="mb-1 primary-text fw-bold" style="font-size: 2rem;">
+            <!-- or create a .big-h1 class with 2rem in your CSS if you prefer -->
+            Create Account
+          </p>
+
+          <p class="mb-2 primary-text font-alt">
+            <!-- .green-text plus you can rely on .font-alt if you want Montserrat -->
+            Sign up for a free account on Lucky Moment!
+          </p>
+
+          <div class="d-flex flex-column">
+            <div class="mb-3">
+              <label for="username" class="form-label primary-text">
+                Username
+              </label>
+              <input type="text" class="form-control font-alt" id="username" name="username"
+                placeholder="Enter your username" autocomplete="username" required />
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label primary-text">
+                Password
+              </label>
+              <input type="password" class="form-control font-alt" id="password" name="password"
+                placeholder="Enter your password" autocomplete="current-password" required />
+            </div>
+
+            <button type="submit" class="btn btn-secondary w-100">
+              Register
+            </button>
+          </div>
+
+          <div class="mt-3">
+            <p class="mb-0 primary-text font-alt">
+              Already have an account? <a href="/auth/login">Login</a>
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
 </div>
