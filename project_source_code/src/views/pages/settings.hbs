@@ -1,0 +1,248 @@
+{{#section "scripts"}}
+  <script src="/resources/js/settings/settings_script.js"></script>
+{{/section}}
+<style>
+.dropbtn {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.dropdown-content {
+  display: none;
+  position: relative;
+  background-color: #f1f1f1;
+  width: 70dvw;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.show {
+    display: block;
+}
+
+.dropdown-button {
+    display: flex;
+    height: 50px;
+    width: 70dvw;
+    background-color: #2d6842;
+    text-align: center;
+}
+
+.dropdown-button:hover {
+    color: white;
+    background-color: #3a8453;
+}
+
+.submit-button {
+  background-color: #cacaca;
+  border-color: #e9e9e9;
+  border-width: 3px;
+}
+.color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: inline-block;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + label {
+  border-color: #ffffff;
+  box-shadow: 0 0 5px #aeaeae;
+}
+.temp{
+  
+}
+</style>
+<div>
+    <h1 style="margin-bottom: 60px;">Settings</h1>
+    {{!-- Account --}}
+    <div class="dropdown">
+        <button id = "account" class="btn dropbtn dropdown-button">Account</button>
+        <div id="accountDropdown" class="dropdown-content">
+          <a>
+            <form action="/settings/account" method="post">
+              {{!-- forms --}}
+              <div class = "mb-3">
+                  <label class="form-label">Username : {{user.username}}</label>
+                  <input type="text" name = "newUsername" class="form-control"  placeholder="Enter New Username">
+              </div>
+              {{!-- <div class = "mb-3" style="margin-top: 10px;">
+                  <label class="form-label">Account Email : '{{user.email}}'</label>
+                  <input type="text" name = "newEmail" class="form-control"  placeholder="Enter New Email">
+              </div> --}}
+              <div class = "mb-3" style="margin-top: 10px;">
+                  <label class="form-label">Change Password</label>
+                  <input type="password" name = "newPassword" class="form-control"  placeholder="Enter New Password">
+              </div>
+              <div class = "mb-3" style="margin-top: 10px;">
+                  <label class="form-label">Confirm New Password</label>
+                  <input type="password" name = "passwordCheck" class="form-control"  placeholder="Confirm New Password">
+              </div>
+              {{!-- password conformation --}}
+              <div class = "mb-3" style="margin-top: 10px;">
+                  <label class="form-label"><strong>Enter password to confirm changes.</strong></label>
+                  <input type="password" name = "password" class="form-control" placeholder="Enter Password" required>
+              </div>
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
+            </form>
+          </a>
+        </div>
+    </div>
+    {{!-- Privacy --}}
+    <div style="margin-top: 10px;">
+    <div class="dropdown">
+        <button id = "privacy" class="btn dropbtn dropdown-button">Privacy</button>
+        <div id="privacyDropdown" class="dropdown-content">
+          <a>
+            <form action="/settings/privacy" method="post">
+              {{!-- forms --}}
+              <div style="display: flex; flex-direction: row; align-items: center;">
+                <label class="form-label">Public Friends</label>
+                <input id = "public_friends_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "public_friends" value = 1 type="checkbox" class="onoffswitch-checkbox"> 
+              </div>
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
+            </form>
+          </a>
+        </div>
+    </div>
+    </div>
+    {{!-- Notifications --}}
+    <div style="margin-top: 10px;">
+    <div class="dropdown">
+        <button id = "notif" class="btn dropbtn dropdown-button">Notifications</button>
+        <div id="notifDropdown" class="dropdown-content">
+          <a>
+            <form action="/settings/notifications" method="post">
+              {{!-- forms --}}
+              <div style="display: flex; flex-direction: row; align-items: center;">
+                <label class="form-label">Message Notifications</label>
+                <input id = "message_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "messageNotifs" value = 1 type="checkbox" class="onoffswitch-checkbox"> 
+              </div>
+              <div style="display: flex; flex-direction: row; align-items: center;">
+                <label class="form-label">Match Notifications</label>
+                <input id = "match_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "matchNotifs" value = 1 type="checkbox" class="onoffswitch-checkbox"> 
+              </div>
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
+            </form>
+          </a>
+        </div>
+    </div>
+    </div>
+    {{!-- Security --}}
+    <div style="margin-top: 10px;">
+    <div class="dropdown">
+        <button id = "security" class="btn dropbtn dropdown-button">Security</button>
+        <div id="securityDropdown" class="dropdown-content">
+          <a>
+            <form action="/settings/security" method="post">
+              {{!-- forms --}}
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
+            </form>
+          </a>
+        </div>
+    </div>
+    </div>
+    {{!-- Chat and Messages --}}
+    <div style="margin-top: 10px;">
+    <div class="dropdown">
+        <button id = "chat" class="btn dropbtn dropdown-button">Chat and Messaging</button>
+        <div id="chatDropdown" class="dropdown-content">
+          <a>
+            <form action="/settings/chat" method="post">
+              {{!-- forms --}}
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
+            </form>
+          </a>
+        </div>
+      </div>
+      </div>
+    {{!-- Apperance and Display --}}
+    <div style="margin-top: 10px;">
+    <div class="dropdown">
+        <button id = "apperance" class="btn dropbtn dropdown-button">Apperance and Display</button>
+        <div id="apperanceDropdown" class="dropdown-content">
+          <a>
+            <form id = 'apperanceForm' action="/settings/apperance" method="post">
+
+              {{!-- forms --}}
+              <label class="form-label">Page Apperance</label>
+              <select type = "text" name = "mode" class="form-select" id = "mode_select">
+                <option value="light">Light Mode</option>
+                <option value="dark">Dark Mode</option>
+              </select>
+              <button type="submit" class="btn" style="margin-top: 10px; background-color: #2d6842; color: white;">Save Changes</button>
+            </form>
+          </a>
+        </div>
+    </div>
+    </div>
+    {{!-- script --}}
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        drop_buttons = document.getElementsByClassName('dropbtn')
+        for (var i = 0 ; i < drop_buttons.length; i++) {
+            var id = drop_buttons[i].id;
+            drop_buttons[i].addEventListener('click' , myFunction.bind(this, id), false ); 
+        }
+
+        apperance_form = document.getElementById('apperanceForm');
+
+        apperance_form.addEventListener('change', function(){
+            mode_select = document.getElementById('mode_select');
+            mode = mode_select.value;
+            id;
+            switch(mode) {
+              case 'light':
+              id = 0;
+              break;
+              case 'dark':
+              id = 1;
+              break;
+              default:
+              console.log('error');
+            }
+            
+        }, false)
+
+        function myFunction(id){
+            document.getElementById(id+'Dropdown').classList.toggle("show");
+            /*Javascript for displaying current settings*/
+            if(id == 'privacy') {
+              checkbox = document.getElementById('public_friends_checkbox')
+              checkbox.checked = JSON.parse('{{{settings.public_friends}}}');
+            }
+            else if (id == 'notif') {
+              checkbox = document.getElementById('message_notif_checkbox')
+              checkbox.checked = JSON.parse('{{{settings.message_notifs}}}');
+              checkbox = document.getElementById('match_notif_checkbox')
+              checkbox.checked = JSON.parse('{{{settings.match_notifs}}}');
+            }
+            else if(id == 'apperance') {
+          
+              mode_select = document.getElementById('mode_select');
+              mode_select.value = ('{{settings.apperance_mode}}');
+            }
+        } 
+      });
+    </script>
+</div>

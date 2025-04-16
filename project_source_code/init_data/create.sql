@@ -107,11 +107,20 @@ CREATE TABLE IF NOT EXISTS user_settings (
     id SERIAL PRIMARY KEY, -- setting identifier number (integer)
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user the settings belong to
     user_id INTEGER UNIQUE NOT NULL,
-    notification_preferences TEXT,
-    privacy_settings TEXT,
+
+    -- notification_preferences TEXT,
+    message_notifs BOOLEAN DEFAULT TRUE,
+    match_notifs BOOLEAN DEFAULT TRUE,
+
+    -- privacy_settings TEXT,
+    public_friends BOOLEAN DEFAULT TRUE,
+
     account_status TEXT,
     location_settings TEXT,
-    appearance_preferences TEXT,
+    
+    -- appearance_preferences TEXT,
+    apperance_mode TEXT DEFAULT 'light',
+
     language_preferences TEXT,
     chat_settings TEXT,
     created_at TIMESTAMP DEFAULT NOW()

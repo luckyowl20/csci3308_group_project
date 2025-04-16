@@ -5,30 +5,36 @@ document.addEventListener('DOMContentLoaded', () => {
   // Retrieve the chat box element and current user ID from its data attribute
   const chatBox = document.getElementById('chat-box');
 
-  const currentUserId = parseInt(chatBox.getAttribute('data-current-user-id'), 10);
+  const currentUserId = parseInt(chatBox.getAttribute('data-current-user-id'), 10); // get current user id
+  const chatPartnerId = parseInt(chatBox.getAttribute('data-chat-partner-id'), 10); // get chat partner id
+
   console.log("dom content loaded, attempting to connect to socket...")
-  
+
   console.log('currentUserId from data attribute:', currentUserId);
   // Connect to the Socket.IO server
   const socket = io();
-  console.log("socket connection established");
+  console.log("socket connection established, attempting to join room...", currentUserId);
 
   // Have the client join its user-specific room on the server
   socket.emit('join', currentUserId);
+  console.log("socket connection established, joined room:", currentUserId);
 
   // Listen for incoming messages and update the chat box accordingly by adding a new message bubble
   // adds a new message bubble when a message is received from the server when sent by another user
   socket.on('new message', (message) => {
     console.log('Received new message:', message);
     const isOutgoing = Number(message.sender_id) === currentUserId;
-    const messageEl = document.createElement('div');
-    messageEl.className = isOutgoing ? 'text-end mb-2' : 'text-start mb-2';
-    messageEl.innerHTML = isOutgoing
-      ? `<span class="badge bg-primary">${message.content}</span>`
-      : `<span class="badge bg-secondary">${message.content}</span>`;
-    chatBox.appendChild(messageEl);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }); 
+    const isFromCurrentPartner = Number(message.sender_id) === chatPartnerId;
+    if (isOutgoing || isFromCurrentPartner) {
+      const messageEl = document.createElement('div');
+      messageEl.className = isOutgoing ? 'text-end mb-2' : 'text-start mb-2';
+      messageEl.innerHTML = isOutgoing
+        ? `<span class="badge bg-primary">${message.content}</span>`
+        : `<span class="badge bg-secondary">${message.content}</span>`;
+      chatBox.appendChild(messageEl);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  });
 
   // Get the chat form element
   const form = document.getElementById('chat-form');
@@ -78,5 +84,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-  
-  
+

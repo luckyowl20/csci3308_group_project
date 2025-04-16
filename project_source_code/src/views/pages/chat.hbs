@@ -57,11 +57,13 @@
       {{> chat_header user=chatPartner}}
 
       <div class="card">
+      
         <!-- 
           Chat messages container 
           Replaced inline style with class="chat-box"
         -->
         <div class="card-body chat-box" id="chat-box" data-current-user-id="{{currentUserId}}">
+
           {{#if chatPartner}}
             {{#if messages.length}}
               {{#each messages}}
