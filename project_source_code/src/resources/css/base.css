@@ -68,7 +68,9 @@ body {
 .font-alt { font-family: var(--font-alt); }
 
 /* ===== BUTTON STYLES ===== */
+
 .btn.btn-primary {
+
     background-color: var(--color-button-primary);
     border: 3px solid transparent;
     color: var(--color-white);
@@ -79,9 +81,9 @@ body {
     padding: 0.5rem 1.5rem;
 }
 
-/* .btn.btn-primary:hover {
+.btn.btn-primary:hover {
     opacity: var(--button-hover-opacity);
-} */
+}
 
 .btn.btn-secondary {
     background-color: var(--color-button-secondary);

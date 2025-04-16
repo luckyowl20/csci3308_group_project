@@ -19,7 +19,7 @@
     overflow: auto;
 }
 
-/* Shared message bubble styling */
+/* Style for all message bubbles */
 .message-bubble {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -27,23 +27,41 @@
     font-size: 0.95rem;
     max-width: 75%;
     word-wrap: break-word;
-}
-
-/* Outgoing message (user-sent) */
-.message-out {
-    background-color: var(--color-message-out-bubble);
-    /* soft pink */
-    color: var(--color-message-out-text);
-    /* white text */
-}
-
-/* Incoming message (from others) */
-.message-in {
-    background-color: var(--color-message-in-bubble);
-    /* light gray bubble */
-    color: var(--color-message-in-text);
-    /* dark gray text */
-}
+    transition: all 0.2s ease-in-out; /* ensures smooth update if anything changes */
+  }
+  
+  /* Outgoing message (sent by current user) */
+  .message-out {
+    background-color: var(--color-message-out-bubble, #f8c8dc); /* fallback soft pink */
+    color: var(--color-message-out-text, #fff); /* fallback white text */
+  }
+  
+  /* Incoming message (from others) */
+  .message-in {
+    background-color: var(--color-message-in-bubble, #e9ecef); /* fallback light gray */
+    color: var(--color-message-in-text, #343a40); /* fallback dark text */
+  }
+  
+  /* Font style for message content */
+  /* .message-bubble.font-alt {
+    font-family: 'Lalezar', cursive;
+  } */
+  
+  /* Optional: Animate message appearance */
+  .message-bubble {
+    animation: fadeInMessage 0.3s ease;
+  }
+  
+  @keyframes fadeInMessage {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }  
 
 
   /* Chat Box Scrollable Area */
