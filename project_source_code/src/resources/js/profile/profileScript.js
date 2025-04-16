@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultsDiv = document.getElementById('spotify-results');
   const hiddenInput = document.getElementById('spotify_song_id_input');
   const selectedDisplay = document.getElementById('spotify-selected-display');
-  const modal = document.getElementById('editProfileModal');
+  const profileModal = document.getElementById('editProfileModal');
 
   if (!searchInput) return;
 
   let searchTimeout;
 
-  // modal input liostener to see when user stops typing and search can be performed 
+  // profile modal input liostener to see when user stops typing and search can be performed 
   searchInput.addEventListener('input', async (e) => {
     clearTimeout(searchTimeout);
     const query = e.target.value;
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   });
 
-  // Reset on modal close
-  modal.addEventListener('hidden.bs.modal', () => {
+  // Reset on profile modal close
+  profileModal.addEventListener('hidden.bs.modal', () => {
     searchInput.value = '';
     resultsDiv.innerHTML = '';
     selectedDisplay.innerText = '';
@@ -171,4 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
     }
   });
+
+  // ===== Edit preferences logic =====
+
 });
