@@ -116,6 +116,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateHiddenInput();
 
+  // Enable removal of pre-selected interests (rendered server-side)
+  selectedBox.querySelectorAll('.selected-interest').forEach(btn => {
+    const id = btn.dataset.id;
+    btn.addEventListener('click', () => {
+      selectedIds.delete(String(id));
+      btn.remove();
+      updateHiddenInput();
+    });
+  });
+
   interestsSearchInput.addEventListener('input', async () => {
     console.log("Searching for interests...");
     const query = interestsSearchInput.value.trim();
@@ -158,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // event listener to stop search field from submitting form
   interestsSearchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-        e.preventDefault();
+      e.preventDefault();
     }
-});
+  });
 });
