@@ -125,3 +125,4 @@ CREATE TABLE IF NOT EXISTS user_settings (
     chat_settings TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
+
