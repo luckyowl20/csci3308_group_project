@@ -21,7 +21,7 @@ router.get('/', isAuthenticated, async (req, res) => {
             WHERE ui.user_id = $1
           `, [userId]);
 
-        console.log("found interests:", selectedInterests);
+        // console.log("found interests:", selectedInterests);
 
         const recentPhotos = await db.any(
             `SELECT photos.url, photos.description, posts.created_at
@@ -77,6 +77,59 @@ router.get('/search-interests', isAuthenticated, async (req, res) => {
     } catch (err) {
         console.error('Error searching interests:', err);
         res.status(500).json({ error: 'Search failed' });
+    }
+});
+
+// get a friends profile
+router.get('/:id', isAuthenticated, async (req, res) => {
+    const db = req.app.locals.db;
+    const viewerId = req.session.user.id;
+    const targetId = parseInt(req.params.id);
+
+    try {
+        const isFriend = await db.oneOrNone(`
+            SELECT 1 FROM friends
+            WHERE user_id = $1 AND friend_id = $2
+        `, [viewerId, targetId]);
+
+        if (!isFriend) {
+            return res.status(403).send("You can only view your own friends' profiles.");
+        }
+
+        const profile = await db.oneOrNone(`
+            SELECT * FROM profiles WHERE user_id = $1
+        `, [targetId]);
+
+        const selectedInterests = await db.any(`
+            SELECT i.id, i.name FROM interests i
+            JOIN user_interests ui ON i.id = ui.interest_id
+            WHERE ui.user_id = $1
+        `, [targetId]);
+
+        const recentPhotos = await db.any(`
+            SELECT photos.url, photos.description, posts.created_at
+            FROM posts
+            JOIN photos ON posts.photo_id = photos.id
+            WHERE posts.user_id = $1
+              AND posts.created_at >= NOW() - INTERVAL '7 days'
+            ORDER BY posts.created_at DESC
+        `, [targetId]);
+
+        const friends = []; // intentionally left blank
+
+        res.render('pages/profile', {
+            layout: 'main',
+            profile,
+            selectedInterestsDetails: selectedInterests,
+            recentPhotos,
+            friends,
+            user: req.session.user,
+            isOwnProfile: false
+        });
+
+    } catch (err) {
+        console.error('Error loading friend profile:', err);
+        res.status(500).send('Something went wrong loading the profile.');
     }
 });
 

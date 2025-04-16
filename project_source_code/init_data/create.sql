@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS profiles (
     user_id INTEGER UNIQUE NOT NULL,
     display_name VARCHAR(100),
     biography TEXT,
-    interests TEXT,
     birthday DATE,
     profile_picture_url TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
