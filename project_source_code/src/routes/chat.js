@@ -11,12 +11,12 @@ router.get('/:chatPartnerId?', isAuthenticated, async (req, res) => {
   const userId = user.id;
   const username = req.session.user.username;
 
-  // Get friend list for the logged-in user
   const friends = await db.any(
-    `SELECT u.id, username
-    FROM users u
-    JOIN friends f ON f.friend_id = u.id
-    WHERE f.user_id = $1`,
+    `SELECT u.id, u.username, p.profile_picture_url
+     FROM users u
+     JOIN friends f ON f.friend_id = u.id
+     LEFT JOIN (SELECT user_id, profile_picture_url FROM profiles) p ON p.user_id = u.id
+     WHERE f.user_id = $1`,
     [userId]
   );
   // console.log("Found friends for", username, friends);
