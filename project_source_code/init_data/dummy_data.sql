@@ -137,3 +137,59 @@ VALUES
   (8, 'Heidi H.', 'Photographer and dreamer. Life is about capturing the little things.', 'photography,nature,travel', '1991-07-21', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBcZ6mR4gHOG2ubziBcnwteYjnfeZ6bgof1Q&s', '7H0ya83CMmgFcOhw0UB6ow'),
   (9, 'Ivan I.', 'Painter and digital artist. My work explores surreal spaces.', 'art,drawing,digital art', '1994-10-09', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKAuP2Ko95WgTMiITDVcw5ABjdF4XoV_LmEQ&s', '6l8GvAyoUZwWDgF1e4822w'),
   (10, 'Judy J.', 'Bookworm and tea lover. Cozy evenings with a good novel = heaven.', 'reading,tea,cozy vibes', '1996-12-02', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUsQXFk2k2Sd6nAyv1_DjNYFqX5UfQk-rstg&s', '6M14BiCN00nOsba4JaYsHW');
+
+
+-- possible user interests
+INSERT INTO interests (name) VALUES ('Art') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Animation') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Astrology') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Baking') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Board Games') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Books') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Cars') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Climbing') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Coffee') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Comedy') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Cooking') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Cycling') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Dancing') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Design') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('DIY') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Drawing') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Fashion') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Fitness') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Food') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Gaming') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Gardening') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Hiking') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('History') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Investing') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Languages') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Movies') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Music') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Outdoors') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Painting') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Pets') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Philosophy') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Photography') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Poetry') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Podcasts') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Politics') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Programming') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Reading') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Running') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Science') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Shopping') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Singing') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Skincare') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Spirituality') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Sports') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Streaming') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Technology') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Theater') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Travel') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Video Editing') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Volunteering') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Walking') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Writing') ON CONFLICT DO NOTHING;
+INSERT INTO interests (name) VALUES ('Yoga') ON CONFLICT DO NOTHING;

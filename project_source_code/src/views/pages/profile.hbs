@@ -8,34 +8,37 @@
   <div class="row">
     <!-- Left Column -->
     <div class="col-lg-4 text-center mb-4">
-      <div class="rounded-circle mx-auto mb-3" style="width: 150px; height: 150px; overflow: hidden; border: 3px solid #ccc;">
+      <div class="rounded-circle mx-auto mb-3"
+        style="width: 150px; height: 150px; overflow: hidden; border: 3px solid #ccc;">
         {{#if profile.profile_picture_url}}
-          <img src="{{profile.profile_picture_url}}" alt="Profile Picture" style="width: 100%; height: 100%; object-fit: cover;">
+        <img src="{{profile.profile_picture_url}}" alt="Profile Picture"
+          style="width: 100%; height: 100%; object-fit: cover;">
         {{else}}
-          <img src="https://via.placeholder.com/150?text=User" alt="Default" style="width: 100%; height: 100%; object-fit: cover;">
+        <img src="https://via.placeholder.com/150?text=User" alt="Default"
+          style="width: 100%; height: 100%; object-fit: cover;">
         {{/if}}
       </div>
 
       <h2 class="fw-bold text-success">{{profile.display_name}}</h2>
 
       {{#if isOwnProfile}}
-        <button class="btn btn-outline-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-          Edit Profile
-        </button>
+      <button class="btn btn-outline-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+        Edit Profile
+      </button>
       {{/if}}
 
       <!-- Friends List -->
       <h5 class="mt-4 fw-semibold text-success">Friends</h5>
       {{#if friends.length}}
-        <ul class="list-unstyled">
-          {{#each friends}}
-            <li>
-              <a href="/users/{{this.id}}" class="text-decoration-none text-success">{{this.username}}</a>
-            </li>
-          {{/each}}
-        </ul>
+      <ul class="list-unstyled">
+        {{#each friends}}
+        <li>
+          <a href="/users/{{this.id}}" class="text-decoration-none text-success">{{this.username}}</a>
+        </li>
+        {{/each}}
+      </ul>
       {{else}}
-        <p class="text-muted"><em>No friends yet.</em></p>
+      <p class="text-muted"><em>No friends yet.</em></p>
       {{/if}}
     </div>
 
@@ -45,19 +48,27 @@
       <p>{{profile.biography}}</p>
 
       <h4 class="fw-semibold text-success">Interests</h4>
-      <p>{{profile.interests}}</p>
+      {{#if selectedInterestsDetails.length}}
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        {{#each selectedInterestsDetails}}
+        <span class="badge bg-success text-white font-alt">{{this.name}}</span>
+        {{/each}}
+      </div>
+      {{else}}
+      <p class="text-muted"><em>No interests selected yet.</em></p>
+      {{/if}}
 
       <h4 class="fw-semibold text-success">Birthday</h4>
       <p>{{formatDate profile.birthday}}</p>
 
       <h4 class="fw-semibold text-success">Favorite Song</h4>
       {{#if profile.spotify_song_id}}
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}"
-          width="100%" height="80" frameBorder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
-        </iframe>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}"
+        width="100%" height="80" frameBorder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+      </iframe>
       {{else}}
-        <p><em>No favorite song selected yet.</em></p>
+      <p><em>No favorite song selected yet.</em></p>
       {{/if}}
 
       <!-- Picture Viewer Section -->
@@ -73,32 +84,39 @@
           <!-- Image Strip -->
           <div class="d-flex gap-4" id="viewerPanel" style="overflow: hidden; max-width: 600px;">
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Monday</p>
-            <img src="/resources/img/placeholders/monday.jpg" alt="Monday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
+              <p class="fw-semibold mb-1">Monday</p>
+              <img src="/resources/img/placeholders/monday.jpg" alt="Monday" class="img-fluid rounded shadow"
+                style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Tuesday</p>
-            <img src="/resources/img/placeholders/tuesday.jpg" alt="Tuesday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
+              <p class="fw-semibold mb-1">Tuesday</p>
+              <img src="/resources/img/placeholders/tuesday.jpg" alt="Tuesday" class="img-fluid rounded shadow"
+                style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Wednesday</p>
-            <img src="/resources/img/placeholders/wednesday.jpg" alt="Wednesday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
+              <p class="fw-semibold mb-1">Wednesday</p>
+              <img src="/resources/img/placeholders/wednesday.jpg" alt="Wednesday" class="img-fluid rounded shadow"
+                style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Thursday</p>
-            <img src="/resources/img/placeholders/thursday.jpg" alt="Thursday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
+              <p class="fw-semibold mb-1">Thursday</p>
+              <img src="/resources/img/placeholders/thursday.jpg" alt="Thursday" class="img-fluid rounded shadow"
+                style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Friday</p>
-            <img src="/resources/img/placeholders/friday.jpg" alt="Friday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
+              <p class="fw-semibold mb-1">Friday</p>
+              <img src="/resources/img/placeholders/friday.jpg" alt="Friday" class="img-fluid rounded shadow"
+                style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Saturday</p>
-            <img src="/resources/img/placeholders/saturday.jpg" alt="Saturday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
+              <p class="fw-semibold mb-1">Saturday</p>
+              <img src="/resources/img/placeholders/saturday.jpg" alt="Saturday" class="img-fluid rounded shadow"
+                style="width: 120px; height: 180px; object-fit: cover;">
             </div>
             <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Sunday</p>
-            <img src="/resources/img/placeholders/sunday.jpg" alt="Sunday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
+              <p class="fw-semibold mb-1">Sunday</p>
+              <img src="/resources/img/placeholders/sunday.jpg" alt="Sunday" class="img-fluid rounded shadow"
+                style="width: 120px; height: 180px; object-fit: cover;">
             </div>
           </div>
 

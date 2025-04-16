@@ -44,6 +44,21 @@ CREATE TABLE IF NOT EXISTS profiles (
     spotify_song_id TEXT
 );
 
+-- table of all available interests users can select from
+CREATE TABLE IF NOT EXISTS interests (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- table of user interests, to track which users have selected which interests
+CREATE TABLE IF NOT EXISTS user_interests (
+  user_id INTEGER NOT NULL,
+  interest_id INTEGER NOT NULL,
+  PRIMARY KEY (user_id, interest_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user has the interest
+  FOREIGN KEY (interest_id) REFERENCES interests(id) ON DELETE CASCADE -- to track which interest is selected
+);  
+
 -- table of pending user swipes, awating matches or friend requests
 CREATE TABLE IF NOT EXISTS swipes (
     swiper_id INTEGER NOT NULL, -- the user doing the swiping (id number)

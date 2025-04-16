@@ -96,4 +96,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateView();
   }
+
+  // === Interests editor logic ===
+  const interestsSearchInput = document.getElementById('interests-search');
+  const resultsBox = document.getElementById('interest-results');
+  const selectedBox = document.getElementById('selected-interests');
+  const interestsHiddenInput = document.getElementById('interests-input');
+
+  const selectedIds = new Set(
+    Array.from(selectedBox.querySelectorAll('[data-id]')).map(btn => btn.dataset.id)
+  );
+
+  const updateHiddenInput = () => {
+    const validIds = Array.from(selectedIds)
+      .map(id => parseInt(id))
+      .filter(id => !isNaN(id));
+    interestsHiddenInput.value = validIds.join(',');
+  };
+
+  updateHiddenInput();
+
+  interestsSearchInput.addEventListener('input', async () => {
+    console.log("Searching for interests...");
+    const query = interestsSearchInput.value.trim();
+    if (query.length === 0) return resultsBox.innerHTML = '';
+
+    const res = await fetch(`/profile/search-interests?q=${encodeURIComponent(query)}`);
+    const interests = await res.json();
+
+    resultsBox.innerHTML = '';
+    interests.forEach(interest => {
+      if (!selectedIds.has(String(interest.id))) {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline-success btn-sm';
+        btn.textContent = interest.name;
+
+        // when an interest is clicked, add it to the selected list
+        btn.addEventListener('click', () => {
+          selectedIds.add(String(interest.id));
+          updateHiddenInput();
+
+          const selectedBtn = document.createElement('button');
+          selectedBtn.className = 'btn btn-sm btn-secondary selected-interest';
+          selectedBtn.dataset.id = interest.id;
+          selectedBtn.innerHTML = `${interest.name} &times;`;
+          selectedBtn.addEventListener('click', () => {
+            selectedIds.delete(String(interest.id));
+            selectedBtn.remove();
+            updateHiddenInput();
+          });
+
+          selectedBox.appendChild(selectedBtn);
+          btn.remove(); // remove from search results
+        });
+
+        resultsBox.appendChild(btn);
+      }
+    });
+  });
+
+  // event listener to stop search field from submitting form
+  interestsSearchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+    }
+});
 });

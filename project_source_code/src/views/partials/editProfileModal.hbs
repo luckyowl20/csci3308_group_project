@@ -9,15 +9,15 @@
       <div class="modal-body">
         <!-- Display Name -->
         <label for="display_name" class="form-label">Display Name</label>
-        <input name="display_name" class="form-control mb-2" placeholder="Display Name" value="{{profile.display_name}}">
+        <input name="display_name" class="form-control mb-2" placeholder="Display Name"
+          value="{{profile.display_name}}">
 
         <!-- Biography -->
         <label for="biography" class="form-label">Biography</label>
         <textarea name="biography" class="form-control mb-2" placeholder="Biography">{{profile.biography}}</textarea>
 
         <!-- Interests -->
-        <label for="interests" class="form-label">Interests</label>
-        <input name="interests" class="form-control mb-2" placeholder="Interests" value="{{profile.interests}}">
+        {{> interestsSelector profile=profile interestOptions=interestOptions }}
 
         <!-- Birthday -->
         <label for="birthday" class="form-label">Birthday</label>
@@ -25,7 +25,8 @@
 
         <!-- Profile Picture URL -->
         <label for="profile_picture_url" class="form-label">Profile Picture Url</label>
-        <input name="profile_picture_url" class="form-control mb-2" placeholder="Profile Picture URL" value="{{profile.profile_picture_url}}">
+        <input name="profile_picture_url" class="form-control mb-2" placeholder="Profile Picture URL"
+          value="{{profile.profile_picture_url}}">
 
         <!-- Spotify Track Search -->
         <p id="spotify-selected-display" class="text-muted mb-2"></p>
@@ -36,7 +37,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>      </div>
+        <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
+      </div>
     </form>
   </div>
 </div>
