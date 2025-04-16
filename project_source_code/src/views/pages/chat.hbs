@@ -1,5 +1,7 @@
 <!-- views/chat.hbs -->
 
+<link rel="stylesheet" href="/resources/css/chat.css">
+
 {{#section "scripts"}}
 <script src="/socket.io/socket.io.js"></script>
 <script src="/resources/js/chat/chatScript.js"></script>
@@ -11,7 +13,7 @@
     <!-- Friends List Sidebar -->
     <div class="col-md-3 border-end">
       <!-- "Friends" heading, 2rem font size with Lalezar and green text -->
-      <p class="mb-1 fs-2 font-alt fw-semibold primary-text">Friends</p>
+      <p class="mb-1 fs-2 fw-bold primary-text">Friends</p>
 
       {{!--
       Old commented-out list, keep the comment:
@@ -27,8 +29,16 @@
       <ul class="list-unstyled">
         {{#each friends}}
         <li class="mb-3 d-flex align-items-center">
-          <img src="{{this.profilePicture}}" alt="{{this.username}}'s profile picture" class="rounded-circle me-2"
-            width="40" height="40">
+          {{!-- <img src="{{this.profilePicture}}" alt="{{this.username}}'s profile picture" class="rounded-circle me-2"
+            width="40" height="40"> --}}
+          <div class="profile-pic me-3">
+  {{#if this.profile_picture_url}}
+    <img src="{{this.profile_picture_url}}" alt="{{this.username}}'s profile picture" class="rounded-circle me-2" width="40" height="40">
+  {{else}}
+    <img src="https://via.placeholder.com/40?text=U" alt="Default profile picture" class="rounded-circle me-2" width="40" height="40">
+  {{/if}}
+</div>
+
           <!-- 
               Click friend to load messages. 
               We pass friend.id in the URL to identify which conversation. 

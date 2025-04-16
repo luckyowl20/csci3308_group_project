@@ -1,0 +1,77 @@
+/* chat.css */
+
+/* Friends Sidebar */
+/* .font-alt {
+    font-family: 'Lalezar', cursive;
+  } */
+  
+  .primary-text {
+    color: var(--bs-success);
+  }
+  
+  /* Profile Picture */
+  img.rounded-circle {
+    object-fit: cover;
+  }
+  
+  .chat-box {
+    height: 400px;
+    overflow: auto;
+}
+
+/* Shared message bubble styling */
+.message-bubble {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.95rem;
+    max-width: 75%;
+    word-wrap: break-word;
+}
+
+/* Outgoing message (user-sent) */
+.message-out {
+    background-color: var(--color-message-out-bubble);
+    /* soft pink */
+    color: var(--color-message-out-text);
+    /* white text */
+}
+
+/* Incoming message (from others) */
+.message-in {
+    background-color: var(--color-message-in-bubble);
+    /* light gray bubble */
+    color: var(--color-message-in-text);
+    /* dark gray text */
+}
+
+
+  /* Chat Box Scrollable Area */
+  /* .chat-box {
+    height: 400px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  } */
+  
+  /* Message Styling – optional: define message bubble styles */
+  /* .message-bubble {
+    margin-bottom: 0.75rem;
+  } */
+  
+  /* Friend Link Hover Effect */
+  a.text-decoration-none:hover {
+    text-decoration: underline;
+    color: var(--bs-success-dark, #146c43); /* fallback if custom variable is missing */
+  }
+  
+  /* Chat Panel Header and Footer Styling (if needed) */
+  .card-footer {
+    background-color: #f1f3f5;
+  }
+
+  input[name="message_text"] {
+    color: black !important; /* Force black text color */
+  }
+  
