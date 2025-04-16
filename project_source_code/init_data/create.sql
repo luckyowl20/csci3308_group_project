@@ -120,20 +120,9 @@ CREATE TABLE IF NOT EXISTS user_settings (
     
     -- appearance_preferences TEXT,
     apperance_mode TEXT DEFAULT 'light',
-    ui_color TEXT DEFAULT 'green',
-    color_id INT DEFAULT 6,
-
 
     language_preferences TEXT,
     chat_settings TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
---colors table
-CREATE TABLE IF NOT EXISTS colors (
-    id SERIAL PRIMARY KEY,
-    name TEXT,
-    light_code TEXT, --color codes
-    code TEXT,
-    dark_code TEXT 
-);
