@@ -6,33 +6,63 @@
       <a href="/meet" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Meet Someone</a>
       <a href="/friends" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Meet Friends</a>
       <a href="/chat" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Chat</a>
+      <a href="/take_picture" class="btn text-white fw-bold w-100 py-4" style="background-color: #ffa07a;">Upload Photo</a>
     </div>
 
     <!-- Instagram-style Feed -->
     <div class="col-md-10">
-      {{#each feed}}
-        <div class="card mb-4 shadow-sm">
-          <div class="card-header d-flex align-items-center">
-            <div class="rounded-circle overflow-hidden me-3" style="width: 50px; height: 50px;">
-              {{#if this.profile_picture_url}}
-                <img src="{{this.profile_picture_url}}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
-              {{else}}
-                <img src="https://via.placeholder.com/50?text=U" alt="Default" style="width: 100%; height: 100%; object-fit: cover;">
-              {{/if}}
-            </div>
-            <h5 class="mb-0 text-success fw-bold">{{this.display_name}}</h5>
-          </div>
-          <div class="card-body text-center">
-            {{#if this.todays_photo_url}}
-              <img src="{{this.todays_photo_url}}" alt="Today's Post" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;">
-            {{else}}
-              <div class="d-flex align-items-center justify-content-center bg-secondary text-white rounded" style="height: 400px;">
-                <p class="mb-0">User has not posted a picture today</p>
+
+      {{#if userHasPostedToday}}
+        {{#each feed}}
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header d-flex align-items-center">
+              <div class="rounded-circle overflow-hidden me-3" style="width: 50px; height: 50px;">
+                {{#if this.profile_picture_url}}
+                  <img src="{{this.profile_picture_url}}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                {{else}}
+                  <img src="https://via.placeholder.com/50?text=U" alt="Default" style="width: 100%; height: 100%; object-fit: cover;">
+                {{/if}}
               </div>
-            {{/if}}
+              <h5 class="mb-0">
+                <a href="/users/{{this.id}}" class="text-success fw-bold text-decoration-none">
+                  {{this.display_name}}
+                </a>
+              </h5>
+            </div>
+            <div class="card-body text-center">
+              <img 
+                src="{{this.todays_photo_url}}" 
+                alt="Today's Post" 
+                class="img-fluid rounded" 
+                style="max-height: 400px; object-fit: cover;"
+              >
+            </div>
           </div>
+        {{/each}}
+      {{else}}
+        <div class="position-relative mb-4 text-center">
+          <div 
+            style="filter: blur(6px); height: 400px; background-color: #ccc; border-radius: 8px;"
+            class="d-flex align-items-center justify-content-center"
+          >
+            <img 
+              src="https://via.placeholder.com/600x400?text=Friends%27+Photos+Hidden" 
+              alt="Hidden Feed" 
+              class="img-fluid w-100 h-100" 
+              style="object-fit: cover; border-radius: 8px;"
+            >
+          </div>
+
+          <a 
+            href="/take_picture"
+            class="btn btn-warning position-absolute top-50 start-50 translate-middle fw-bold"
+            style="z-index: 10;"
+          >
+            Post photo to see pictures
+          </a>
         </div>
-      {{/each}}
+      {{/if}}
+
     </div>
   </div>
 </div>

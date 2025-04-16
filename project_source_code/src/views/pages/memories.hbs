@@ -1,0 +1,24 @@
+<!-- views/pages/memories.hbs -->
+<div class="container py-5" style="background-color: #fffaf0;">
+  <h2 class="text-center text-success fw-bold mb-5">Your Memories</h2>
+
+  {{#if photos.length}}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {{#each photos}}
+        <div class="col text-center">
+          <div class="card shadow-sm">
+            <img src="{{this.url}}" alt="Memory" class="card-img-top" style="object-fit: cover; height: 250px;">
+            <div class="card-body p-2">
+              <p class="text-muted mb-0">{{formatDate this.created_at}}</p>
+              {{#if this.description}}
+                <p class="text-secondary small">{{this.description}}</p>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="text-center text-muted"><em>No memories uploaded yet.</em></p>
+  {{/if}}
+</div>

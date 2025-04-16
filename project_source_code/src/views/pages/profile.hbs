@@ -22,20 +22,20 @@
         <button class="btn btn-outline-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
           Edit Profile
         </button>
-      {{/if}}
 
-      <!-- Friends List -->
-      <h5 class="mt-4 fw-semibold text-success">Friends</h5>
-      {{#if friends.length}}
-        <ul class="list-unstyled">
-          {{#each friends}}
-            <li>
-              <a href="/users/{{this.id}}" class="text-decoration-none text-success">{{this.username}}</a>
-            </li>
-          {{/each}}
-        </ul>
-      {{else}}
-        <p class="text-muted"><em>No friends yet.</em></p>
+        <!-- Friends List -->
+        <h5 class="mt-4 fw-semibold text-success">Friends</h5>
+        {{#if friends.length}}
+          <ul class="list-unstyled">
+            {{#each friends}}
+              <li>
+                <a href="/users/{{this.id}}" class="text-decoration-none text-success">{{this.username}}</a>
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <p class="text-muted"><em>No friends yet.</em></p>
+        {{/if}}
       {{/if}}
     </div>
 
@@ -60,53 +60,32 @@
         <p><em>No favorite song selected yet.</em></p>
       {{/if}}
 
-      <!-- Picture Viewer Section -->
-      <div class="text-center mt-5">
-        <h4 class="fw-bold text-success mb-4">Picture Viewer</h4>
+      <!-- Memories or Week View Section -->
+      <div class="mt-5">
+        {{#if isOwnProfile}}
+          <h4 class="fw-bold text-success mb-3">Memories</h4>
+        {{else}}
+          <h4 class="fw-bold text-success mb-3">Week View</h4>
+        {{/if}}
 
-        <div class="d-flex align-items-center justify-content-center gap-3">
-          <!-- Left Arrow -->
-          <button class="btn btn-light rounded-circle shadow-sm" id="prevBtn">
-            <i class="bi bi-arrow-left"></i>
-          </button>
-
-          <!-- Image Strip -->
-          <div class="d-flex gap-4" id="viewerPanel" style="overflow: hidden; max-width: 600px;">
-            <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Monday</p>
-            <img src="/resources/img/placeholders/monday.jpg" alt="Monday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
-            </div>
-            <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Tuesday</p>
-            <img src="/resources/img/placeholders/tuesday.jpg" alt="Tuesday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
-            </div>
-            <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Wednesday</p>
-            <img src="/resources/img/placeholders/wednesday.jpg" alt="Wednesday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
-            </div>
-            <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Thursday</p>
-            <img src="/resources/img/placeholders/thursday.jpg" alt="Thursday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
-            </div>
-            <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Friday</p>
-            <img src="/resources/img/placeholders/friday.jpg" alt="Friday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
-            </div>
-            <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Saturday</p>
-            <img src="/resources/img/placeholders/saturday.jpg" alt="Saturday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
-            </div>
-            <div class="text-center day-slide">
-            <p class="fw-semibold mb-1">Sunday</p>
-            <img src="/resources/img/placeholders/sunday.jpg" alt="Sunday" class="img-fluid rounded shadow" style="width: 120px; height: 180px; object-fit: cover;">
-            </div>
+        {{#if recentPhotos.length}}
+          <div class="row row-cols-1 row-cols-md-2 g-3">
+            {{#each recentPhotos}}
+              <div class="col text-center">
+                <img src="{{this.url}}" alt="Memory" class="img-fluid rounded shadow" style="max-height: 200px; object-fit: cover;">
+                <p class="text-muted mt-1">{{formatDate this.created_at}}</p>
+              </div>
+            {{/each}}
           </div>
 
-          <!-- Right Arrow -->
-          <button class="btn btn-light rounded-circle shadow-sm" id="nextBtn">
-            <i class="bi bi-arrow-right"></i>
-          </button>
-        </div>
+          {{#if isOwnProfile}}
+            <div class="text-center mt-3">
+              <a href="/memories" class="btn btn-outline-success">See More Memories</a>
+            </div>
+          {{/if}}
+        {{else}}
+          <p class="text-muted"><em>No photos uploaded this week.</em></p>
+        {{/if}}
       </div>
     </div>
   </div>
