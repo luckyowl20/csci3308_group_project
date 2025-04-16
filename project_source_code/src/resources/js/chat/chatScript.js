@@ -60,13 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create a new message bubble element for the sender
         const messageEl = document.createElement('div');
         messageEl.className = isOutgoing ? 'text-end mb-2' : 'text-start mb-2';
-        // messageEl.innerHTML = isOutgoing
-        //     ? `<span class="badge bg-primary">${newMessage.content}</span>`
-        //     : `<span class="badge bg-secondary">${newMessage.content}</span>`;
         messageEl.innerHTML = isOutgoing
               ? `<span class="message-bubble message-out font-alt">${newMessage.content}</span>`
               : `<span class="message-bubble message-in font-alt">${newMessage.content}</span>`;
-
 
         // Append to chatBox, scroll, etc.
         chatBox.appendChild(messageEl);
