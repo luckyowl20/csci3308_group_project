@@ -22,20 +22,20 @@
         <button class="btn btn-outline-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
           Edit Profile
         </button>
+      {{/if}}
 
-        <!-- Friends List -->
-        <h5 class="mt-4 fw-semibold text-success">Friends</h5>
-        {{#if friends.length}}
-          <ul class="list-unstyled">
-            {{#each friends}}
-              <li>
-                <a href="/users/{{this.id}}" class="text-decoration-none text-success">{{this.username}}</a>
-              </li>
-            {{/each}}
-          </ul>
-        {{else}}
-          <p class="text-muted"><em>No friends yet.</em></p>
-        {{/if}}
+      <!-- Friends List (Always Visible) -->
+      <h5 class="mt-4 fw-semibold text-success">Friends</h5>
+      {{#if friends.length}}
+        <ul class="list-unstyled">
+          {{#each friends}}
+            <li>
+              <a href="/users/{{this.id}}" class="text-decoration-none text-success">{{this.username}}</a>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p class="text-muted"><em>No friends yet.</em></p>
       {{/if}}
     </div>
 
