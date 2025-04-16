@@ -15,11 +15,18 @@ VALUES
 -- Insert dummy photos
 INSERT INTO photos (url, description)
 VALUES
-  ('https://example.com/photos/1.jpg', 'Photo 1 description'),
-  ('https://example.com/photos/2.jpg', 'Photo 2 description'),
-  ('https://example.com/photos/3.jpg', 'Photo 3 description'),
+  ('https://i.imgur.com/LQrMm.jpeg', 'Photo 1 description'),
+  ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXJaot0JfzgsflBaxaCftwUt5krPZyEyOpPw&s', 'Photo 2 description'),
+  ('https://i.pinimg.com/736x/18/da/9a/18da9a112bec3b6788da356ffd7d7eda.jpg', 'Photo 3 description'),
   ('https://example.com/photos/4.jpg', 'Photo 4 description'),
-  ('https://example.com/photos/5.jpg', 'Photo 5 description');
+  ('https://example.com/photos/5.jpg', 'Photo 5 description'),
+  ('https://example.com/photos/6.jpg', 'Photo 6 description'),
+  ('https://example.com/photos/7.jpg', 'Photo 7 description'),
+  ('https://i.pinimg.com/736x/97/ce/75/97ce75b25bf9afcb290cd8af51e9adb5.jpg', 'Photo 8 description'),
+  ('https://example.com/photos/9.jpg', 'Photo 9 description'),
+  ('https://example.com/photos/10.jpg', 'Photo 10 description'),
+  ('https://example.com/photos/11.jpg', 'Photo 11 description'),
+  ('https://example.com/photos/12.jpg', 'Photo 12 description');
 
 -- Insert dummy posts (using some photos and some with no photo)
 INSERT INTO posts (user_id, photo_id, title, body)
@@ -29,39 +36,39 @@ VALUES
   (1, 2, 'Alice''s Second Post', 'Another day, another update from Alice.'),
   
   -- Posts for Bob (user_id = 2)
-  (2, 2, 'Bob''s First Post', 'Hi, Bob here. Enjoying the platform!'),
+  (2, 3, 'Bob''s First Post', 'Hi, Bob here. Enjoying the platform!'),
   (2, NULL, 'Bob''s Second Post', 'Sometimes I post without a photo.'),
   
   -- Posts for Charlie (user_id = 3)
-  (3, 3, 'Charlie''s First Post', 'Greetings from Charlie!'),
-  (3, 1, 'Charlie''s Second Post', 'Loving this community.'),
+  (3, 4, 'Charlie''s First Post', 'Greetings from Charlie!'),
+  (3, 5, 'Charlie''s Second Post', 'Loving this community.'),
   
   -- Posts for Dave (user_id = 4)
-  (4, 4, 'Dave''s Thoughts', 'This is Dave sharing his thoughts.'),
+  (4, 6, 'Dave''s Thoughts', 'This is Dave sharing his thoughts.'),
   (4, NULL, 'Dave''s Update', 'Another update from Dave.'),
   
   -- Posts for Eve (user_id = 5)
-  (5, 5, 'Eve''s Update', 'Eve checking in with a photo.'),
+  (5, 7, 'Eve''s Update', 'Eve checking in with a photo.'),
   (5, NULL, 'Eve''s Second Update', 'No photo this time.'),
   
   -- Posts for Frank (user_id = 6)
   (6, NULL, 'Frank''s Post', 'Frank here, sharing my first post.'),
-  (6, 3, 'Frank''s Second Post', 'Another insight from Frank.'),
+  (6, 8, 'Frank''s Second Post', 'Another insight from Frank.'),
   
   -- Posts for Grace (user_id = 7)
-  (7, 2, 'Grace''s Post', 'Grace is excited to join!'),
+  (7, 9, 'Grace''s Post', 'Grace is excited to join!'),
   (7, NULL, 'Grace Again', 'More from Grace, without a photo.'),
   
   -- Posts for Heidi (user_id = 8)
-  (8, 4, 'Heidi''s Thoughts', 'Heidi is reflecting on the day.'),
+  (8, 10, 'Heidi''s Thoughts', 'Heidi is reflecting on the day.'),
   (8, NULL, 'Heidi''s Update', 'Another post from Heidi.'),
   
   -- Posts for Ivan (user_id = 9)
-  (9, 5, 'Ivan''s Update', 'Ivan here with a fresh update!'),
+  (9, 11, 'Ivan''s Update', 'Ivan here with a fresh update!'),
   (9, NULL, 'Ivan Again', 'Just checking in, no photo this time.'),
   
   -- Posts for Judy (user_id = 10)
-  (10, 1, 'Judy''s First Post', 'Judy is excited to be here.'),
+  (10, 12, 'Judy''s First Post', 'Judy is excited to be here.'),
   (10, NULL, 'Judy''s Second Post', 'Another update from Judy.');
 
 -- Insert dummy friendships between users
@@ -137,3 +144,28 @@ VALUES
   (8, 'Heidi H.', 'Photographer and dreamer. Life is about capturing the little things.', 'photography,nature,travel', '1991-07-21', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBcZ6mR4gHOG2ubziBcnwteYjnfeZ6bgof1Q&s', '7H0ya83CMmgFcOhw0UB6ow'),
   (9, 'Ivan I.', 'Painter and digital artist. My work explores surreal spaces.', 'art,drawing,digital art', '1994-10-09', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKAuP2Ko95WgTMiITDVcw5ABjdF4XoV_LmEQ&s', '6l8GvAyoUZwWDgF1e4822w'),
   (10, 'Judy J.', 'Bookworm and tea lover. Cozy evenings with a good novel = heaven.', 'reading,tea,cozy vibes', '1996-12-02', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUsQXFk2k2Sd6nAyv1_DjNYFqX5UfQk-rstg&s', '6M14BiCN00nOsba4JaYsHW');
+
+-- Dummy values for test blogs
+
+-- INSERT INTO photos (url, description)
+-- VALUES
+--     ('https://cdn.theatlantic.com/media/mt/science/cat_caviar.jpg', 'cat1'),
+--     ('https://i.pinimg.com/736x/18/da/9a/18da9a112bec3b6788da356ffd7d7eda.jpg', 'cat2')
+-- ;
+-- INSERT INTO posts (photo_id, user_id, title, body)
+-- VALUES
+--     (1, 1, 'test1', 'test body 1'),
+--     (2, 2, 'test2', 'test body 2')
+-- ;
+INSERT INTO blogs (title, body)
+VALUES
+    ('Alice''s trip', 'Had so much fun!'),
+    ('Bob and Frank''s study session', 'Note from Bob: Frank helped me so much!')
+;
+INSERT INTO blogs_posts (blog_id, post_id)
+VALUES
+    (1, 1),
+    (1, 2),
+    (2, 3),
+    (2, 12)
+;
