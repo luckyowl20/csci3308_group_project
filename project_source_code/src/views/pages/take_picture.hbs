@@ -16,39 +16,53 @@
 
 <body>
   <div class="container">
-    <h2>{{#if isProfile}}Update Your Profile Picture{{else}}Submit Your Daily Picture{{/if}}</h2>
+    <h2 class="text-center my-4">
+      {{#if isProfile}}Update Your Profile Picture{{else}}Submit Your Daily Picture{{/if}}
+    </h2>
 
     <!-- Video Container -->
-    <div id="video-container">
+    <div id="video-container" class="position-relative {{#if hasUploadedToday}}blurred-container{{/if}}">
       <video id="video" autoplay playsinline></video>
       <canvas id="canvas"></canvas>
-      <button type="button" id="snap">Snap</button>
+
+      {{#unless hasUploadedToday}}
+        <button type="button" id="snap">Snap</button>
+      {{/unless}}
+
+      {{#if hasUploadedToday}}
+        <div class="overlay d-flex flex-column justify-content-center align-items-center text-center">
+          <h3 class="text-success mb-3">You've already uploaded today</h3>
+          <a href="/home" class="btn btn-success">Go to Home</a>
+        </div>
+      {{/if}}
     </div>
 
-    <div id="successMessage" class="alert alert-success text-center" style="display: none;">
+    <div id="successMessage" class="alert alert-success text-center mt-3" style="display: none;">
       Upload successful! Redirecting...
     </div>
+
     <!-- Upload Form -->
     <form id="uploadForm">
-      <!-- ✅ Moved this hidden input INSIDE the form -->
       <input type="hidden" name="isProfile" value="{{isProfile}}">
 
       {{#unless isProfile}}
-      <div class="mb-3" id="caption-wrapper">
-        <textarea
-          id="caption"
-          name="caption"
-          class="form-control"
-          placeholder="Enter a caption..."
-          rows="2"
-        ></textarea>
-      </div>
+        <div class="mb-3" id="caption-wrapper">
+          <textarea
+            id="caption"
+            name="caption"
+            class="form-control"
+            placeholder="Enter a caption..."
+            rows="2"
+          ></textarea>
+        </div>
       {{/unless}}
 
-      <div class="mb-3 text-center">
-        <button type="button" id="retake" class="btn btn-secondary me-2">Retake</button>
-        <button type="button" id="uploadBtn" class="btn btn-success">Upload</button>
-      </div>
+      {{#unless hasUploadedToday}}
+        <div class="mb-3 text-center">
+          <button type="button" id="retake" class="btn btn-secondary me-2">Retake</button>
+          <button type="button" id="uploadBtn" class="btn btn-success">Upload</button>
+        </div>
+      {{/unless}}
     </form>
   </div>
 </body>

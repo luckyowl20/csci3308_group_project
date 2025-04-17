@@ -6,6 +6,7 @@ const multer = require('multer');
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
+const hasUploadedToday = require('../helpers/hasUploadedToday');
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -14,8 +15,12 @@ const supabase = createClient(
 
 
 // Route for Instagram-style post (NOT profile)
-router.get('/', isAuthenticated, (req, res) => {
-  res.render('pages/take_picture', { isProfile: false, hideNav: true});
+router.get('/', isAuthenticated, hasUploadedToday, (req, res) => {
+  res.render('pages/take_picture', {
+    isProfile: false,
+    hideNav: true,
+    hasUploadedToday: res.locals.hasUploadedToday  // <== pass it to the template
+  });
 });
 
 // Route for updating profile picture
@@ -84,8 +89,6 @@ router.post('/take_picture', upload.single('file'), async (req, res) => {
           [userID, photoId, title, caption]
         );
   }
-
-
 
     //working upload message
     res.status(200).json({
