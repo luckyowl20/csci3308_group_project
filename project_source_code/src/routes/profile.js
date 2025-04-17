@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
 
-// const INTEREST_OPTIONS = require('../utils/interests');
 
 router.get('/', isAuthenticated, async (req, res) => {
 
@@ -53,7 +52,6 @@ router.get('/', isAuthenticated, async (req, res) => {
             friends,
             user: req.session.user, // if you use it in nav bar or elsewhere
             isOwnProfile: true,
-            // interestOptions: INTEREST_OPTIONS,
             selectedInterestsDetails: selectedInterests,
         });
 
@@ -133,6 +131,7 @@ router.get('/:id', isAuthenticated, async (req, res) => {
     }
 });
 
+// for updating the profile after the edit profile modal is submitted
 router.post('/update', isAuthenticated, async (req, res) => {
     const db = req.app.locals.db;
     const userId = req.session.user.id;
@@ -167,8 +166,8 @@ router.post('/update', isAuthenticated, async (req, res) => {
         const selectedInterestIds = Array.isArray(interests)
             ? interests.map(id => parseInt(id.trim()))
             : typeof interests === 'string'
-            ? interests.split(',').map(id => parseInt(id.trim()))
-            : [];
+                ? interests.split(',').map(id => parseInt(id.trim()))
+                : [];
 
         await db.none('DELETE FROM user_interests WHERE user_id = $1', [userId]);
 
@@ -183,6 +182,65 @@ router.post('/update', isAuthenticated, async (req, res) => {
     } catch (err) {
         console.error('Failed to update profile:', err);
         res.status(500).send('Error updating profile');
+    }
+});
+
+// for updating the users preferences in the database after the edit preferences modal is submitted
+router.post('/update-preferences', isAuthenticated, async (req, res) => {
+    const db = req.app.locals.db;
+    const userId = req.session.user.id;
+    const {
+        location,
+        latitude,
+        longitude,
+        gender,
+        preferred_gender,
+        match_distance_miles,
+        preferred_age_min,
+        preferred_age_max
+      } = req.body;
+
+
+    const point = latitude && longitude
+        ? `SRID=4326;POINT(${longitude} ${latitude})`
+        : null;
+
+
+    // Construct POINT string only if both latitude and longitude are valid
+    try {
+        await db.none(`
+          UPDATE profiles
+          SET
+            user_location_text = $1,
+            user_location = $2,
+            gender = $3,
+            preferred_gender = $4,
+            match_distance_miles = $5,
+            preferred_age_min = $6,
+            preferred_age_max = $7
+          WHERE user_id = $8
+        `, [
+            location || null,
+            point,
+            gender || null,
+            preferred_gender || null,
+            match_distance_miles || 200,
+            preferred_age_min || 18,        // default values 200, 18, 100 in database too
+            preferred_age_max || 100,
+            userId
+        ]);
+
+        console.log("updated preferences with location:", location);
+        // console.log("updated preferences with latitude:", latitude);
+        // console.log("updated preferences with longitude:", longitude);
+        // console.log("updated gender, preferred gender", gender, preferred_gender);
+        console.log("updated match distance:", match_distance_miles);
+        console.log("updated point:", point);
+
+        res.redirect('/profile');
+    } catch (err) {
+        console.error("Error updating preferences:", err);
+        res.status(500).send("Failed to update preferences");
     }
 });
 

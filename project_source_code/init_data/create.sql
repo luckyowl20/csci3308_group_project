@@ -1,4 +1,5 @@
 -- create database lucky_moment_db;
+CREATE EXTENSION IF NOT EXISTS postgis; -- allows for location queries
 
 -- table of users
 CREATE TABLE IF NOT EXISTS users (
@@ -40,7 +41,16 @@ CREATE TABLE IF NOT EXISTS profiles (
     birthday DATE,
     profile_picture_url TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
-    spotify_song_id TEXT
+    spotify_song_id TEXT,
+
+    -- preferences section
+    user_location_text TEXT,
+    user_location GEOGRAPHY(Point, 4326), -- to store the user's location as a point in a geographic coordinate system with postgis
+    match_distance_miles INTEGER DEFAULT 200,
+    gender TEXT,
+    preferred_gender TEXT,
+    preferred_age_min INTEGER DEFAULT 18,
+    preferred_age_max INTEGER DEFAULT 100
 );
 
 -- table of all available interests users can select from
