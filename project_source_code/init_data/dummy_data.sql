@@ -10,7 +10,7 @@ VALUES
   ('grace', 'grace@example.com', '$2a$10$3ZCUWMe6oARxRJNQPcIRPeY57Bf5RY9TxT38HijaFr46lfA5amcnC'),
   ('heidi', 'heidi@example.com', '$2a$10$vu3cz4Vewy1zBxD00r69weHSDe6EKe4Se1aKr4cAU5QJLHe1cPTdG'),
   ('ivan', 'ivan@example.com', '$2a$10$qhrqPEIXYAusTbup/M75Iu5TA055JV/mqVy5bhHbU725cgPd8Sk42'),
-  ('judy', 'judy@example.com', '$2a$10$fUun/OcW7SR/zaK3fMlNKuDhQwR39vMJGHq31e9r0f3SeG2aDtISG'); -- pass10
+  ('judy', 'judy@example.com', '$2a$10$fUun/OcW7SR/zaK3fMlNKuDhQwR39vMJGHq31e9r0f3SeG2aDtISG'); -- pass 10
 
 -- Insert dummy photos
 INSERT INTO photos (url, description)
