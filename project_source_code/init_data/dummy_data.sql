@@ -235,3 +235,115 @@ INSERT INTO user_interests (user_id, interest_id) VALUES (10, 5);
 INSERT INTO user_interests (user_id, interest_id) VALUES (10, 31);
 INSERT INTO user_interests (user_id, interest_id) VALUES (10, 8);
 INSERT INTO user_interests (user_id, interest_id) VALUES (10, 27);
+
+
+-- updating user preferences 
+-- Alice A. (Boulder, CO)
+UPDATE profiles SET
+  user_location_text = 'Boulder, CO',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-105.2705 40.0150)'),
+  match_distance_miles = 25,
+  gender = 'female',
+  preferred_gender = 'male',
+  preferred_age_min = 28,
+  preferred_age_max = 40
+WHERE user_id = 1;
+
+-- Bob B. (Denver, CO)
+UPDATE profiles SET
+  user_location_text = 'Denver, CO',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-104.9903 39.7392)'),
+  match_distance_miles = 50,
+  gender = 'male',
+  preferred_gender = 'female',
+  preferred_age_min = 25,
+  preferred_age_max = 38
+WHERE user_id = 2;
+
+-- Charlie C. (Seattle, WA)
+UPDATE profiles SET
+  user_location_text = 'Seattle, WA',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-122.3321 47.6062)'),
+  match_distance_miles = 100,
+  gender = 'male',
+  preferred_gender = 'any',
+  preferred_age_min = 22,
+  preferred_age_max = 35
+WHERE user_id = 3;
+
+-- Dave D. (San Francisco, CA)
+UPDATE profiles SET
+  user_location_text = 'San Francisco, CA',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-122.4194 37.7749)'),
+  match_distance_miles = 10,
+  gender = 'male',
+  preferred_gender = 'female',
+  preferred_age_min = 25,
+  preferred_age_max = 35
+WHERE user_id = 4;
+
+-- Eve E. (New York, NY)
+UPDATE profiles SET
+  user_location_text = 'New York, NY',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-74.0060 40.7128)'),
+  match_distance_miles = 30,
+  gender = 'female',
+  preferred_gender = 'any',
+  preferred_age_min = 26,
+  preferred_age_max = 38
+WHERE user_id = 5;
+
+-- Frank F. (Chicago, IL)
+UPDATE profiles SET
+  user_location_text = 'Chicago, IL',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-87.6298 41.8781)'),
+  match_distance_miles = 200,
+  gender = 'male',
+  preferred_gender = 'female',
+  preferred_age_min = 30,
+  preferred_age_max = 45
+WHERE user_id = 6;
+
+-- Grace G. (Austin, TX)
+UPDATE profiles SET
+  user_location_text = 'Austin, TX',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-97.7431 30.2672)'),
+  match_distance_miles = 75,
+  gender = 'female',
+  preferred_gender = 'male',
+  preferred_age_min = 27,
+  preferred_age_max = 36
+WHERE user_id = 7;
+
+-- Heidi H. (Los Angeles, CA)
+UPDATE profiles SET
+  user_location_text = 'Los Angeles, CA',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-118.2437 34.0522)'),
+  match_distance_miles = 100,
+  gender = 'female',
+  preferred_gender = 'female',
+  preferred_age_min = 25,
+  preferred_age_max = 35
+WHERE user_id = 8;
+
+-- Ivan I. (Portland, OR)
+UPDATE profiles SET
+  user_location_text = 'Portland, OR',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-122.6765 45.5231)'),
+  match_distance_miles = 50,
+  gender = 'male',
+  preferred_gender = 'any',
+  preferred_age_min = 27,
+  preferred_age_max = 40
+WHERE user_id = 9;
+
+-- Judy J. (Boston, MA)
+UPDATE profiles SET
+  user_location_text = 'Boston, MA',
+  user_location = ST_GeogFromText('SRID=4326;POINT(-71.0589 42.3601)'),
+  match_distance_miles = 20,
+  gender = 'female',
+  preferred_gender = 'male',
+  preferred_age_min = 24,
+  preferred_age_max = 32
+WHERE user_id = 10;
