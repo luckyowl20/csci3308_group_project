@@ -4,8 +4,9 @@
 <script src="/resources/js/profile/profileScript.js"></script>
 {{/section}}
 
-<div class="container-fluid py-4" style="background-color: #fffaf0;">
+<div class="container-fluid py-4">
   <div class="row">
+
     <!-- Left Column -->
     <div class="col-lg-4 text-center mb-4">
       <div class="position-relative mx-auto mb-3" style="width: 150px; height: 150px;">
@@ -26,48 +27,51 @@
         </div>
       </div>
 
-      <h2 class="fw-bold text-success">{{profile.display_name}}</h2>
+      <h2 class="fw-bold primary-text ">{{profile.display_name}}</h2>
 
       {{#if isOwnProfile}}
-        <button class="btn btn-outline-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-          Edit Profile
-        </button>
+      <button class="btn btn-outline-success btn-sm mb-3 font-alt" data-bs-toggle="modal"
+        data-bs-target="#editProfileModal">
+        Edit Profile
+      </button>
       {{/if}}
 
-      <!-- Friends List (Always Visible) -->
-      <h5 class="mt-4 fw-semibold text-success">Friends</h5>
+      <!-- Friends List -->
+      <h5 class="mt-4 fw-bold primary-text">Friends</h5>
       {{#if friends.length}}
-        <ul class="list-unstyled">
-          {{#each friends}}
-            <li>
-              <a href="/users/{{this.id}}" class="text-decoration-none text-success">{{this.username}}</a>
-            </li>
-          {{/each}}
-        </ul>
+      <ul class="list-unstyled">
+        {{#each friends}}
+        <li>
+          <a href="/users/{{this.id}}" class="text-decoration-none primary-text font-alt">
+            {{this.username}}
+          </a>
+        </li>
+        {{/each}}
+      </ul>
       {{else}}
-        <p class="text-muted"><em>No friends yet.</em></p>
+      <p class="text-muted font-alt"><em>No friends yet.</em></p>
       {{/if}}
     </div>
 
     <!-- Right Column -->
     <div class="col-lg-8">
-      <h4 class="fw-semibold text-success">Biography</h4>
-      <p>{{profile.biography}}</p>
+      <h4 class="fw-bold primary-text ">Biography</h4>
+      <p class="font-alt">{{profile.biography}}</p>
 
-      <h4 class="fw-semibold text-success">Interests</h4>
-      <p>{{profile.interests}}</p>
+      <h4 class="fw-bold primary-text ">Interests</h4>
+      <p class="font-alt">{{profile.interests}}</p>
 
-      <h4 class="fw-semibold text-success">Birthday</h4>
-      <p>{{formatDate profile.birthday}}</p>
+      <h4 class="fw-bold primary-text ">Birthday</h4>
+      <p class="font-alt">{{formatDate profile.birthday}}</p>
 
-      <h4 class="fw-semibold text-success">Favorite Song</h4>
+      <h4 class="fw-bold primary-text ">Favorite Song</h4>
       {{#if profile.spotify_song_id}}
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}"
-          width="100%" height="80" frameBorder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
-        </iframe>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}"
+        width="100%" height="80" frameBorder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+      </iframe>
       {{else}}
-        <p><em>No favorite song selected yet.</em></p>
+      <p class=""><em>No favorite song selected yet.</em></p>
       {{/if}}
 
       <!-- Memories or Week View Section -->
