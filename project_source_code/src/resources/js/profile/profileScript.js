@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
               allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy">
             </iframe>
-            <button class="btn btn-sm btn-outline-primary mt-2" data-track-id="${track.id}">
+            <button class="btn btn-sm btn-outline-success mt-2" data-track-id="${track.id}">
               Use this song
             </button>
           `;

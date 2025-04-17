@@ -1,0 +1,95 @@
+/* chat.css */
+
+/* Friends Sidebar */
+/* .font-alt {
+    font-family: 'Lalezar', cursive;
+  } */
+  
+  .primary-text {
+    color: var(--bs-success);
+  }
+  
+  /* Profile Picture */
+  img.rounded-circle {
+    object-fit: cover;
+  }
+  
+  .chat-box {
+    height: 400px;
+    overflow: auto;
+}
+
+/* Style for all message bubbles */
+.message-bubble {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.95rem;
+    max-width: 75%;
+    word-wrap: break-word;
+    transition: all 0.2s ease-in-out; /* ensures smooth update if anything changes */
+  }
+  
+  /* Outgoing message (sent by current user) */
+  .message-out {
+    background-color: var(--color-message-out-bubble, #f8c8dc); /* fallback soft pink */
+    color: var(--color-message-out-text, #fff); /* fallback white text */
+  }
+  
+  /* Incoming message (from others) */
+  .message-in {
+    background-color: var(--color-message-in-bubble, #e9ecef); /* fallback light gray */
+    color: var(--color-message-in-text, #343a40); /* fallback dark text */
+  }
+  
+  /* Font style for message content */
+  /* .message-bubble.font-alt {
+    font-family: 'Lalezar', cursive;
+  } */
+  
+  /* Optional: Animate message appearance */
+  .message-bubble {
+    animation: fadeInMessage 0.3s ease;
+  }
+  
+  @keyframes fadeInMessage {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }  
+
+
+  /* Chat Box Scrollable Area */
+  /* .chat-box {
+    height: 400px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  } */
+  
+  /* Message Styling – optional: define message bubble styles */
+  /* .message-bubble {
+    margin-bottom: 0.75rem;
+  } */
+  
+  /* Friend Link Hover Effect */
+  a.text-decoration-none:hover {
+    text-decoration: underline;
+    color: var(--bs-success-dark, #146c43); /* fallback if custom variable is missing */
+  }
+  
+  /* Chat Panel Header and Footer Styling (if needed) */
+  .card-footer {
+    background-color: #f1f3f5;
+  }
+
+  input[name="message_text"] {
+    color: black !important; /* Force black text color */
+  }
+  

@@ -1,42 +1,48 @@
-<!-- Edit Profile Modal, could be its own partial honestly -->
+<!-- views/partials/edit_profile_modal.hbs -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="POST" action="/profile/update" class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+        <h5 class="modal-title font-alt fw-bold" id="editProfileModalLabel">Edit Profile</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+
+      <div class="modal-body font-alt">
         <!-- Display Name -->
-        <label for="display_name" class="form-label">Display Name</label>
-        <input name="display_name" class="form-control mb-2" placeholder="Display Name" value="{{profile.display_name}}">
+        <label for="display_name" class="form-label fw-semibold">Display Name</label>
+        <input name="display_name" class="form-control mb-2" placeholder="Display Name"
+          value="{{profile.display_name}}">
 
         <!-- Biography -->
-        <label for="biography" class="form-label">Biography</label>
+        <label for="biography" class="form-label fw-semibold">Biography</label>
         <textarea name="biography" class="form-control mb-2" placeholder="Biography">{{profile.biography}}</textarea>
 
         <!-- Interests -->
-        <label for="interests" class="form-label">Interests</label>
+        <label for="interests" class="form-label fw-semibold">Interests</label>
         <input name="interests" class="form-control mb-2" placeholder="Interests" value="{{profile.interests}}">
 
         <!-- Birthday -->
-        <label for="birthday" class="form-label">Birthday</label>
+        <label for="birthday" class="form-label fw-semibold">Birthday</label>
         <input name="birthday" type="date" class="form-control mb-2" value="{{profile.birthday}}">
 
         <!-- Profile Picture URL -->
-        <label for="profile_picture_url" class="form-label">Profile Picture Url</label>
-        <input name="profile_picture_url" class="form-control mb-2" placeholder="Profile Picture URL" value="{{profile.profile_picture_url}}">
+      <label class="form-label">Profile Picture</label>
+      <div class="d-flex align-items-center gap-3 mb-2">
+      <img src="{{profile.profile_picture_url}}" alt="Current Profile Picture" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+      <a href="/take_picture/profile" class="btn btn-outline-success">Change Picture</a>
+      </div>
 
         <!-- Spotify Track Search -->
         <p id="spotify-selected-display" class="text-muted mb-2"></p>
-        <label for="spotify-search" class="form-label">Favorite Song</label>
+        <label for="spotify-search" class="form-label fw-semibold">Favorite Song</label>
         <input type="text" id="spotify-search" class="form-control mb-2" placeholder="Search for a song...">
         <input type="hidden" name="spotify_song_id" id="spotify_song_id_input" value="{{profile.spotify_song_id}}">
-        <div id="spotify-results" class="mb-3" style="max-height: 300px; overflow-y: auto;"></div>
-
+        <div id="spotify-results" class="mb-3 spotify-scroll"></div>
       </div>
+
       <div class="modal-footer">
-        <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>      </div>
+        <button type="submit" class="btn bg-navbar text-white font-alt">Save Changes</button>
+      </div>
     </form>
   </div>
 </div>

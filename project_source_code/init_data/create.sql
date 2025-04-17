@@ -120,20 +120,27 @@ CREATE TABLE IF NOT EXISTS user_settings (
     
     -- appearance_preferences TEXT,
     apperance_mode TEXT DEFAULT 'light',
-    ui_color TEXT DEFAULT 'green',
-    color_id INT DEFAULT 6,
-
 
     language_preferences TEXT,
     chat_settings TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
---colors table
-CREATE TABLE IF NOT EXISTS colors (
+
+-- table of blog posts
+CREATE TABLE IF NOT EXISTS blogs (
     id SERIAL PRIMARY KEY,
-    name TEXT,
-    light_code TEXT, --color codes
-    code TEXT,
-    dark_code TEXT
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user created the blog
+    user_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS blogs_posts (
+    PRIMARY KEY (blog_id, post_id),
+    FOREIGN KEY (blog_id) REFERENCES blogs(id) ON DELETE CASCADE, -- to track which blog the post belongs to
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE, -- to track which post is associated with the blog
+    blog_id INTEGER NOT NULL,
+    post_id INTEGER NOT NULL
+)

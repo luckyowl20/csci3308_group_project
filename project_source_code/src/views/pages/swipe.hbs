@@ -1,0 +1,32 @@
+<!-- views/pages/swipe.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Moment Swiping Page</title>
+    <link rel="stylesheet" href="/resources/css/swipe.css">
+</head>
+<body>
+    {{#if noUsersLeft}}
+        <div class="no-users">
+            <h2>No more users to swipe!</h2>
+            <p>Check back later for new users.</p>
+        </div>
+    {{else}}
+        <div class="swipe-container">
+            {{> swipe_users user=user}}
+            <button id="left-swipe" class="swipe-button no-button">No</button>
+            <button id="right-swipe" class="swipe-button yes-button">Yes</button>
+        </div>
+        <div id="match-modal" class="modal">
+            <div class="modal-content">
+                <h2>It's a match!</h2>
+                <p>You and {{user.display_name}} have liked each other.</p>
+                <button id="close-match-modal">Continue Swiping</button>
+            </div>
+        </div>
+    {{/if}}
+    <script src="/resources/js/swipe_script.js"></script>
+</body>
+</html>
