@@ -20,6 +20,6 @@ Confused about matches/friends
     Or just see 7 images in carosel
 - Integrating with Algorithm
 
-Styling:        (Matt, Vivian, Alec)
-Joker:          (Vanum)
-Integration:    (Nina, Daniel, John)
+Styling (3):        (Matt, Vivian, Alec)
+Joker:              (Vanum)
+Integration (3):    (Nina, Daniel, John)
