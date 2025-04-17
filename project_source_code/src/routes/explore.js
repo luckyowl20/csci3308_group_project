@@ -22,11 +22,15 @@ router.get('/restaurants/loc', isAuthenticated, async (req, res) => {
   // 1. Get restaurant data from Google Places API
   const restaurants = await getNearbyRestaurants(lat, lon);
 
+  // console.log(restaurants);
+
   // // 2. Query user's opinions
   const opinions = await db.any(
     'SELECT place_id, opinion FROM restaurants WHERE user_id = $1',
     [userId]
   );
+
+  // console.log(opinions)
 
   // Separate liked and disliked place_ids
   const likedPlaceIds = opinions
