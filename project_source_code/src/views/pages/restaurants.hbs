@@ -3,8 +3,8 @@
 <html>
 
 <body>
-  {{!-- <p>Getting your location...</p>
-  <p>Your location: {{lat}} {{lon}} </p> --}}
+  <p>Getting your location...</p>
+  <p>Your location: {{lat}} {{lon}} </p>
   <main class="container py-4">
     <h2 class="mb-4">Nearby Restaurants</h2>
 
@@ -22,12 +22,27 @@
                 </div>
               {{/if}}
 
+              {{!-- <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                <p class="card-text">{{address}}</p>
+                {{#if rating}}<p class="card-text">⭐ {{rating}}</p>{{/if}}
+
+                <form action="/explore/restaurants/like" method="POST" class="d-inline">
+                  <input type="hidden" name="placeId" value="{{place_id}}">
+                  <button type="submit" class="btn btn-outline-success">👍 Like</button>
+                </form>
+
+                <form action="/explore/restaurants/dislike" method="POST" class="d-inline">
+                  <input type="hidden" name="placeId" value="{{place_id}}">
+                  <button type="submit" class="btn btn-outline-danger">👎 Dislike</button>
+                </form>
+              </div> --}}
               <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <p class="card-text">{{address}}</p>
                 {{#if rating}}<p class="card-text">⭐ {{rating}}</p>{{/if}}
 
-                {{!-- {{#if (likedPlaceIds.includes(place_id))}}
+                {{!-- {{#if (includes likedPlaceIds place_id)}}
                   <button class="btn btn-success text-white" style="pointer-events: none;">
                     👍 Liked
                   </button>
@@ -37,7 +52,7 @@
                     <input type="hidden" name="placeId" value="{{place_id}}">
                     <button type="submit" class="btn btn-outline-success">👍 Like</button>
                   </form>
-                {{/if}}
+                {{!-- {{/if}} --}}
 
                 {{!-- {{#if (includes ../dislikedPlaceIds place_id)}}
                   <button class="btn btn-danger text-white" style="pointer-events: none;">
