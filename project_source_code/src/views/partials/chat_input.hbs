@@ -1,9 +1,11 @@
 <!-- views/partials/chat_input.hbs -->
-<!-- chat_input.hbs -->
 <form id="chat-form" method="POST" action="/chat/messages/send">
   <input type="hidden" name="receiver_id" value="{{chatPartnerId}}">
   <div class="input-group">
-    <input type="text" class="form-control border-0" style="background-color: #f29e75; color: white; font-family: 'Montserrat" name="message_text" placeholder="Type a message..." required>
-    <button class="btn" style="background-color: #2d6842; color: white; font-family: 'Montserrat" type="submit">Send</button>
+    <input type="text" class="form-control font-alt text-white border-0" name="message_text"
+      placeholder="Type a message..." required>
+    <button type="submit" class="btn bg-navbar text-white font-alt">
+      Send
+    </button>
   </div>
 </form>

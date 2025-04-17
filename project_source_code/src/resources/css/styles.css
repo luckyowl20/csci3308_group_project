@@ -1,277 +1,411 @@
-body {
-  background-color: #fefbf4; /* Beige background */
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-}
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
+/* Define your variables in :root */
+:root {
+    /* Primary Colors */
+    --color-background: #ffffff;
+    /* beige: #fefbf4*/
+    --color-accent: #FF9169;
+    /* "Orange" accent color */
+    --color-secondary: #FFB2E5;
+    /* Pink background used for box-1 */
+    --color-primary: #2d6842;
+    /* Green text */
+    --color-white: #ffffff;
+
+    /* Additional Colors */
+    /* --color-navbar: #2d6842; same as priamry */
+    --color-button-primary: #efb2e8;
+    --color-button-secondary: #f29e75;
+    --color-button-hover: #e18855;
+
+    /* Fonts */
+    --font-primary: 'Poppins', sans-serif;
+    --font-heading: 'Lalezar', sans-serif;
+    --font-alt: 'Montserrat', sans-serif;
+
+    /* Button settings */
+    --button-hover-opacity: 0.8;
+
+    /* Chat bubbles */
+    --color-message-in-text: #000000;
+    --color-message-in-bubble: #e2e2e2;
+    --color-message-out-text: var(--color-white);
+    --color-message-out-bubble: var(--color-primary);
+}
+
+
+/* Global Resets + Global Font Families */
+
+/* Sets default values */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Default font */
+    font-family: var(--font-primary);
+}
+
+/* importing fonts */
+@font-face {
+    font-family: 'Lalezar';
+    src: url('../fonts/Lalezar-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Lalezar';
-  src: url('../fonts/Lalezar-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
-@font-face {
-  font-family: 'Montserrat';
-  src: url('../fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+/* 3) Body Defaults */
+body {
+    background-color: var(--color-background);
+    font-family: var(--font-primary);
+    display: flex;
+    /* If you want the entire body flex layout */
 }
 
-/* ::placeholder {
-  color: #FF9169 !important;
-  opacity: 1;
-} */
-
-.green-text {
-  color: #00643E;
+/* 4) Utility Text Classes */
+.primary-text {
+    color: var(--color-primary);
 }
 
-.orange-text {
-  color: #FF9169;
-}
-
-.bold-text {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 5000; /* Bold */
+.secondary-text {
+    color: var(--color-accent);
 }
 
 .welcome-text {
-  font-family: 'Lalezar', sans-serif !important;
-  font-size: 3rem !important;
+    font-family: var(--font-heading) !important;
+    font-size: 3rem !important;
 }
 
+.font-primary {
+    font-family: var(--font-primary);
+}
+
+.font-heading {
+    font-family: var(--font-heading);
+}
+
+.font-alt {
+    font-family: var(--font-alt);
+}
+
+/* ===== LAYOUT / BOX CLASSES ===== */
 .container {
-  margin: 50px auto;
+    margin: 50px auto;
 }
 
 .body {
-  position: relative;
-  width: 720px;
-  height: 440px;
-  margin: 20px auto;
-  border: 1px solid #dddd;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    position: relative;
+    width: 720px;
+    height: 440px;
+    margin: 20px auto;
+    border: 1px solid #dddd;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-/* .box-1 img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-} */
+/* used in register/login */
+.box-1 {
+    width: 50%;
+    background-color: var(--color-secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+}
 
+/* used in register/login */
 .box-2 {
-  padding: 10px;
+    width: 50%;
+    padding: 10px;
+    background-color: var(--color-white);
 }
 
+/* used in register/login */
 .box-1 p {
-  font-family: 'Lalezar', sans-serif !important;
+    font-family: var(--font-heading) !important;
+    font-size: 3rem;
 }
 
-
-.box-1,
-.box-2 {
-  width: 50%;
-}
-
+/* ===== HEADINGS ===== */
 .h-1 {
-  font-size: 24px;
-  font-weight: 700;
-  font-family: 'Lalezar', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: var(--font-heading);
 }
 
-.text-muted {
-  font-size: 14px;
-}
-
-.container .box {
-  width: 100px;
-  height: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid transparent;
-  text-decoration: none;
-  color: #615f5fdd;
-}
-
-.box:active,
-.box:visited {
-  border: 2px solid #ee82ee;
-}
-
-.box:hover {
-  border: 2px solid #ee82ee;
-}
-
+/* ===== BUTTONS ===== */
 .btn.btn-primary {
-  background-color: #FF9169;
-  /* color: #ee82ee; */
-  border: 3px;
-  /* padding: 0;
-  font-size: 14px; */
+    /* colors */
+    background-color: var(--color-button-primary);
+    border: 3px solid transparent;
+    color: var(--color-white);
+
+    /* centering button content and font */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-alt);
+    padding: 0.5rem 1.5rem;
 }
 
+.btn.btn-primary:hover {
+    background-color: var(--color-button-primary);
+    border: 3px solid transparent;
+    color: var(--color-white);
+
+    /* adjust opacity of button */
+    opacity: var(--button-hover-opacity);
+}
+
+/* Icon style to make sure they render correctly within the buttons*/
 .btn.btn-primary .fas.fa-chevron-right {
-  font-size: 12px;
+    font-size: 12px;
 }
 
-.footer .p-color {
-  color: #ee82ee;
+.btn.btn-secondary {
+    background-color: var(--color-button-secondary);
+    border: 3px solid transparent;
+    color: var(--color-white);
+
+    /* centering button content and font */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-alt);
+    padding: 0.5rem 1.5rem;
 }
 
-.footer.text-muted {
-  font-size: 10px;
+.btn.btn-secondary:hover {
+    background-color: var(--color-button-secondary);
+    border: 3px solid transparent;
+    color: var(--color-white);
+
+    /* adjust opacity of button */
+    opacity: var(--button-hover-opacity);
 }
 
-.fas.fa-times {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  height: 20px;
-  width: 20px;
-  background-color: #f3cff379;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.btn.btn-outline-success {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+
+    /* centering button content and font */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-alt);
+    padding: 0.5rem 1.5rem;
 }
 
-.fas.fa-times:hover {
-  color: #ff0000;
+.btn.btn-outline-success:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }
 
-@media (max-width:767px) {
-  body {
-      padding: 10px;
-  }
 
-  .body {
-      width: 100%;
-      height: 100%;
-  }
-
-  .box-1 {
-      width: 100%;
-  }
-
-  .box-2 {
-      width: 100%;
-      height: 440px;
-  }
-}
-
-/* General Reset */
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #fffaf0;
-    font-family: 'Segoe UI', sans-serif;
-    color: #2d6842;
-  }
-  
-  /* Navbar */
-  .navbar {
-    background-color: #2d6842;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-  .navbar .nav-link {
-    color: white;
-    margin-left: 1rem;
-  }
-  .navbar-brand {
-    font-weight: bold;
-    color: white;
-  }
-  
-  /* Section Headers */
-  h1, h2, h3, h5 {
-    color: #2d6842;
-  }
-  
-  /* Carousel */
-  .carousel-inner img {
-    object-fit: cover;
-  }
-  
-  /* Buttons */
-  .btn-primary {
-    background-color: #efb2e8;
-    color: white;
-    border: none;
-  }
-  .btn-secondary {
-    background-color: #f29e75;
-    color: white;
-    border: none;
-  }
-  .btn-secondary:hover,
-  .btn-primary:hover {
-    opacity: 0.9;
-  }
-  .btn-outline-success {
-    color: #2d6842;
-    border-color: #2d6842;
-  }
-  .btn-outline-success:hover {
-    background-color: #2d6842;
-    color: white;
-  }
-  
-  /* Learn More Images */
-  .hero-img,
-  .feature-img {
-    max-height: 400px;
-    object-fit: cover;
-  }
-  
-  /* Login & Register Panels */
-  .login-container {
-    min-height: 100vh;
-  }
-  .left-panel {
-    background-color: #efb2e8;
+/* ===== PANELS, LOGIN, REGISTER ===== */
+.left-panel {
+    background-color: var(--color-button-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .left-panel h1 {
-    color: white;
+}
+
+.left-panel h1 {
+    color: var(--color-white);
     font-weight: 700;
     font-size: 3rem;
     text-align: center;
-  }
-  .login-form,
-  .register-form {
-    background-color: white;
+}
+
+.login-form,
+.register-form {
+    background-color: var(--color-white);
     padding: 3rem;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-  }
-  .login-form .form-control,
-  .register-form .form-control,
-  .login-form .btn,
-  .register-form .btn {
-    background-color: #f29e75;
+}
+
+.login-form .form-control,
+.register-form .form-control,
+.login-form .btn,
+.register-form .btn {
+    background-color: var(--color-button-secondary);
     border: none;
-    color: white;
-  }
-  .form-control::placeholder {
+    color: var(--color-white);
+}
+
+.form-control::placeholder {
     color: #ffffffcc;
-  }
-  .btn:hover {
-    background-color: #e18855;
-  }
+}
+
+.btn:hover {
+    background-color: var(--color-button-hover);
+}
+
+/* ===== ADDITIONAL GLOBAL STYLES ===== */
+.bg-navbar {
+    background-color: var(--color-primary);
+}
+
+.navbar {
+    background-color: var(--color-primary);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.navbar .nav-link {
+    color: var(--color-white);
+    margin-left: 1rem;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--color-white);
+}
+
+.carousel-inner img {
+    object-fit: cover;
+}
+
+
+/* ==== CHAT STYLES ===== */
+.chat-box {
+    height: 400px;
+    overflow: auto;
+}
+
+/* Shared message bubble styling */
+.message-bubble {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.95rem;
+    max-width: 75%;
+    word-wrap: break-word;
+}
+
+/* Outgoing message (user-sent) */
+.message-out {
+    background-color: var(--color-message-out-bubble);
+    /* soft pink */
+    color: var(--color-message-out-text);
+    /* white text */
+}
+
+/* Incoming message (from others) */
+.message-in {
+    background-color: var(--color-message-in-bubble);
+    /* light gray bubble */
+    color: var(--color-message-in-text);
+    /* dark gray text */
+}
+
+
+/* ===== EXPLORE PAGE STYLES ===== */
+.explore-tile {
+    width: 200px;
+    height: 200px;
+    text-decoration: none;
+    /* font-family: var(--font-alt); */
+    /* Montserrat */
+    font-weight: 600;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    /* rounded */
+}
+
+/* Background colors for category tiles */
+.bg-pink {
+    background-color: var(--color-button-primary);
+    /* #efb2e8 */
+}
+
+.bg-orange {
+    background-color: var(--color-button-secondary);
+    /* #f29e75 */
+}
+
+.bg-blue {
+    background-color: #ade8ff;
+    /* Define in :root if you want to reuse */
+}
+
+/* ==== PROFILE PICTURE ICON STYLE */
+
+/* small size profile pic - used for profile icon in nav */
+.profile-pic-small {
+    width: 28px;
+    height: 28px;
+}
+
+.profile-pic-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* medium size profile pic - used on home page for post */
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Large profile circle - used on profile page */
+.profile-pic-large {
+    width: 150px;
+    height: 150px;
+    border: 3px solid #ccc;
+    border-radius: 50%;
+    overflow: hidden;
+    /* keeps image from spilling outside the circle */
+}
+
+/* Style the inside image (optional, if you want to ensure object-fit) */
+.profile-pic-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* ===== MEDIA QUERIES ===== */
+@media (max-width: 767px) {
+    body {
+        padding: 10px;
+    }
+
+    .body {
+        width: 100%;
+        height: auto;
+    }
+
+    .box-1 {
+        width: 100%;
+    }
+
+    .box-2 {
+        width: 100%;
+        height: auto;
+    }
+}

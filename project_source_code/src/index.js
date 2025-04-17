@@ -1,3 +1,4 @@
+// index.js
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -133,8 +134,7 @@ app.locals.io = io;
 
 // Set up the connection handler
 io.on('connection', (socket) => {
-    console.log('A user connected');
-
+    //console.log('a user joined');
     socket.on('join', (userId) => {
         socket.join(`user_${userId}`);
         console.log(`User ${userId} joined their room.`);
@@ -160,7 +160,7 @@ http_server.listen(PORT, () => {
 module.exports = app;
 
 // Add logging middleware
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next();
-});
+// app.use((req, res, next) => {
+//     console.log(`${req.method} ${req.url}`);
+//     next();
+// });

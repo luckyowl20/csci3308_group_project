@@ -9,7 +9,6 @@
   border: none;
   cursor: pointer;
 }
-
 .dropdown-content {
   display: none;
   position: relative;
@@ -36,8 +35,13 @@
     display: flex;
     height: 50px;
     width: 70dvw;
-    background-color: {{user_color.code}};
+    background-color: #2d6842;
     text-align: center;
+}
+
+.dropdown-button:hover {
+    color: white;
+    background-color: #3a8453;
 }
 
 .submit-button {
@@ -70,7 +74,7 @@ input[type="radio"]:checked + label {
     <h1 style="margin-bottom: 60px;">Settings</h1>
     {{!-- Account --}}
     <div class="dropdown">
-        <button id = "account" class="dropbtn dropdown-button">Account</button>
+        <button id = "account" class="btn dropbtn dropdown-button">Account</button>
         <div id="accountDropdown" class="dropdown-content">
           <a>
             <form action="/settings/account" method="post">
@@ -96,7 +100,7 @@ input[type="radio"]:checked + label {
                   <label class="form-label"><strong>Enter password to confirm changes.</strong></label>
                   <input type="password" name = "password" class="form-control" placeholder="Enter Password" required>
               </div>
-              <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
             </form>
           </a>
         </div>
@@ -104,7 +108,7 @@ input[type="radio"]:checked + label {
     {{!-- Privacy --}}
     <div style="margin-top: 10px;">
     <div class="dropdown">
-        <button id = "privacy" class="dropbtn dropdown-button">Privacy</button>
+        <button id = "privacy" class="btn dropbtn dropdown-button">Privacy</button>
         <div id="privacyDropdown" class="dropdown-content">
           <a>
             <form action="/settings/privacy" method="post">
@@ -113,7 +117,7 @@ input[type="radio"]:checked + label {
                 <label class="form-label">Public Friends</label>
                 <input id = "public_friends_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "public_friends" value = 1 type="checkbox" class="onoffswitch-checkbox"> 
               </div>
-              <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
             </form>
           </a>
         </div>
@@ -122,7 +126,7 @@ input[type="radio"]:checked + label {
     {{!-- Notifications --}}
     <div style="margin-top: 10px;">
     <div class="dropdown">
-        <button id = "notif" class="dropbtn dropdown-button">Notifications</button>
+        <button id = "notif" class="btn dropbtn dropdown-button">Notifications</button>
         <div id="notifDropdown" class="dropdown-content">
           <a>
             <form action="/settings/notifications" method="post">
@@ -135,7 +139,7 @@ input[type="radio"]:checked + label {
                 <label class="form-label">Match Notifications</label>
                 <input id = "match_notif_checkbox" style="margin-left: 10px; width:20px; height:20px;" name = "matchNotifs" value = 1 type="checkbox" class="onoffswitch-checkbox"> 
               </div>
-              <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
             </form>
           </a>
         </div>
@@ -144,12 +148,12 @@ input[type="radio"]:checked + label {
     {{!-- Security --}}
     <div style="margin-top: 10px;">
     <div class="dropdown">
-        <button id = "security" class="dropbtn dropdown-button">Security</button>
+        <button id = "security" class="btn dropbtn dropdown-button">Security</button>
         <div id="securityDropdown" class="dropdown-content">
           <a>
             <form action="/settings/security" method="post">
               {{!-- forms --}}
-              <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
             </form>
           </a>
         </div>
@@ -158,12 +162,12 @@ input[type="radio"]:checked + label {
     {{!-- Chat and Messages --}}
     <div style="margin-top: 10px;">
     <div class="dropdown">
-        <button id = "chat" class="dropbtn dropdown-button">Chat and Messaging</button>
+        <button id = "chat" class="btn dropbtn dropdown-button">Chat and Messaging</button>
         <div id="chatDropdown" class="dropdown-content">
           <a>
             <form action="/settings/chat" method="post">
               {{!-- forms --}}
-              <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
+              <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
             </form>
           </a>
         </div>
@@ -172,47 +176,18 @@ input[type="radio"]:checked + label {
     {{!-- Apperance and Display --}}
     <div style="margin-top: 10px;">
     <div class="dropdown">
-        <button id = "apperance" class="dropbtn dropdown-button">Apperance and Display</button>
+        <button id = "apperance" class="btn dropbtn dropdown-button">Apperance and Display</button>
         <div id="apperanceDropdown" class="dropdown-content">
           <a>
             <form id = 'apperanceForm' action="/settings/apperance" method="post">
 
               {{!-- forms --}}
-
-              <label class="form-label">UI Color</label>
-              <div class="d-flex gap-3">
-
-                <!-- red -->
-                <input type="radio" name="color" id="colorred" value="red">
-                <label for="colorred" class="color-option" style="background-color: rgb(128, 31, 31);"></label>
-
-                <!-- orange -->
-                <input type="radio" name="color" id="colororange" value="orange">
-                <label for="colororange" class="color-option" style="background-color: rgb(183, 111, 60)"></label>
-
-                <!-- yellow -->
-                <input type="radio" name="color" id="coloryellow" value="yellow">
-                <label for="coloryellow" class="color-option" style="background-color: rgb(156, 120, 0);"></label>
-
-                <!-- green -->
-                <input type = "radio" name="color" id="colorgreen" value="green">
-                <label for="colorgreen" class="color-option" style="background-color: rgb(46, 116, 36);"></label>
-
-                <!-- blue -->
-                <input type="radio" name="color" id="colorblue" value="blue">
-                <label for="colorblue" class="color-option" style="background-color: rgb(44, 66, 135);"></label>
-
-                <!-- purple -->
-                <input type="radio" name="color" id="colorpurple" value="purple">
-                <label for="colorpurple" class="color-option" style="background-color: rgb(115, 45, 118);"></label>
-
-              </div>
-              <label style="margin-top: 10px;" class="form-label">Page Apperance</label>
+              <label class="form-label">Page Apperance</label>
               <select type = "text" name = "mode" class="form-select" id = "mode_select">
                 <option value="light">Light Mode</option>
                 <option value="dark">Dark Mode</option>
               </select>
-              <button class="submit-button" type = "submit" style="margin-top: 10px;"><strong>Save Changes</strong></button>
+              <button type="submit" class="btn" style="margin-top: 10px; background-color: #2d6842; color: white;">Save Changes</button>
             </form>
           </a>
         </div>
@@ -221,7 +196,6 @@ input[type="radio"]:checked + label {
     {{!-- script --}}
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        colors = JSON.parse('{{{color_string}}}');
 
         /* When the user clicks on the button, 
         toggle between hiding and showing the dropdown content */
@@ -231,47 +205,9 @@ input[type="radio"]:checked + label {
             drop_buttons[i].addEventListener('click' , myFunction.bind(this, id), false ); 
         }
 
-        
-
         apperance_form = document.getElementById('apperanceForm');
 
         apperance_form.addEventListener('change', function(){
-            radio = document.getElementsByName('color')
-            radio_selection = ''
-            for(var i = 0; i < radio.length; i++) {
-                if(radio[i].checked) {
-                radio_selection = radio[i].value;
-                }
-            }
-            if(radio_selection != '') {
-              switch(radio_selection) {
-                  case "red":
-                  ui_color = colors[2].code;
-                  break;
-                  case "orange":
-                  ui_color = colors[3].code;
-                  break;
-                  case "yellow":
-                  ui_color = colors[4].code;
-                  break;
-                  case "green":
-                  ui_color = colors[5].code;
-                  break;
-                  case "blue":
-                  ui_color = colors[6].code;
-                  break;
-                  case "purple":
-                  ui_color = colors[7].code;
-                  break;
-                  
-                  default:
-                  console.log('error');
-              }
-              ui = document.getElementsByClassName('dropdown-button')
-              for(var i = 0; i < ui.length; i++) {
-                  ui[i].style.backgroundColor = ui_color;
-              }
-            }
             mode_select = document.getElementById('mode_select');
             mode = mode_select.value;
             id;
@@ -285,18 +221,6 @@ input[type="radio"]:checked + label {
               default:
               console.log('error');
             }
-            /*
-            body = document.getElementsByTagName("body")[0];
-            body.style.backgroundColor = colors[id].light_code
-            console.log(body.style.backgroundColor)
-            nav = document.getElementsByTagName("nav")[0];
-            nav.style.backgroundColor = colors[id].code
-            console.log(nav.style.backgroundColor)
-            dropdowns = document.getElementsByClassName("dropdown-content")
-            for(int i = 0; i < dropdowns.length; i++) {
-              dropdowns[0].style.backgroundColor = colors[id].code;
-            }
-            */
             
         }, false)
 
@@ -314,9 +238,6 @@ input[type="radio"]:checked + label {
               checkbox.checked = JSON.parse('{{{settings.match_notifs}}}');
             }
             else if(id == 'apperance') {
-
-              color_select = document.getElementById('color{{settings.ui_color}}')
-              color_select.checked = true;
           
               mode_select = document.getElementById('mode_select');
               mode_select.value = ('{{settings.apperance_mode}}');

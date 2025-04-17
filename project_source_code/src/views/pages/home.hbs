@@ -1,34 +1,39 @@
-<!-- views/pages/home.hbs -->
-<div class="container-fluid py-4 px-4" style="min-height: 100vh;">
+<div class="container-fluid py-4 px-4 bg-light-beige min-vh-100">
   <div class="row">
+
     <!-- Left buttons -->
     <div class="col-md-2 d-flex flex-column align-items-start gap-4">
-      <a href="/meet" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8; font-family: 'Montserrat'">Meet Someone</a>
-      <a href="/friends" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8; font-family: 'Montserrat'">Meet Friends</a>
-      <a href="/chat" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8; font-family: 'Montserrat'">Chat</a>
+      <a href="/meet" class="btn btn-primary tile fw-bold w-100 py-4">Meet Someone</a>
+      <a href="/friends" class="btn btn-primary tile fw-bold w-100 py-4">Meet Friends</a>
+      <a href="/chat" class="btn btn-primary tile fw-bold w-100 py-4">Chat</a>
     </div>
 
     <!-- Instagram-style Feed -->
     <div class="col-md-10">
-      <div class="d-flex justify-content-end mb-3">
-        <button class="btn btn-light border" style="font-family: 'Montserrat'">Filter</button>
-      </div>
-
-      <!-- Grid of friend cards -->
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {{!-- Repeat this div dynamically for each friend profile if needed --}}
-        <div class="col">
-          <div class="card bg-light" style="height: 300px;">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-white border me-2" style="width: 20px; height: 20px;"></div>
-                <span class="text-muted" style="font-family: 'Montserrat'">Friend</span>
-              </div>
-              <div class="bg-secondary w-100 h-75 rounded"></div>
+      {{#each feed}}
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header d-flex align-items-center">
+            <div class="profile-pic me-3">
+              {{#if this.profile_picture_url}}
+                <img src="{{this.profile_picture_url}}" alt="Profile">
+              {{else}}
+                <img src="https://via.placeholder.com/50?text=U" alt="Default">
+              {{/if}}
             </div>
-            <h5 class="mb-0 text-success fw-bold text-center" style="font-family: 'Montserrat'">{{this.display_name}}</h5>
+            <h5 class="mb-0 primary-text fw-semibold">{{this.display_name}}</h5>
+          </div>
+          <div class="card-body text-center">
+            {{#if this.todays_photo_url}}
+              <img src="{{this.todays_photo_url}}" alt="Today's Post" class="img-fluid rounded post-img">
+            {{else}}
+              <div class="d-flex align-items-center justify-content-center bg-secondary text-white rounded" style="height: 400px;">
+                <p class="mb-0">User has not posted a picture today</p>
+              </div>
+            {{/if}}
           </div>
         </div>
+      {{/each}}
     </div>
+
   </div>
 </div>

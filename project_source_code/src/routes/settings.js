@@ -24,17 +24,7 @@ router.get('/',isAuthenticated, async (req, res) => {
             WHERE user_settings.user_id = $1`,
             [user.id]
         );
-        const colors = await db.any(
-            `SELECT * FROM colors`
-        )
-        const user_color = await db.oneOrNone(
-            `SELECT *
-            FROM colors
-            WHERE id = $1` , [user_settings.color_id]
-        )
-        
-        color_string = JSON.stringify(colors);
-        res.render('pages/settings', {user : user, settings : user_settings, color_string : color_string, user_color : user_color});
+        res.render('pages/settings', {user : user, settings : user_settings});
         // res.json(user_settings.apperance_mode);
     } catch (err) {
         console.error('Error querying user settings:', err);
@@ -205,21 +195,7 @@ router.post('/apperance',isAuthenticated, async (req,res) => {
         [user_id]
     );
 
-    const {color, mode} = req.body;
-
-    if(color != user_settings.ui_color) {
-        try {
-            color_id = await db.oneOrNone(`SELECT id FROM colors WHERE name = $1`, [color])
-            await db.none(
-                `UPDATE user_settings
-                SET ui_color = $1, color_id = $2
-                WHERE user_id = $3` , [color, color_id.id, user_id]
-            )
-        }
-        catch {
-
-        }
-    }
+    const {mode} = req.body;
     if(mode != user_settings.apperance_mode) {
         try {
             await db.none(

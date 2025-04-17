@@ -1,0 +1,136 @@
+/* Login and Registration Page Specific Styles */
+
+/* Main container layout */
+.container {
+    margin: 50px auto;
+}
+
+/* Main content container */
+.body {
+    position: relative;
+    width: 720px;
+    height: 440px;
+    margin: 20px auto;
+    border: 1px solid #dddd;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* Left side welcome panel */
+.box-1 {
+    width: 50%;
+    background-color: var(--color-secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+}
+
+/* Right side form container */
+.box-2 {
+    width: 50%;
+    padding: 20px 30px;
+    background-color: var(--color-white);
+}
+
+.box-2 form{
+    margin-top: 10px;
+}
+
+/* Welcome text styling */
+.box-1 p {
+    font-family: var(--font-heading) !important;
+    font-size: 3rem;
+    /* text-align: center; */
+}
+
+/* Reducing vertical space between elements */
+.mt-4 {
+    margin-top: 0.01rem !important;
+}
+
+/* Form heading spacing */
+.mb-1 {
+    margin-bottom: 0.1rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+/* Reduce spacing in form groups */
+.mb-3 {
+    margin-bottom: 0.3rem !important;
+}
+
+/* Form container styling */
+.login-form,
+.register-form {
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+/* Form control styling */
+.form-control {
+    border: 1px solid #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-family: var(--font-alt);
+}
+
+.form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.25rem rgba(45, 104, 66, 0.25);
+}
+
+/* Form labels */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/* Login/Register buttons */
+.btn {
+    padding: 8px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Links styling */
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Adjust spacing for the register link section */
+.mt-3 {
+    margin-top: 0.75rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .body {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+    }
+
+    .box-1, 
+    .box-2 {
+        width: 100%;
+        height: auto;
+    }
+
+    .box-1 {
+        padding: 40px 0;
+    }
+}
