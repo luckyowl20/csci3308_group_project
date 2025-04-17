@@ -104,12 +104,15 @@ router.post('/register', async (req, res) => {
 
         await db.query(`INSERT INTO user_settings (user_id) VALUES ($1)`, [user_id.id]); //creating row for user settings
 
-        req.session.message = { text: 'Registration successful! You can now log in.' };
+        req.session.message = 'Registration successful! You can now log in.';
         console.log("Successfully registered user:", username);
 
-        res.status(200);
-        return res.render('pages/login', { message: 'Registration successful! You can now log in.', error: false });
+        // res.status(200);
+        
+        return res.redirect('/auth/login');
+        // return res.render('auth/login', { message: 'Registration successful! You can now log in.', error: false });
 
+        
     } catch (error) {
         console.error('Registration error:', error.message);
         res.status(400);
