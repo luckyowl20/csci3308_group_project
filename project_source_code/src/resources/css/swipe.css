@@ -23,6 +23,24 @@
     margin: 0 auto; /* Center the card */
 }
 
+/* Target the display name specifically */
+#user-name {
+    color: #2d6842; /* A nice green color */
+    font-weight: bold;
+    margin-bottom: 5px; /* Optional spacing */
+}
+
+/* Or if you want to use your color variable */
+:root {
+    --color-green: #2d6842; /* Define your green color */
+    --color-white: #ffffff;
+}
+
+#user-name {
+    color: var(--color-green);
+}
+
+
 .user-photo {
     height: 75%; 
 }
