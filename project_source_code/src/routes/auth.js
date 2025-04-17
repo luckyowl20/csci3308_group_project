@@ -109,7 +109,14 @@ router.post('/register', async (req, res) => {
 
         // res.status(200);
         
-        return res.redirect('/auth/login');
+        // return res.redirect('/auth/login');
+        req.session.message = null;
+        return res.render('pages/login', {
+        layout: 'landing',
+        title: 'Login | LuckyMoment',
+        message: 'Registration successful! You can now log in.',
+        error: false
+        });
         // return res.render('auth/login', { message: 'Registration successful! You can now log in.', error: false });
 
         
