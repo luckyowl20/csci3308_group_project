@@ -93,6 +93,12 @@ router.post('/swipe', async (req, res) => {
             }); 
         }
 
+        // Convert isLiked to proper boolean
+        const isLikedBool = isLiked === true || isLiked === 'true';
+        
+        // Determine swipe type based on action
+        const swipeType = isLikedBool ? 'match' : 'friend';
+
         // Transaction to ensure data consistency
         await req.app.locals.db.tx(async t => {
             // Check if swipee exists
@@ -105,15 +111,15 @@ router.post('/swipe', async (req, res) => {
                 throw new Error('User to swipe on does not exist');
             }
 
-            // Record swipe
+            // Record swipe with correct type and like status
             await t.none(
                 `INSERT INTO swipes (swiper_id, swipee_id, is_liked, swipe_type) 
-                 VALUES ($1, $2, $3, 'match')`,
-                [swiperId, swipeeId, isLiked === 'true']
+                 VALUES ($1, $2, $3, $4)`,
+                [swiperId, swipeeId, isLikedBool, swipeType]
             );
 
             // Check for match only if it's a like
-            if (isLiked === 'true') {
+            if (isLikedBool) {
                 const match = await t.oneOrNone(
                     `SELECT 1 FROM swipes 
                      WHERE swiper_id = $1 AND swipee_id = $2 AND is_liked = true`,
