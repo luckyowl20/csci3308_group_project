@@ -30,6 +30,9 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
   text-align: center;
+  margin-top: 8rem;
+  max-height: 95vh; /* Or try height: 500px; */
+  overflow-y: auto;
 }
 
 h2 {
