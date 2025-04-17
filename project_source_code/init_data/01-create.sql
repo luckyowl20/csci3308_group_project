@@ -175,3 +175,10 @@ CREATE TABLE IF NOT EXISTS blogs_posts (
     blog_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL
 )
+-- table of user opinion on music
+CREATE TABLE IF NOT EXISTS music (
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- the user who liked the song
+    song_id CHAR(500),
+    opinion INTEGER NOT NULL -- (-1) = dislike, (1) = like
+); 

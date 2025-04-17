@@ -1,37 +1,3 @@
-
-// const express = require('express');
-// const router = express.Router();
-// const { isAuthenticated } = require('../middleware/auth');
-
-// // Define an array of popular track IDs to use as fallback
-// const sampleTrackIds = [
-//   '4cOdK2wGLETKBW3PvgPWqT',
-//   '0SIAFU49FFHwR3QnT5Jx0k', 
-//   '1zi7xx7UVEFkmKfv06H8x0', 
-//   '6habFhsOp2NvshLv26DqMb', 
-//   '7qiZfU4dY1lWllzX7mPBI3'
-// ];
-
-// router.get('/', isAuthenticated, async (req, res) => {
-//   try {
-//     // Simply select a random track ID from our sample list
-//     const randomIndex = Math.floor(Math.random() * sampleTrackIds.length);
-//     const trackId = sampleTrackIds[randomIndex];
-    
-//     console.log('Rendering music page with track ID:', trackId);
-    
-//     // Render the page with the random track ID
-//     res.render('pages/music', {
-//       trackId: trackId
-//     });
-//   } catch (err) {
-//     console.error('Error loading Explore Music page:', err);
-//     res.status(500).send('Something went wrong loading the Explore Music page.');
-//   }
-// });
-
-// module.exports = router;
-
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
@@ -137,36 +103,88 @@ async function getRandomTrack(token) {
   }
 }
 
-router.get('/', isAuthenticated, async (req, res) => {
-  try {
-    let trackId;
+// router.get('/', isAuthenticated, async (req, res) => {
+//   try {
+//     let trackId;
     
-    // Try to get a track from the Spotify API
-    try {
-      const token = await getSpotifyToken();
+//     // Try to get a track from the Spotify API
+//     try {
+//       const token = await getSpotifyToken();
       
-      if (token) {
-        trackId = await getRandomTrack(token);
+//       if (token) {
+//         trackId = await getRandomTrack(token);
+//       } else {
+//         throw new Error('No Spotify token available');
+//       }
+//     } catch (apiError) {
+//       console.warn('Falling back to sample tracks due to API error:', apiError.message);
+//       // Fallback to sample tracks if the API call fails
+//       const randomIndex = Math.floor(Math.random() * fallbackTrackIds.length);
+//       trackId = fallbackTrackIds[randomIndex];
+//     }
+    
+//     console.log('Rendering music page with track ID:', trackId);
+    
+//     // Render the page with the track ID
+//     res.render('pages/music', {
+//       trackId: trackId
+//     });
+//   } catch (err) {
+//     console.error('Error loading Explore Music page:', err);
+//     res.status(500).send('Something went wrong loading the Explore Music page.');
+//   }
+// });
+
+router.get('/', isAuthenticated, async (req, res) => {
+  const artistQuery = req.query.artist;
+  let trackId;
+
+  try {
+    const token = await getSpotifyToken();
+    
+    if (token) {
+      if (artistQuery) {
+        // Search for a track by the given artist
+        const response = await axios({
+          method: 'get',
+          url: 'https://api.spotify.com/v1/search',
+          params: {
+            q: `artist:${artistQuery}`,
+            type: 'track',
+            limit: 10,
+            market: 'US'
+          },
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+
+        const tracks = response.data.tracks.items;
+        if (tracks.length > 0) {
+          const randomIndex = Math.floor(Math.random() * tracks.length);
+          trackId = tracks[randomIndex].id;
+        } else {
+          console.warn('No tracks found for artist:', artistQuery);
+          throw new Error('No artist results');
+        }
       } else {
-        throw new Error('No Spotify token available');
+        // Default random track
+        trackId = await getRandomTrack(token);
       }
-    } catch (apiError) {
-      console.warn('Falling back to sample tracks due to API error:', apiError.message);
-      // Fallback to sample tracks if the API call fails
-      const randomIndex = Math.floor(Math.random() * fallbackTrackIds.length);
-      trackId = fallbackTrackIds[randomIndex];
+    } else {
+      throw new Error('No Spotify token available');
     }
-    
-    console.log('Rendering music page with track ID:', trackId);
-    
-    // Render the page with the track ID
-    res.render('pages/music', {
-      trackId: trackId
-    });
-  } catch (err) {
-    console.error('Error loading Explore Music page:', err);
-    res.status(500).send('Something went wrong loading the Explore Music page.');
+  } catch (apiError) {
+    console.warn('Falling back to sample tracks due to API error:', apiError.message);
+    const randomIndex = Math.floor(Math.random() * fallbackTrackIds.length);
+    trackId = fallbackTrackIds[randomIndex];
   }
+
+  res.render('pages/music', {
+    trackId,
+    artist: artistQuery || ''
+  });
 });
+
 
 module.exports = router;
