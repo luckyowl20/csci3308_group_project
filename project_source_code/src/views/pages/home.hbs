@@ -16,11 +16,11 @@
         {{#each feed}}
           <div class="card mb-4 shadow-sm">
             <div class="card-header d-flex align-items-center">
-              <div class="rounded-circle overflow-hidden me-3" style="width: 50px; height: 50px;">
+              <div class="profile-pic me-3">
                 {{#if this.profile_picture_url}}
-                  <img src="{{this.profile_picture_url}}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                  <img src="{{this.profile_picture_url}}" alt="Profile">
                 {{else}}
-                  <img src="https://via.placeholder.com/50?text=U" alt="Default" style="width: 100%; height: 100%; object-fit: cover;">
+                  <img src="https://via.placeholder.com/50?text=U" alt="Default">
                 {{/if}}
               </div>
               <h5 class="mb-0">
@@ -33,23 +33,18 @@
               <img 
                 src="{{this.todays_photo_url}}" 
                 alt="Today's Post" 
-                class="img-fluid rounded" 
-                style="max-height: 400px; object-fit: cover;"
+                class="img-fluid rounded feed-image"
               >
             </div>
           </div>
         {{/each}}
       {{else}}
         <div class="position-relative mb-4 text-center">
-          <div 
-            style="filter: blur(6px); height: 400px; background-color: #ccc; border-radius: 8px;"
-            class="d-flex align-items-center justify-content-center"
-          >
+          <div class="d-flex align-items-center justify-content-center feed-blur-wrapper">
             <img 
               src="https://via.placeholder.com/600x400?text=Friends%27+Photos+Hidden" 
               alt="Hidden Feed" 
-              class="img-fluid w-100 h-100" 
-              style="object-fit: cover; border-radius: 8px;"
+              class="img-fluid feed-image-blurred"
             >
           </div>
 
@@ -64,6 +59,5 @@
       {{/if}}
 
     </div>
-
   </div>
 </div>

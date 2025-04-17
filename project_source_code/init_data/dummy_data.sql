@@ -25,15 +25,15 @@ VALUES
 INSERT INTO posts (user_id, photo_id, title, body, created_at)
 VALUES
   -- Alice (posted 4-15)
-  (1, 1, 'Alice''s First Post', 'Hello, this is Alice!', '2025-04-13'),
+  (1, 1, 'Alice''s First Post', 'Hello, this is Alice!', '2025-04-17'),
   (1, 2, 'Alice''s Second Post', 'Another day, another update from Alice.', '2025-04-12'),
   
   -- Bob (posted 4-15)
-  (2, 2, 'Bob''s First Post', 'Hi, Bob here. Enjoying the platform!', '2025-04-15'),
+  (2, 2, 'Bob''s First Post', 'Hi, Bob here. Enjoying the platform!', '2025-04-17'),
   (2, NULL, 'Bob''s Second Post', 'Sometimes I post without a photo.', '2025-04-10'),
   
   -- Charlie (posted 4-15)
-  (3, 3, 'Charlie''s First Post', 'Greetings from Charlie!', '2025-04-15'),
+  (3, 3, 'Charlie''s First Post', 'Greetings from Charlie!', '2025-04-17'),
   (3, 1, 'Charlie''s Second Post', 'Loving this community.', '2025-04-07'),
   
   -- Dave
