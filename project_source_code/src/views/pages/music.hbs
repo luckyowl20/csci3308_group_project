@@ -40,7 +40,7 @@
 </body>
 </html> --}}
 
-<!DOCTYPE html>
+{{!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -53,35 +53,74 @@
   {{else}}
     <div class="swipe-container">
       <div class="track-card">
-        <h2>{{track.name}}</h2>
+        {{!-- <h2>{{track.name}}</h2>
         <p>by {{track.artists.[0].name}}</p>
         <img src="{{track.album.images.[0].url}}" alt="Album cover" style="width:200px;">
-        <audio controls src="{{track.preview_url}}"></audio>
+        <audio controls src="{{track.preview_url}}"></audio> --}}
+        {{!-- <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}"
+        width="100%" height="80" frameBorder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+      </iframe>
       </div>
 
       <button id="left-swipe" class="swipe-button no-button">Skip</button>
       <button id="right-swipe" class="swipe-button yes-button">Like</button>
-    </div>
+    </div> --}}
 
 
     {{!-- Swipe Buttons --}}
-    <div class="d-flex justify-content-center gap-3">
+    {{!-- <div class="d-flex justify-content-center gap-3">
       <button id="left-swipe" class="btn btn-outline-danger">Skip</button>
       <button id="right-swipe" class="btn btn-outline-success">Like</button>
-    </div>
+    </div> --}}
 
-  </div>
+  {{!-- </div>
 </div>
 
   {{/if}}
 
   <script>
-    document.getElementById('left-swipe')?.addEventListener('click', () => {
+  </script>
+</body>
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Explore Music</title>
+  <link rel="stylesheet" href="/resources/css/swipe.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="swipe-container">
+    <div class="track-card">
+      <h2>Random Music Explorer</h2>
+      <iframe 
+        style="border-radius:12px" 
+        src="https://open.spotify.com/embed/track/{{trackId}}"
+        width="100%" 
+        height="352" 
+        frameBorder="0" 
+        allowfullscreen="" 
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <div class="swipe-buttons">
+      <button id="left-swipe" class="swipe-button no-button">Skip</button>
+      <button id="right-swipe" class="swipe-button yes-button">Like</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('left-swipe').addEventListener('click', () => {
       window.location.reload();
     });
 
-    document.getElementById('right-swipe')?.addEventListener('click', () => {
-      alert("Liked {{track.name}}");
+    document.getElementById('right-swipe').addEventListener('click', () => {
+      alert("Liked this track!");
       window.location.reload();
     });
   </script>
