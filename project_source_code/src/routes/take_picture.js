@@ -18,7 +18,6 @@ const supabase = createClient(
 router.get('/', isAuthenticated, hasUploadedToday, (req, res) => {
   res.render('pages/take_picture', {
     isProfile: false,
-    hideNav: true,
     hasUploadedToday: res.locals.hasUploadedToday  // <== pass it to the template
   });
 });
