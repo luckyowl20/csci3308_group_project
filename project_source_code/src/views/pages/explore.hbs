@@ -1,19 +1,14 @@
-{{> head }}
-
-<main class="container text-center py-5" style="background-color: #fffaf0; min-height: 100vh;">
-  <h1 class="fw-bold text-success mb-5">Discover Something New!</h1>
+<div class="container text-center py-5 min-vh-100">
+  <h1 class="fw-bold mb-5 fw-bold">
+    Discover Something New!
+  </h1>
 
   <div class="d-flex justify-content-center gap-4 flex-wrap">
-    <a href="/explore/activities" 
-       class="d-flex align-items-center justify-content-center text-white fw-semibold text-center rounded" 
-       style="width: 200px; height: 200px; background-color: #efb2e8; text-decoration: none;">
-      Different<br />Activities
+    <a href="/explore/activities" class="btn-primary tile bg-pink text-white ">
+      Different<br/>Activities
     </a>
 
-    <a href="#" 
-      id="restaurants-btn"
-      class="d-flex align-items-center justify-content-center text-white fw-semibold text-center rounded" 
-      style="width: 200px; height: 200px; background-color: #f29e75; text-decoration: none;">
+    <a href="#" class="btn-primary tile bg-orange text-white" id="restaurants-btn" >
       Restaurants
     </a>
 
@@ -42,10 +37,34 @@
       });
     </script>
 
-    <a href="/explore/music" 
-       class="d-flex align-items-center justify-content-center text-white fw-semibold text-center rounded" 
-       style="width: 200px; height: 200px; background-color: #ade8ff; text-decoration: none;">
+    <script>
+      document.getElementById('restaurants-btn').addEventListener('click', function (e) {
+        e.preventDefault(); // prevent default link behavior
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const lat = position.coords.latitude;
+              const lon = position.coords.longitude;
+              // Redirect to location-based restaurant page
+              window.location.href = `/explore/restaurants/loc?lat=${lat}&lon=${lon}`;
+            },
+            (err) => {
+              alert('Location access denied. Showing default results.');
+              // Optional fallback
+              window.location.href = '/explore';
+            }
+          );
+        } else {
+          alert('Geolocation not supported.');
+          window.location.href = '/explore';
+        }
+      });
+    </script>
+
+    <a href="/explore/music" class="btn-primary tile bg-blue text-white">
       Music
     </a>
   </div>
-</main>
+</div>
+
