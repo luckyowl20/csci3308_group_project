@@ -1,0 +1,25 @@
+Daniel: Work on restaurant stuff more (maybe make swipe) Restaurants/Cusines -> Matches
+Vanum: Make it(?) more related to friends (the blog I think it was reffering to)
+        Make it more clear that the feed page is a feed page
+Matt: Integration & Testing
+Alec: Restrict access to other users profile page memories - 7 photos (?), presentation
+Nina: Link song likes (maybe dislikes) to database. Front end ui to be more consistant. Songs/Genres -> Matches
+John: ?
+Vivian: Link matching algorithm to display in swipe. Categorize matches & friends
+        Integration!!!
+
+Presenting: Real live demo, must show that we are not dummy data it
+Slides: fine to use edited pictures
+
+Matches and friends have to be segregated
+
+Confused about matches/friends
+
+*** VERY IMPORTANT ***
+- When swiping, can click on profile to see more pictures, Open profile to 7 pictures
+    Or just see 7 images in carosel
+- Integrating with Algorithm
+
+Styling:        (Matt, Vivian, Alec)
+Joker:          (Vanum)
+Integration:    (Nina, Daniel, John)
