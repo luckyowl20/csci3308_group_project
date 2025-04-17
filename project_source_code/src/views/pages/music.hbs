@@ -1,89 +1,3 @@
-{{!-- <!-- views/pages/swipe.hbs -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucky Moment Swiping Page</title>
-    <link rel="stylesheet" href="/resources/css/swipe.css">
-    <!-- Add Bootstrap for carousel -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-</head>
-<body>
-    {{#if noUsersLeft}}
-        <div class="no-users">
-            <h2>No more users to swipe!</h2>
-            <p>Check back later for new users.</p>
-        </div>
-    {{else}}
-        <div class="swipe-container">
-            {{> swipe_users user=user}}  
-            <button id="left-swipe" class="swipe-button no-button">
-                <i class="bi bi-x-lg" style="font-size: 2rem;"></i>
-            </button>
-            <button id="right-swipe" class="swipe-button yes-button">
-                <i class="bi bi-heart-fill" style="font-size: 2rem;"></i>
-            </button>
-        </div>
-        <div id="match-modal" class="modal">
-            <div class="modal-content">
-                <h2>It's a match!</h2>
-                <p>You and {{user.display_name}} have liked each other.</p>
-                <button id="close-match-modal">Continue Swiping</button>
-            </div>
-        </div>
-    {{/if}}
-    <!-- Add Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/resources/js/swipe_script.js"></script>
-</body>
-</html> --}}
-
-{{!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Swipe Music</title>
-  <link rel="stylesheet" href="/resources/css/swipe.css">
-</head>
-<body>
-  {{#if noTracksLeft}}
-    <h2>No tracks found</h2>
-  {{else}}
-    <div class="swipe-container">
-      <div class="track-card">
-        {{!-- <h2>{{track.name}}</h2>
-        <p>by {{track.artists.[0].name}}</p>
-        <img src="{{track.album.images.[0].url}}" alt="Album cover" style="width:200px;">
-        <audio controls src="{{track.preview_url}}"></audio> --}}
-        {{!-- <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}"
-        width="100%" height="80" frameBorder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
-      </iframe>
-      </div>
-
-      <button id="left-swipe" class="swipe-button no-button">Skip</button>
-      <button id="right-swipe" class="swipe-button yes-button">Like</button>
-    </div> --}}
-
-
-    {{!-- Swipe Buttons --}}
-    {{!-- <div class="d-flex justify-content-center gap-3">
-      <button id="left-swipe" class="btn btn-outline-danger">Skip</button>
-      <button id="right-swipe" class="btn btn-outline-success">Like</button>
-    </div> --}}
-
-  {{!-- </div>
-</div>
-
-  {{/if}}
-
-  <script>
-  </script>
-</body>
-</html> --}}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,6 +10,40 @@
   <div class="swipe-container">
     <div class="track-card">
       <h2>Random Music Explorer</h2>
+
+        <!-- Search form -->
+        <form method="GET" action="/explore/music" class="mb-4">
+            <input 
+                type="text" 
+                name="artist" 
+                placeholder="Search for an artist..." 
+                class="form-control mb-2" 
+                value="{{artist}}"
+                required
+            />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        {{!-- <select name="genre" class="form-control mb-2">
+  <option value="">-- Choose a genre --</option>
+  <option value="pop" {{genre == 'pop' ? 'selected' : ''}}>Pop</option>
+  <option value="rock" {{genre == 'rock' ? 'selected' : ''}}>Rock</option>
+  <option value="hip-hop" {{genre == 'hip-hop' ? 'selected' : ''}}>Hip-Hop</option>
+  <option value="electronic" {{genre == 'electronic' ? 'selected' : ''}}>Electronic</option>
+  <option value="jazz" {{genre == 'jazz' ? 'selected' : ''}}>Jazz</option>
+  <option value="classical" {{genre == 'classical' ? 'selected' : ''}}>Classical</option>
+  <option value="country" {{genre == 'country' ? 'selected' : ''}}>Country</option>
+  <option value="r-n-b" {{genre == 'r-n-b' ? 'selected' : ''}}>R&B</option>
+  <option value="indie" {{genre == 'indie' ? 'selected' : ''}}>Indie</option>
+  <option value="folk" {{genre == 'folk' ? 'selected' : ''}}>Folk</option>
+  <option value="metal" {{genre == 'metal' ? 'selected' : ''}}>Metal</option>
+  <option value="blues" {{genre == 'blues' ? 'selected' : ''}}>Blues</option>
+  <option value="reggae" {{genre == 'reggae' ? 'selected' : ''}}>Reggae</option>
+  <option value="punk" {{genre == 'punk' ? 'selected' : ''}}>Punk</option>
+  <option value="ambient" {{genre == 'ambient' ? 'selected' : ''}}>Ambient</option>
+</select> --}}
+
+
       <iframe 
         style="border-radius:12px" 
         src="https://open.spotify.com/embed/track/{{trackId}}"
@@ -109,10 +57,12 @@
     </div>
 
     <div class="swipe-buttons">
-      <button id="left-swipe" class="swipe-button no-button">Skip</button>
+      <button id="left-swipe" class="swipe-button no-button">Dislike</button>
       <button id="right-swipe" class="swipe-button yes-button">Like</button>
     </div>
   </div>
+
+  
 
   <script>
     document.getElementById('left-swipe').addEventListener('click', () => {

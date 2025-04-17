@@ -126,3 +126,10 @@ CREATE TABLE IF NOT EXISTS user_settings (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- table of user opinion on music
+CREATE TABLE IF NOT EXISTS music (
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- the user who liked the song
+    song_id CHAR(500),
+    opinion INTEGER NOT NULL -- (-1) = dislike, (1) = like
+); 

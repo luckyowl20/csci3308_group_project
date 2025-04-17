@@ -108,7 +108,7 @@ const learnmoreRoutes = require('./routes/learnMore');
 const homeRoutes = require('./routes/home');
 const take_picture = require('./routes/take_picture');
 const swipeRoutes = require('./routes/swipe');
-const exploreMusicRoutes = require('./routes/explore_music');
+const exploreMusicRoutes = require('./routes/music');
 
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
