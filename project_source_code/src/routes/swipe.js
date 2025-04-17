@@ -128,7 +128,7 @@ router.post('/swipe', async (req, res) => {
 
                 if (match) {
                     await t.none(
-                        `INSERT INTO matches (user_id, matched_user_id, created_at) 
+                        `INSERT INTO matches (user_id, matched_user_id, matched_at) 
                          VALUES ($1, $2, NOW()), ($2, $1, NOW())`,
                         [swiperId, swipeeId]
                     );
