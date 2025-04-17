@@ -98,7 +98,8 @@ router.get('/', async (req, res) => {
  * 1. Validates authentication and input
  * 2. Records the swipe in database
  * 3. Checks for mutual likes (matches)
- * 4. Returns match status
+ * 4. Creates friend relationship if match occurs
+ * 5. Returns match status
  */
 router.post('/swipe', async (req, res) => {
     try {
@@ -151,13 +152,23 @@ router.post('/swipe', async (req, res) => {
                     [swipeeId, swiperId]
                 );
 
-                // 3d. If match found, create match records for both users
+                // 3d. If match found, create match records and friend relationships
                 if (match) {
+                    // Create reciprocal match records
                     await t.none(
                         `INSERT INTO matches (user_id, matched_user_id, matched_at) 
-                         VALUES ($1, $2, NOW()), ($2, $1, NOW())`, // Creates reciprocal match records
+                         VALUES ($1, $2, NOW()), ($2, $1, NOW())`,
                         [swiperId, swipeeId]
                     );
+
+                    // Create bidirectional friend relationships
+                    await t.none(
+                        `INSERT INTO friends (user_id, friend_id, created_at)
+                         VALUES ($1, $2, NOW()), ($2, $1, NOW())
+                         ON CONFLICT (user_id, friend_id) DO NOTHING`,
+                        [swiperId, swipeeId]
+                    );
+
                     return { isMatch: true };
                 }
             }
@@ -168,7 +179,7 @@ router.post('/swipe', async (req, res) => {
                 res.json({ 
                     success: true, 
                     isMatch: true,
-                    message: "It's a match!" 
+                    message: "It's a match! You're now friends." 
                 });
             } else {
                 res.json({ 
