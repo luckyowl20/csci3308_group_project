@@ -1,11 +1,11 @@
-<!-- views/pages/home.hbs -->
-<div class="container-fluid py-4 px-4" style="background-color: #fffaf0; min-height: 100vh;">
+<div class="container-fluid py-4 px-4 bg-light-beige min-vh-100">
   <div class="row">
+
     <!-- Left buttons -->
     <div class="col-md-2 d-flex flex-column align-items-start gap-4">
-      <a href="/swipe" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Meet Someone</a>
-      <a href="/friends" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Meet Friends</a>
-      <a href="/chat" class="btn text-white fw-bold w-100 py-4" style="background-color: #efb2e8;">Chat</a>
+      <a href="/meet" class="btn btn-primary tile fw-bold w-100 py-4">Meet Someone</a>
+      <a href="/friends" class="btn btn-primary tile fw-bold w-100 py-4">Meet Friends</a>
+      <a href="/chat" class="btn btn-primary tile fw-bold w-100 py-4">Chat</a>
     </div>
 
     <!-- Instagram-style Feed -->
@@ -13,18 +13,18 @@
       {{#each feed}}
         <div class="card mb-4 shadow-sm">
           <div class="card-header d-flex align-items-center">
-            <div class="rounded-circle overflow-hidden me-3" style="width: 50px; height: 50px;">
+            <div class="profile-pic me-3">
               {{#if this.profile_picture_url}}
-                <img src="{{this.profile_picture_url}}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="{{this.profile_picture_url}}" alt="Profile">
               {{else}}
-                <img src="https://via.placeholder.com/50?text=U" alt="Default" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="https://via.placeholder.com/50?text=U" alt="Default">
               {{/if}}
             </div>
-            <h5 class="mb-0 text-success fw-bold">{{this.display_name}}</h5>
+            <h5 class="mb-0 primary-text fw-semibold">{{this.display_name}}</h5>
           </div>
           <div class="card-body text-center">
             {{#if this.todays_photo_url}}
-              <img src="{{this.todays_photo_url}}" alt="Today's Post" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;">
+              <img src="{{this.todays_photo_url}}" alt="Today's Post" class="img-fluid rounded post-img">
             {{else}}
               <div class="d-flex align-items-center justify-content-center bg-secondary text-white rounded" style="height: 400px;">
                 <p class="mb-0">User has not posted a picture today</p>
@@ -34,5 +34,6 @@
         </div>
       {{/each}}
     </div>
+
   </div>
 </div>
