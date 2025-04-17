@@ -26,7 +26,11 @@ VALUES
   ('https://example.com/photos/9.jpg', 'Photo 9 description'),
   ('https://example.com/photos/10.jpg', 'Photo 10 description'),
   ('https://example.com/photos/11.jpg', 'Photo 11 description'),
-  ('https://example.com/photos/12.jpg', 'Photo 12 description');
+  ('https://example.com/photos/12.jpg', 'Photo 12 description'),
+  
+  ('https://modernvet.com/wp-content/uploads/2023/05/cat-eat-jelly.png', 'Photo 13 description'),
+  ('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7XNEJ6GWtwOK7KSqF0QG2zGlgzFypMv6fW0oNSXpStUm-JV8XNrTuih_K1_OMNjYLn5WpSyJklhPILl51-21f-knwTlh5HHYCHBN4Fvc8L3niM3kc2NvfPKXVm8wqXoEd7ZI6G0VWTq0/s1600/Cat-writing.jpg', 'Photo 14 description'),
+  ('https://t4.ftcdn.net/jpg/01/19/58/67/360_F_119586796_vUjIayUErmpSnkLk9ZlJXSNhukkfcrLO.jpg', 'Photo 15 description');
 
 -- Insert dummy posts (using some photos and some with no photo)
 INSERT INTO posts (user_id, photo_id, title, body)
@@ -34,14 +38,17 @@ VALUES
   -- Posts for Alice (user_id = 1)
   (1, 1, 'Alice''s First Post', 'Hello, this is Alice!'),
   (1, 2, 'Alice''s Second Post', 'Another day, another update from Alice.'),
+  (1, 13, 'Alice''s Third Post', 'This restaurant is my new favorite!'),
   
   -- Posts for Bob (user_id = 2)
   (2, 3, 'Bob''s First Post', 'Hi, Bob here. Enjoying the platform!'),
   (2, NULL, 'Bob''s Second Post', 'Sometimes I post without a photo.'),
+  (2, 14, 'Bob''s Third Post', 'This homework is so hard. Looking for help!'),
   
   -- Posts for Charlie (user_id = 3)
   (3, 4, 'Charlie''s First Post', 'Greetings from Charlie!'),
   (3, 5, 'Charlie''s Second Post', 'Loving this community.'),
+  (3, 15, 'Charlie''s Third Post', 'Just teamed up with my new friend Bob to study!'),
   
   -- Posts for Dave (user_id = 4)
   (4, 6, 'Dave''s Thoughts', 'This is Dave sharing his thoughts.'),
@@ -157,15 +164,15 @@ VALUES
 --     (1, 1, 'test1', 'test body 1'),
 --     (2, 2, 'test2', 'test body 2')
 -- ;
-INSERT INTO blogs (title, body)
+INSERT INTO blogs (title, user_id, body)
 VALUES
-    ('Alice''s trip', 'Had so much fun!'),
-    ('Bob and Frank''s study session', 'Note from Bob: Frank helped me so much!')
+    ('Alice''s trip', 1, 'I had so much fun discovering new things in my area thanks to lucky moment!'),
+    ('Bob and Charlie''s study session', 2, 'Charlie helped me so much! So grateful to have met him through this platform.')
 ;
 INSERT INTO blogs_posts (blog_id, post_id)
 VALUES
     (1, 1),
-    (1, 2),
-    (2, 3),
-    (2, 12)
+    (1, 3),
+    (2, 6),
+    (2, 9)
 ;

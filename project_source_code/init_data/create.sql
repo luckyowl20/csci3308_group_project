@@ -130,6 +130,8 @@ CREATE TABLE IF NOT EXISTS user_settings (
 -- table of blog posts
 CREATE TABLE IF NOT EXISTS blogs (
     id SERIAL PRIMARY KEY,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user created the blog
+    user_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     body TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
