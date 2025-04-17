@@ -12,23 +12,47 @@ router.get('/', async (req, res) => {
         // BULLETPROOF QUERY - CANNOT RETURN CURRENT USER
         const potentialMatches = await req.app.locals.db.any(`
         SELECT 
-            u.id,
-            p.display_name,
-            u.username,
-            p.profile_picture_url,
-            p.biography
-        FROM users u
-        JOIN profiles p ON p.user_id = u.id
-        WHERE 
-            u.id != $1 AND
-            u.id NOT IN (
-                SELECT swipee_id 
-                FROM swipes 
-                WHERE swiper_id = $1
-            ) AND
-            p.profile_picture_url IS NOT NULL
-        ORDER BY RANDOM()
-        LIMIT 1
+        u.id,
+        p.display_name,
+        u.username,
+        p.profile_picture_url,
+        p.biography,
+        p.spotify_song_id,
+        (
+            SELECT json_agg(subq.post_data)
+            FROM (
+                SELECT json_build_object(
+                    'id', pst.id,
+                    'title', pst.title,
+                    'body', pst.body,
+                    'photo_url', ph.url,
+                    'created_at', pst.created_at
+                ) as post_data
+                FROM posts pst
+                LEFT JOIN photos ph ON ph.id = pst.photo_id
+                WHERE pst.user_id = u.id
+                AND pst.created_at >= NOW() - INTERVAL '7 days'
+                ORDER BY pst.created_at DESC
+                LIMIT 5
+            ) subq
+        ) as recent_posts
+    FROM users u
+    JOIN profiles p ON p.user_id = u.id
+    WHERE 
+        u.id != $1 AND
+        u.id NOT IN (
+            SELECT swipee_id 
+            FROM swipes 
+            WHERE swiper_id = $1
+        ) AND
+        u.id NOT IN (
+            SELECT friend_id 
+            FROM friends 
+            WHERE user_id = $1
+        ) AND
+        p.profile_picture_url IS NOT NULL
+    ORDER BY RANDOM()
+    LIMIT 1
     `, [req.session.user.id]);
 
         console.log("Query results:", potentialMatches); // Debug
@@ -67,14 +91,6 @@ router.post('/swipe', async (req, res) => {
                 success: false, 
                 message: "Invalid user ID" 
             }); 
-        }
-
-        if (parseInt(swiperId) === parseInt(swipeeId)) {
-            console.error('Self-swipe attempt blocked:', { swiperId, swipeeId });
-            return res.status(400).json({ 
-                success: false, 
-                message: "Cannot swipe on yourself" 
-            });
         }
 
         // Transaction to ensure data consistency

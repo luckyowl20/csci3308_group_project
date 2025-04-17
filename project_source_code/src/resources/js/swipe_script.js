@@ -25,13 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const userId = card.dataset.userId;
         console.log("Attempting swipe on user:", userId);
 
-        // Validate we're not swiping ourselves
-        if (userId === "1") { // Replace "1" with actual current user ID if available
-            alert("Error: Cannot swipe on yourself");
-            window.location.reload();
-            return;
-        }
-
         // Swipe animation
         card.style.transform = `translateX(${isLiked ? '100%' : '-100%'})`;
         card.style.opacity = '0';
@@ -67,4 +60,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners
     if (leftBtn) leftBtn.addEventListener('click', () => handleSwipe(false));
     if (rightBtn) rightBtn.addEventListener('click', () => handleSwipe(true));
+
+    // 🔽 New: Toggle between profile and posts views
+    const viewPostsBtn = document.getElementById('view-posts-btn');
+    const viewProfileBtn = document.getElementById('view-profile-btn');
+    const profileView = document.getElementById('profile-view');
+    const postsCarousel = document.getElementById('posts-carousel');
+
+    if (viewPostsBtn && viewProfileBtn && profileView && postsCarousel) {
+        viewPostsBtn.addEventListener('click', function () {
+            profileView.style.display = 'none';
+            postsCarousel.style.display = 'block';
+            viewPostsBtn.style.display = 'none';
+            viewProfileBtn.style.display = 'block';
+        });
+
+        viewProfileBtn.addEventListener('click', function () {
+            profileView.style.display = 'block';
+            postsCarousel.style.display = 'none';
+            viewPostsBtn.style.display = 'block';
+            viewProfileBtn.style.display = 'none';
+        });
+    }
 });
