@@ -10,23 +10,7 @@ VALUES
   ('grace', 'grace@example.com', '$2a$10$3ZCUWMe6oARxRJNQPcIRPeY57Bf5RY9TxT38HijaFr46lfA5amcnC'),
   ('heidi', 'heidi@example.com', '$2a$10$vu3cz4Vewy1zBxD00r69weHSDe6EKe4Se1aKr4cAU5QJLHe1cPTdG'),
   ('ivan', 'ivan@example.com', '$2a$10$qhrqPEIXYAusTbup/M75Iu5TA055JV/mqVy5bhHbU725cgPd8Sk42'),
-  ('judy', 'judy@example.com', '$2a$10$fUun/OcW7SR/zaK3fMlNKuDhQwR39vMJGHq31e9r0f3SeG2aDtISG'), -- start of more data
-  ('kate', 'kate@example.com', '$2a$10$7L2KfGU5mKxtU3uYtdXPZePzB2Yr95y4p7p1lRyCQ3i1Dwzz5yyhW'),
-  ('leo', 'leo@example.com', '$2a$10$QLkYbKXsS1OZs0O3lqpZYeGuOSoW6gIffqHgVqO5trAvqLpYqZGuK'),
-  ('mallory', 'mallory@example.com', '$2a$10$slZqj13X6KjOq1roFbC/0Oq9V2vCRqgZ1mNeqQ9YDePlr5XLzF8ce'),
-  ('nancy', 'nancy@example.com', '$2a$10$L9n0xk4yVrH1owjV0r5g0eAdcnVZpejQ3g1nE5BJQz7aScBxl6Uvq'),
-  ('oscar', 'oscar@example.com', '$2a$10$eGvD2aNbsUIsuqz7EL9q5uAPNkUw9i7sTZj7xUKIBtccQKo7pq/du'),
-  ('peggy', 'peggy@example.com', '$2a$10$zK9PpAUp7lLg1R9q3yiv0uB6B6ROqJDvrsYf4vDxE8VGz7MFq8Vm6'),
-  ('quinn', 'quinn@example.com', '$2a$10$KoTtL2sYfZT6NVdB6hw1NOXfVJ9GbV8H3A7uZClMoZ1m/V5RbqYp2'),
-  ('ruth', 'ruth@example.com', '$2a$10$nQzUg2P8J7zyK2Kyz3lEIO5SxB6YhW7B3k3nOBZrk1KMj9QQOa2xi'),
-  ('sybil', 'sybil@example.com', '$2a$10$LoeW3ZvNsl4C7Ejf3A9Y1e0SzsYcUvOT4EqLMbkJ7sxuQy8qu5TqW'),
-  ('trent', 'trent@example.com', '$2a$10$J3V2wKc8OEx7FhOQH5gCTecmtGuF2C4J3NqgqRgN6dJJlHd7Ew3cu'),
-  ('ursula', 'ursula@example.com', '$2a$10$fhD9e0xJpMRQtxLdsvKKeuNEqH5JXPCrkC6OYycrM9KK1C9fcsRAe'),
-  ('victor', 'victor@example.com', '$2a$10$tFtA2PB7Vycdk9Vk0kCt9Odmpv9IGgWNaOq1AdfMryZvqG5BJ0RCW'),
-  ('wendy', 'wendy@example.com', '$2a$10$yPO6AP7mJdHZ7Kt9l3vLhOPONr6ICcNs5xkzUK4KOOTXkHKHOmjxi'),
-  ('xavier', 'xavier@example.com', '$2a$10$Rj1F6i6ujMzrQ0z9jKta0O2SPbR2qq9rPcFFHYRIoODQjZWaM4bq2'),
-  ('yvonne', 'yvonne@example.com', '$2a$10$gLNP9oDwQ57nv7rxL5SIPOmM1e1FT6SHn2zv0Cl/WhMB1eJdpFsm6'),
-  ('zack', 'zack@example.com', '$2a$10$XYW7u0xjvDLUoZ45NZkmxOy1b2Jx/j1VKqu0q7eazTzE6nLSs/Cam');; -- pass10
+  ('judy', 'judy@example.com', '$2a$10$fUun/OcW7SR/zaK3fMlNKuDhQwR39vMJGHq31e9r0f3SeG2aDtISG'); -- pass 10
 
 -- Insert dummy photos
 INSERT INTO photos (url, description)
