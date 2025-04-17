@@ -42,6 +42,22 @@ router.get('/', isAuthenticated, async(req,res) => {
         error = true;
     }
     try {
+        user_posts = await db.any(
+            `SELECT p.id, pr.display_name as author, p.title, p.body, p.created_at, ph.url
+            FROM users u
+            LEFT JOIN profiles pr
+            ON pr.user_id = u.id
+            LEFT JOIN posts p ON
+            p.user_id = u.id
+            LEFT JOIN photos ph ON ph.id = p.photo_id
+            WHERE u.id = $1`, [user_id]
+        );
+    }
+    catch (err) {
+        console.log("Error getting user posts:", err);
+        error = true;
+    }
+    try {
         friend_posts = await db.any(
             `SELECT p.id, pr.display_name as author, p.title, p.body, p.created_at, ph.url
             FROM users u
@@ -54,14 +70,13 @@ router.get('/', isAuthenticated, async(req,res) => {
             LEFT JOIN photos ph ON ph.id = p.photo_id
             WHERE u.id = $1`, [user_id]
         );
-        console.log(friend_posts)
     }
     catch (err) {
         console.log("Error getting friend posts:",err);
         error = true;
     }
     if(!error) {
-        res.render('pages/blogs', {user: req.session.user, blogs_string: blogs_string, friend_posts: friend_posts});
+        res.render('pages/blogs', {user: req.session.user, blogs_string: blogs_string, user_posts: user_posts, friend_posts: friend_posts});
     }
     else {
         res.status(500).json({ error: 'Internal server error' });
