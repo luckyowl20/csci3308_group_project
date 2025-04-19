@@ -85,7 +85,7 @@ router.get('/', isAuthenticated, async (req, res) => {
           // Final score (adjust weights as needed)
           const finalScore = (jaccardScore * 0.6) + (ageScore * 0.2) + (distanceScore * 0.2);
 
-          matches.push({
+          matches.push({ // this is the format of one match item, candidate is the profile of the match
               candidate,
               jaccardScore,
               ageScore,
@@ -99,11 +99,7 @@ router.get('/', isAuthenticated, async (req, res) => {
       matches.sort((a, b) => b.finalScore - a.finalScore);
       console.log("Matches found:", matches);
 
-      res.render('pages/matches', {
-          layout: 'main',
-          user: req.session.user,
-          matches
-      });
+      res.json({ matches }); // sends back the matches as a JSON response
 
   } catch (err) {
       console.error("Error loading matches:", err);
