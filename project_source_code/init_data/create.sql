@@ -30,6 +30,13 @@ CREATE TABLE IF NOT EXISTS posts (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS post_likes (
+  post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  liked_at TIMESTAMP DEFAULT NOW(),
+  PRIMARY KEY (post_id, user_id)
+);
+
 -- table of user profiles
 CREATE TABLE IF NOT EXISTS profiles (
     id SERIAL PRIMARY KEY,

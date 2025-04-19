@@ -107,6 +107,7 @@ const exploreRoutes = require('./routes/explore');
 const learnmoreRoutes = require('./routes/learnMore');
 const homeRoutes = require('./routes/home');
 const take_picture = require('./routes/take_picture');
+const memories = require('./routes/memories');
 const swipeRoutes = require('./routes/swipe');
 
 const blogRoutes = require('./routes/blogs');
@@ -124,6 +125,7 @@ app.use('/explore', exploreRoutes);
 app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);
 app.use('/take_picture', take_picture);
+app.use('/memories', memories)
 
 app.use('/blog', blogRoutes);
 

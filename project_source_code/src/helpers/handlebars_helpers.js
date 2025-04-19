@@ -25,18 +25,5 @@ module.exports = {
     formatDate: function(date) {
         if (!date) return '';
         return new Date(date).toISOString().split('T')[0]; // Returns YYYY-MM-DD
-    },
-
-    setVar: function(varName, varValue, options) {
-        options.data.root[varName] = varValue;
-    },
-
-    getVar: function(varName, options) {
-        return options.data.root[varName];
-    },
-
-    jsonParse: function(varName, string, options) {
-        options.data.root[varName] = JSON.parse(string);
     }
-
 };
