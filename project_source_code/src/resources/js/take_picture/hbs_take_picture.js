@@ -54,11 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     uploadBtn.addEventListener('click', async () => {
-        const caption = document.getElementById('caption').value;
+      const caption = document.getElementById('caption');
+      const captionIf = caption ? caption.value : '';
 
       const formData = new FormData();
       formData.append('file', capturedBlob, 'picture.png');
-      formData.append('caption', caption);
+      formData.append('caption', captionIf);
+      const isProfile = document.querySelector('input[name="isProfile"]').value;
+      formData.append('isProfile', isProfile);
     
       try {
         const res = await fetch('/take_picture/take_picture', {
@@ -70,7 +73,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await res.json();
     
         if (res.ok) {
-          alert('Upload successful!');
+          const isProfileInput = document.querySelector('input[name="isProfile"]');
+          const isProfile = isProfileInput ? isProfileInput.value === 'true' : false;
+          const successMessage = document.getElementById('successMessage');
+          successMessage.style.display = 'block';
+        
+          // ✅ Redirect based on isProfile value
+          setTimeout(() => {
+            if (isProfile) {
+              window.location.href = '/profile'; // go to user profile page
+            } else {
+              window.location.href = '/home';    // go to home feed or dashboard
+            }
+          }, 2000);
+
         } else {
           throw new Error(result.message || 'Upload failed');
         }
