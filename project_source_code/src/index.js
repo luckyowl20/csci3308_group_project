@@ -110,6 +110,8 @@ const take_picture = require('./routes/take_picture');
 const memories = require('./routes/memories');
 const swipeRoutes = require('./routes/swipe');
 
+const blogRoutes = require('./routes/blogs');
+
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
 app.use('/chat', chatRoutes);
@@ -124,6 +126,8 @@ app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);
 app.use('/take_picture', take_picture);
 app.use('/memories', memories)
+
+app.use('/blog', blogRoutes);
 
 // -------------------------------------
 // http server setup
