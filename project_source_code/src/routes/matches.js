@@ -11,7 +11,7 @@ router.get('/', isAuthenticated, async (req, res) => {
       const profile = await db.oneOrNone('SELECT * FROM profiles WHERE user_id = $1', [viewerId]);
       if (!profile) return res.status(400).send("No profile found");
 
-      // Step 2: Get IDs of user's friends — we'll exclude these from matches
+      // Step 2: Get IDs of user's friends — exclude these from matches
       const friends = await db.any('SELECT friend_id FROM friends WHERE user_id = $1', [viewerId]);
       const friendIds = friends.map(f => f.friend_id);
 
