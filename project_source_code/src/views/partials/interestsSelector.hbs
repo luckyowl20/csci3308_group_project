@@ -1,0 +1,19 @@
+<!-- Interest Search Field -->
+<label class="form-label">Select Your Interests</label>
+<input type="text" class="form-control mb-3 font-alt" id="interests-search" placeholder="Search interests...">
+
+<!-- Selected Interests Display -->
+<div id="selected-interests" class="d-flex flex-wrap gap-2 mb-3">
+  {{#each selectedInterestsDetails}}
+  <button type="button" class="btn btn-sm btn-secondary selected-interest font-alt" data-id="{{this.id}}">
+    {{this.name}} &times;
+  </button>
+  {{/each}}
+</div>
+
+<!-- Search Results -->
+<div class="d-flex flex-wrap gap-2 mb-3" id="interest-results"></div>
+
+<!-- If selectedInterestsDetails is an array of { id, name } -->
+<input type="hidden" name="interests" id="interests-input"
+  value="{{#each selectedInterestsDetails}}{{this.id}}{{#unless @last}},{{/unless}}{{/each}}" />

@@ -1,4 +1,5 @@
 -- create database lucky_moment_db;
+CREATE EXTENSION IF NOT EXISTS postgis; -- allows for location queries
 
 -- table of users
 CREATE TABLE IF NOT EXISTS users (
@@ -44,12 +45,35 @@ CREATE TABLE IF NOT EXISTS profiles (
     user_id INTEGER UNIQUE NOT NULL,
     display_name VARCHAR(100),
     biography TEXT,
-    interests TEXT,
     birthday DATE,
     profile_picture_url TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
-    spotify_song_id TEXT
+    spotify_song_id TEXT,
+
+    -- preferences section
+    user_location_text TEXT,
+    user_location GEOGRAPHY(Point, 4326), -- to store the user's location as a point in a geographic coordinate system with postgis
+    match_distance_miles INTEGER DEFAULT 200,
+    gender TEXT,
+    preferred_gender TEXT,
+    preferred_age_min INTEGER DEFAULT 18,
+    preferred_age_max INTEGER DEFAULT 100
 );
+
+-- table of all available interests users can select from
+CREATE TABLE IF NOT EXISTS interests (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- table of user interests, to track which users have selected which interests
+CREATE TABLE IF NOT EXISTS user_interests (
+  user_id INTEGER NOT NULL,
+  interest_id INTEGER NOT NULL,
+  PRIMARY KEY (user_id, interest_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- to track which user has the interest
+  FOREIGN KEY (interest_id) REFERENCES interests(id) ON DELETE CASCADE -- to track which interest is selected
+);  
 
 -- table of pending user swipes, awating matches or friend requests
 CREATE TABLE IF NOT EXISTS swipes (

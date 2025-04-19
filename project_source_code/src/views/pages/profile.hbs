@@ -9,6 +9,7 @@
 
     <!-- Left Column -->
     <div class="col-lg-4 text-center mb-4">
+
       <div class="position-relative profile-pic-large mx-auto mb-3">
         {{#if isOwnProfile}}
           <a href="/settings" class="position-absolute top-0 start-0 p-1 text-muted" style="z-index: 2;">
@@ -26,9 +27,16 @@
       <h2 class="fw-bold primary-text">{{profile.display_name}}</h2>
 
       {{#if isOwnProfile}}
-        <button class="btn btn-outline-success btn-sm mb-3 font-alt" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-          Edit Profile
-        </button>
+
+      <button class="btn btn-outline-success btn-sm mb-3 font-alt" data-bs-toggle="modal"
+        data-bs-target="#editProfileModal">
+        Edit Profile
+      </button>
+      <button class="btn btn-outline-success btn-sm mb-3 font-alt" data-bs-toggle="modal"
+        data-bs-target="#editPreferencesModal">
+        Preferences
+      </button>
+
       {{/if}}
 
       <!-- Friends List -->
@@ -51,8 +59,18 @@
       <h4 class="fw-bold primary-text">Biography</h4>
       <p class="font-alt">{{profile.biography}}</p>
 
-      <h4 class="fw-bold primary-text">Interests</h4>
-      <p class="font-alt">{{profile.interests}}</p>
+
+      <h4 class="fw-semibold text-success">Interests</h4>
+      {{#if selectedInterestsDetails.length}}
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        {{#each selectedInterestsDetails}}
+        <span class="badge bg-success text-white font-alt">{{this.name}}</span>
+        {{/each}}
+      </div>
+      {{else}}
+      <p class="text-muted"><em>No interests selected yet.</em></p>
+      {{/if}}
+
 
       <h4 class="fw-bold primary-text">Birthday</h4>
       <p class="font-alt">{{formatDate profile.birthday}}</p>
@@ -97,3 +115,5 @@
 </div>
 
 {{> editProfileModal}}
+{{> editPreferencesModal profile=profile}}
+
