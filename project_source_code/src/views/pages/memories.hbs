@@ -1,4 +1,12 @@
 <!-- views/pages/memories.hbs -->
+<link rel="stylesheet" href="/resources/css/memories.css" />
+
+{{#section "scripts"}}
+<script src="/resources/js/memories/memoriesScript.js"></script>
+{{/section}}
+
+
+
 <div class="container py-5 memories-wrapper">
   <h2 class="text-center text-success fw-bold mb-5">Your Memories</h2>
 
@@ -40,42 +48,3 @@
     <button class="btn btn-outline-secondary w-100" onclick="closeMemoryModal()">Close</button>
   </div>
 </div>
-
-<script>
-  async function openMemoryModal(url, caption, likeCount, postId) {
-    const modal = document.getElementById('memoryModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalCaption = document.getElementById('modalCaption');
-    const modalLikeCount = document.getElementById('modalLikeCount');
-    const modalLikesList = document.getElementById('modalLikesList');
-
-    modalImage.src = url;
-    modalCaption.textContent = caption || "No caption";
-    modalLikeCount.textContent = likeCount;
-    modalLikesList.innerHTML = '';
-    modalLikesList.classList.add('d-none');
-
-    modal.classList.remove('d-none');
-
-    try {
-      const res = await fetch(`/likes/${postId}`);
-      const users = await res.json();
-      users.forEach(user => {
-        const li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.textContent = user.display_name || user.username;
-        modalLikesList.appendChild(li);
-      });
-    } catch (err) {
-      console.error('Error fetching likes:', err);
-    }
-  }
-
-  function toggleLikesList() {
-    document.getElementById('modalLikesList').classList.toggle('d-none');
-  }
-
-  function closeMemoryModal() {
-    document.getElementById('memoryModal').classList.add('d-none');
-  }
-</script>

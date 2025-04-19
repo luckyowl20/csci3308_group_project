@@ -154,7 +154,18 @@ router.post('/posts/:postId/like', isAuthenticated, async (req, res) => {
       );
     }
 
-    res.redirect('/home'); // or use req.get('referer') to redirect back
+    // avoiding page refresh and dynamically updating the like count
+    // Fetch the updated like count
+    const { count } = await db.one(
+      'SELECT COUNT(*) FROM post_likes WHERE post_id = $1',
+      [postId]
+    );
+
+    res.json({
+      liked: !existingLike,
+      likeCount: parseInt(count, 10)
+    });
+    
   } catch (err) {
     console.error('Error toggling like:', err);
     res.status(500).send('Something went wrong toggling the like.');
