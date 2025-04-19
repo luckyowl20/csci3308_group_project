@@ -7,11 +7,16 @@
       {{#each photos}}
         <div class="col text-center">
           <div class="card shadow-sm memories-card">
-            <img src="{{this.url}}" alt="Memory" class="card-img-top memories-img">
+            <img 
+              src="{{this.url}}" 
+              alt="Memory" 
+              class="card-img-top memories-img"
+              onclick="openMemoryModal('{{this.url}}', '{{this.caption}}', '{{this.like_count}}', '{{this.post_id}}')"
+            >
             <div class="card-body p-2">
               <p class="text-muted mb-0">{{formatDate this.created_at}}</p>
-              {{#if this.description}}
-                <p class="text-secondary small">{{this.description}}</p>
+              {{#if this.caption}}
+                <p class="text-secondary small">{{this.caption}}</p>
               {{/if}}
             </div>
           </div>
@@ -22,3 +27,55 @@
     <p class="text-center text-muted"><em>No memories uploaded yet.</em></p>
   {{/if}}
 </div>
+
+<!-- Popup Modal -->
+<div id="memoryModal" class="modal-overlay d-none">
+  <div class="modal-box">
+    <img id="modalImage" class="modal-image mb-3" />
+    <p id="modalCaption" class="modal-caption"></p>
+    <button class="modal-likes-toggle" onclick="toggleLikesList()">
+      ❤️ <span id="modalLikeCount">0</span> Likes
+    </button>
+    <ul id="modalLikesList" class="likes-list d-none"></ul>
+    <button class="btn btn-outline-secondary w-100" onclick="closeMemoryModal()">Close</button>
+  </div>
+</div>
+
+<script>
+  async function openMemoryModal(url, caption, likeCount, postId) {
+    const modal = document.getElementById('memoryModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const modalLikeCount = document.getElementById('modalLikeCount');
+    const modalLikesList = document.getElementById('modalLikesList');
+
+    modalImage.src = url;
+    modalCaption.textContent = caption || "No caption";
+    modalLikeCount.textContent = likeCount;
+    modalLikesList.innerHTML = '';
+    modalLikesList.classList.add('d-none');
+
+    modal.classList.remove('d-none');
+
+    try {
+      const res = await fetch(`/likes/${postId}`);
+      const users = await res.json();
+      users.forEach(user => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.textContent = user.display_name || user.username;
+        modalLikesList.appendChild(li);
+      });
+    } catch (err) {
+      console.error('Error fetching likes:', err);
+    }
+  }
+
+  function toggleLikesList() {
+    document.getElementById('modalLikesList').classList.toggle('d-none');
+  }
+
+  function closeMemoryModal() {
+    document.getElementById('memoryModal').classList.add('d-none');
+  }
+</script>

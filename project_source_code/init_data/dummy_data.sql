@@ -25,15 +25,15 @@ VALUES
 INSERT INTO posts (user_id, photo_id, title, body, created_at)
 VALUES
   -- Alice (posted 4-15)
-  (1, 1, 'Alice''s First Post', 'Hello, this is Alice!', '2025-04-17'),
+  (1, 1, 'Alice''s First Post', 'Hello, this is Alice!', '2025-04-19'),
   (1, 2, 'Alice''s Second Post', 'Another day, another update from Alice.', '2025-04-12'),
   
   -- Bob (posted 4-15)
-  (2, 2, 'Bob''s First Post', 'Hi, Bob here. Enjoying the platform!', '2025-04-17'),
+  (2, 2, 'Bob''s First Post', 'Hi, Bob here. Enjoying the platform!', '2025-04-19'),
   (2, NULL, 'Bob''s Second Post', 'Sometimes I post without a photo.', '2025-04-10'),
   
   -- Charlie (posted 4-15)
-  (3, 3, 'Charlie''s First Post', 'Greetings from Charlie!', '2025-04-17'),
+  (3, 3, 'Charlie''s First Post', 'Greetings from Charlie!', '2025-04-19'),
   (3, 1, 'Charlie''s Second Post', 'Loving this community.', '2025-04-07'),
   
   -- Dave
@@ -57,11 +57,11 @@ VALUES
   (8, NULL, 'Heidi''s Update', 'Another post from Heidi.', '2025-04-05'),
   
   -- Ivan
-  (9, 5, 'Ivan''s Update', 'Ivan here with a fresh update!', '2025-04-01'),
+  (9, 5, 'Ivan''s Update', 'Ivan here with a fresh update!', '2025-04-19'),
   (9, NULL, 'Ivan Again', 'Just checking in, no photo this time.', '2025-04-06'),
   
   -- Judy
-  (10, 1, 'Judy''s First Post', 'Judy is excited to be here.', '2025-04-13'),
+  (10, 1, 'Judy''s First Post', 'Judy is excited to be here.', '2025-04-19'),
   (10, NULL, 'Judy''s Second Post', 'Another update from Judy.', '2025-04-09');
 
 -- Insert dummy friendships between users
@@ -85,7 +85,8 @@ VALUES
   (6, 9),
   (7, 10),
   (8, 9),
-  (9, 10);
+  (9, 10),
+  (10,1);
 
 -- dummy messages
 INSERT INTO messages (sender_id, receiver_id, conversation_type, content)

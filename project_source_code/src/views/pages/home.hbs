@@ -1,21 +1,28 @@
-<div class="container-fluid py-4 px-4 bg-light-beige min-vh-100">
+<!-- views/pages/home.hbs -->
+<div class="feed-wrapper container-fluid px-4 py-4 min-vh-100">
   <div class="row">
 
     <!-- Left buttons -->
     <div class="col-md-2 d-flex flex-column align-items-start gap-4">
-      <a href="/meet" class="btn btn-primary tile fw-bold w-100 py-4">Meet Someone</a>
-      <a href="/friends" class="btn btn-primary tile fw-bold w-100 py-4">Meet Friends</a>
-      <a href="/chat" class="btn btn-primary tile fw-bold w-100 py-4">Chat</a>
-      <a href="/take_picture" class="btn text-white fw-bold w-100 py-4">Upload Photo</a>
+      {{#if userHasPostedToday}}
+        <a href="/meet" class="btn btn-primary tile fw-bold w-100 py-4">Meet Someone</a>
+        <a href="/friends" class="btn btn-primary tile fw-bold w-100 py-4">Meet Friends</a>
+      {{else}}
+        <button class="btn btn-primary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Someone</button>
+        <button class="btn btn-primary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Friends</button>
+      {{/if}}
+
+      <a href="/take_picture" class="btn btn-secondary tile fw-bold w-100 py-4 text-white">Upload Photo</a>
     </div>
 
     <!-- Instagram-style Feed -->
     <div class="col-md-10">
+      <h2 class="feed-header text-center mb-5">📸 Friends' Moments</h2>
 
       {{#if userHasPostedToday}}
         {{#each feed}}
-          <div class="card mb-4 shadow-sm">
-            <div class="card-header d-flex align-items-center">
+          <div class="post-card card border-0 shadow-sm rounded-4 overflow-hidden mb-5 animate__animated animate__fadeInUp">
+            <div class="post-header d-flex align-items-center px-3 pt-3">
               <div class="profile-pic me-3">
                 {{#if this.profile_picture_url}}
                   <img src="{{this.profile_picture_url}}" alt="Profile">
@@ -23,18 +30,32 @@
                   <img src="https://via.placeholder.com/50?text=U" alt="Default">
                 {{/if}}
               </div>
-              <h5 class="mb-0">
-                <a href="/users/{{this.id}}" class="text-success fw-bold text-decoration-none">
+              <h5 class="mb-0 fw-semibold">
+                <a href="/users/{{this.id}}" class="text-dark text-decoration-none">
                   {{this.display_name}}
                 </a>
               </h5>
             </div>
-            <div class="card-body text-center">
-              <img 
-                src="{{this.todays_photo_url}}" 
-                alt="Today's Post" 
-                class="img-fluid rounded feed-image"
-              >
+
+            <div class="post-img-wrapper mt-3">
+              <img src="{{this.todays_photo_url}}" alt="Today's Post" class="img-fluid w-100 post-img">
+            </div>
+
+            {{#if this.todays_caption}}
+              <div class="post-caption px-4 py-2">
+                <p class="text-muted mb-0 font-alt">{{this.todays_caption}}</p>
+              </div>
+            {{/if}}
+
+            <div class="d-flex justify-content-start align-items-center px-4 pb-3 gap-3">
+              <button type="button" class="btn btn-link p-0 border-0 like-button" data-post-id="{{this.post_id}}">
+                {{#if this.liked_by_user}}
+                  <i class="bi bi-heart-fill text-danger"></i>
+                {{else}}
+                  <i class="bi bi-heart"></i>
+                {{/if}}
+              </button>
+              <span class="text-muted small">{{this.like_count}} like{{#unless (eq this.like_count 1)}}s{{/unless}}</span>
             </div>
           </div>
         {{/each}}
@@ -57,7 +78,37 @@
           </a>
         </div>
       {{/if}}
-
     </div>
   </div>
 </div>
+
+<script>
+  function alertMustPost() {
+    alert("You must upload a photo today to access this feature.");
+  }
+
+  // AJAX like functionality
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".like-button").forEach(button => {
+      button.addEventListener("click", async () => {
+        const postId = button.getAttribute("data-post-id");
+
+        try {
+          const res = await fetch(`/home/posts/${postId}/like`, {
+            method: "POST"
+          });
+
+          if (res.ok) {
+            // Refresh the specific post or page (simplest option for now)
+            location.reload();
+          } else {
+            alert("Something went wrong.");
+          }
+        } catch (err) {
+          console.error("Error:", err);
+          alert("Failed to like the post.");
+        }
+      });
+    });
+  });
+</script>

@@ -9,10 +9,17 @@ router.get('/', isAuthenticated, async (req, res) => {
 
   try {
     const photos = await db.any(`
-      SELECT photos.url, photos.description, posts.created_at
+      SELECT 
+        posts.id AS post_id,
+        photos.url, 
+        posts.body AS caption, 
+        posts.created_at,
+        COUNT(pl.user_id) AS like_count
       FROM posts
       JOIN photos ON posts.photo_id = photos.id
+      LEFT JOIN post_likes pl ON pl.post_id = posts.id
       WHERE posts.user_id = $1
+      GROUP BY posts.id, photos.url
       ORDER BY posts.created_at DESC
     `, [userId]);
 
