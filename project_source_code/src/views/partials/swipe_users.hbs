@@ -51,22 +51,3 @@
         {{/if}}
     </div>
 </div>
-
-<script>
-    // Toggle between profile and posts views
-    document.getElementById('view-posts-btn')?.addEventListener('click', function() {
-        document.getElementById('profile-view').style.display = 'none';
-        document.getElementById('posts-carousel').style.display = 'block';
-        document.querySelector('.profile-info').style.display = 'none'; // Hide profile info
-        document.getElementById('view-posts-btn').style.display = 'none';
-        document.getElementById('view-profile-btn').style.display = 'inline-block';
-    });
-
-    document.getElementById('view-profile-btn')?.addEventListener('click', function() {
-        document.getElementById('profile-view').style.display = 'block';
-        document.getElementById('posts-carousel').style.display = 'none';
-        document.querySelector('.profile-info').style.display = 'block'; // Show profile info
-        document.getElementById('view-posts-btn').style.display = 'inline-block';
-        document.getElementById('view-profile-btn').style.display = 'none';
-    });
-</script>

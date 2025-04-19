@@ -1,4 +1,11 @@
 /* resources/css/swipe.css */
+
+/* root styles for swipe specifically */
+:root {
+    --color-button-no: #ff4d4d; /* red button color */
+    --color-button-yes: #4caf50; /* Green button color */
+}
+
 .swipe-container {
     width: 100vw;
     height: 100vh;
@@ -13,7 +20,7 @@
     width: 80%;  /* Set width to 80% for a larger card */
     max-width: 500px; 
     height: 80%;  /* Set height to 80% for consistency */
-    background-color: white;
+    background-color: var(--color-background);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -31,15 +38,9 @@
 }
 
 /* Or if you want to use your color variable */
-:root {
-    --color-green: #2d6842; /* Define your green color */
-    --color-white: #ffffff;
-}
-
 #user-name {
-    color: var(--color-green);
+    color: var(--color-primary);
 }
-
 
 .user-photo {
     height: 75%; 
@@ -70,14 +71,14 @@
 
 .no-button {
     left: 20%;
-    background-color: #ff4d4d;
-    color: white;
+    background-color: var(--color-button-no);
+    color: var(--color-white);
 }
 
 .yes-button {
     right: 20%;
-    background-color: #4caf50;
-    color: white;
+    background-color: var(--color-button-yes);
+    color: var(--color-white);
 }
 
 /* Pulse animation for buttons */
@@ -105,7 +106,7 @@
 }
 
 .modal-content {
-    background-color: white;
+    background-color: var(--color-background);
     padding: 30px;
     border-radius: 10px;
     text-align: center;
@@ -165,7 +166,7 @@
     right: 0;
     padding: 10px;
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    color: white;
+    color: var(--color-white);
     width: 100%; /* Ensure the caption spans the full width */
 }
 
@@ -180,7 +181,7 @@
 
 .carousel-arrows button {
     background: rgba(0, 0, 0, 0.5);
-    color: white;
+    color: var(--color-white);
     border: none;
     font-size: 24px;
     padding: 10px;
