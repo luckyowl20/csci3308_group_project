@@ -70,7 +70,6 @@ body {
 /* ===== BUTTON STYLES ===== */
 
 .btn.btn-primary {
-
     background-color: var(--color-button-primary);
     border: 3px solid transparent;
     color: var(--color-white);
@@ -117,7 +116,6 @@ body {
 }
 
 /* ===== NAVBAR STYLES ===== */
-/* Directly copied from your styles.css */
 .bg-navbar {
     background-color: var(--color-primary);
 }
@@ -228,6 +226,13 @@ body {
   .bg-blue {
     background-color: var(--color-button-tertiary);
   }
+
+  .col-md-2 {
+    position: sticky;
+    top: 1rem; /* adjust as needed to add space from the top */
+    align-self: flex-start; /* prevent it from stretching */
+    height: fit-content;
+  }
   
   /* Responsive tile size for smaller screens */
   @media (max-width: 576px) {
@@ -244,3 +249,4 @@ body {
         padding: 10px;
     }
 }
+
