@@ -12,6 +12,18 @@
   </div>
   {{/if}}
 
+  {{#if success}}
+  <div class="text-center alert alert-success position-absolute start-50 translate-middle-x" style="
+        top: -4rem;       /* ← bump it up 2rem above the top edge */
+        width: 100%;
+        max-width: 500px; /* match your card/container width */
+        z-index: 10;
+      ">
+    {{message}}
+  </div>
+  {{/if}}
+
+
   <div class="container">
     <div class="body d-md-flex align-items-center justify-content-between">
 
