@@ -127,7 +127,7 @@ router.post('/register', async (req, res) => {
             layout: 'landing',
             title: 'Login | LuckyMoment',
             message: 'Registration successful! You can now log in.',
-            error: false
+            success: true
         });
         // return res.render('auth/login', { message: 'Registration successful! You can now log in.', error: false });
 
