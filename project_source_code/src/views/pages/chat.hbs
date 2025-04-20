@@ -49,7 +49,7 @@
           Chat messages container 
           Replaced inline style with class="chat-box"
         -->
-        <div class="card-body chat-box" id="chat-box" data-current-user-id="{{currentUserId}}">
+        <div class="card-body chat-box" id="chat-box" data-current-user-id="{{currentUserId}}" data-chat-partner-id="{{chatPartnerId}}">
 
           {{#if chatPartner}}
             {{#if messages.length}}

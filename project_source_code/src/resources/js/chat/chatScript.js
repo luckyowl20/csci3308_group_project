@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const messageEl = document.createElement('div');
       messageEl.className = isOutgoing ? 'text-end mb-2' : 'text-start mb-2';
       messageEl.innerHTML = isOutgoing
-        ? `<span class="badge bg-primary">${message.content}</span>`
-        : `<span class="badge bg-secondary">${message.content}</span>`;
+        ? `<span class="message-bubble message-in font-alt">${message.content}</span>`
+        : `<span class="message-bubble message-in font-alt">${message.content}</span>`;
       chatBox.appendChild(messageEl);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
