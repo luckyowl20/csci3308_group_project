@@ -21,7 +21,11 @@
       </div>
 
       <h2 class="fw-bold alt-text">{{profile.display_name}}</h2>
+      {{#if isOwnProfile}}
       <p class="small primary-text mb-4">@{{user.username}}</p>
+      {{else}}
+      <p class="small primary-text mb-4">@{{profile.username}}</p>
+      {{/if}}
 
       {{#if isOwnProfile}}
 
@@ -47,14 +51,20 @@
         {{/each}}
       </ul>
       {{else}}
-      <p class="text-muted font-alt"><em>No friends yet.</em></p>
+      <p class="fst-italic primary-text font-alt fst-italix">No friends yet.</p>
       {{/if}}
     </div>
 
     <!-- Right Column -->
     <div class="col-lg-8">
       <h4 class="fw-bold alt-text">Biography</h4>
-      <p class="font-alt">{{profile.biography}}</p>
+      {{#if profile.biography}}
+      <p class="font-alt primary-text">{{profile.biography}}</p>
+      {{else}}
+      <p class="font-alt primary-text fst-italic">No biography set.</p>
+      {{/if}}
+
+      {{!-- {{#if isOwnProfile}} --}}
 
 
       <h4 class="fw-bold alt-text">Interests</h4>
@@ -65,12 +75,16 @@
         {{/each}}
       </div>
       {{else}}
-      <p class="text-muted"><em>No interests selected yet.</em></p>
+      <p class="primary-text font-alt fst-italic">No interests selected yet.</p>
       {{/if}}
 
 
       <h4 class="fw-bold alt-text">Birthday</h4>
-      <p class="font-alt">{{formatDate profile.birthday}}</p>
+      {{#if profile.birthday}}
+      <p class="font-alt primary-text">{{formatDate profile.birthday}}</p>
+      {{else}}
+      <p class="font-alt primary-text fst-italic">No birthday set.</p>
+      {{/if}}
 
       <h4 class="fw-bold alt-text">Favorite Song</h4>
       {{#if profile.spotify_song_id}}
@@ -82,7 +96,7 @@
       </div>
 
       {{else}}
-      <p><em>No favorite song selected yet.</em></p>
+      <p class="font-alt primary-text fst-italic">No favorite song selected yet.</p>
       {{/if}}
 
       <!-- Memories or Week View Section -->
@@ -96,7 +110,7 @@
           {{#each recentPhotos}}
           <div class="col text-center">
             <img src="{{this.url}}" alt="Memory" class="img-fluid memory-photo">
-            <p class="text-muted mt-1">{{formatDate this.created_at}}</p>
+            <p class="primary-text mt-1">{{formatDate this.created_at}}</p>
           </div>
           {{/each}}
         </div>
@@ -107,7 +121,7 @@
         </div>
         {{/if}}
         {{else}}
-        <p class="text-muted"><em>No photos uploaded this week.</em></p>
+        <p class="primary-text"><em>No photos uploaded this week.</em></p>
         {{/if}}
       </div>
     </div>
