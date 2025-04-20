@@ -4,7 +4,7 @@
 :root {
     --color-background: #fdfbf1;
     --color-primary: #095D40;
-    --color-secondary: #37AB5A;
+    --color-secondary: #37a758;
     --color-accent: #8EDBA5;
     --color-white: #ffffff;
     --color-button-primary: var(--color-accent);
@@ -13,7 +13,10 @@
     --color-button-hover: #e99600;
     --button-hover-opacity: 0.8;
 
-    --color-message-in-text: #000000;
+    --color-primary-text: #161616;
+    --color-alt-text: var(--color-primary);
+
+    --color-message-in-text: var(--color-primary-text);
     --color-message-in-bubble: #e2e2e2;
     --color-message-out-text: var(--color-white);
     --color-message-out-bubble: var(--color-primary);
@@ -55,7 +58,8 @@ body {
 }
 
 /* ===== TEXT UTILITIES ===== */
-.primary-text { color: var(--color-primary); }
+.primary-text { color: var(--color-primary-text); }
+.alt-text { color: var(--color-alt-text); }
 .secondary-text { color: var(--color-accent); }
 
 .welcome-text {
