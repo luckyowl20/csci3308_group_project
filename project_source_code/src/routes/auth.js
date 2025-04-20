@@ -113,7 +113,9 @@ router.post('/register', async (req, res) => {
         const user_id = await db.oneOrNone(`SELECT id FROM users WHERE username = $1`, [username]); //getting user id
 
         await db.query(`INSERT INTO user_settings (user_id) VALUES ($1)`, [user_id.id]); //creating row for user settings
+        await db.query(`INSERT INTO profiles (user_id) VALUES ($1)`, [user_id.id]); //creating row for user profile
 
+        
         req.session.message = 'Registration successful! You can now log in.';
         console.log("Successfully registered user:", username);
 

@@ -53,6 +53,7 @@ app.set('views', path.join(__dirname, 'views'));
 // serve static files from src/resources to access client side javascript files in there
 
 app.use('/resources', express.static(path.join(__dirname, '/resources')));
+app.use('/resources/img', express.static(path.join(__dirname, 'src/resources/img')));
 
 // make profile available to the whole session
 app.use(injectProfileData);
