@@ -14,13 +14,14 @@
 
       <div class="position-relative profile-pic-large mx-auto mb-3">
         {{#if profile.profile_picture_url}}
-          <img src="{{profile.profile_picture_url}}" alt="Profile Picture">
+        <img src="{{profile.profile_picture_url}}" alt="Profile Picture">
         {{else}}
-          <img src="https://via.placeholder.com/150?text=User" alt="Default">
+        <img src="https://via.placeholder.com/150?text=User" alt="Default">
         {{/if}}
       </div>
 
       <h2 class="fw-bold alt-text">{{profile.display_name}}</h2>
+      <p class="small primary-text mb-4">@{{user.username}}</p>
 
       {{#if isOwnProfile}}
 
@@ -38,15 +39,15 @@
       <!-- Friends List -->
       <h5 class="mt-4 fw-bold alt-text">Friends</h5>
       {{#if friends.length}}
-        <ul class="list-unstyled">
-          {{#each friends}}
-            <li>
-              <a href="/profile/{{this.id}}" class="text-decoration-none primary-text">{{this.username}}</a>
-            </li>
-          {{/each}}
-        </ul>
+      <ul class="list-unstyled">
+        {{#each friends}}
+        <li>
+          <a href="/profile/{{this.id}}" class="friend-link primary-text">{{this.username}}</a>
+        </li>
+        {{/each}}
+      </ul>
       {{else}}
-        <p class="text-muted font-alt"><em>No friends yet.</em></p>
+      <p class="text-muted font-alt"><em>No friends yet.</em></p>
       {{/if}}
     </div>
 
@@ -73,12 +74,15 @@
 
       <h4 class="fw-bold alt-text">Favorite Song</h4>
       {{#if profile.spotify_song_id}}
-        <iframe class="rounded" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}"
-          width="100%" height="80" frameBorder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+      <div class="spotify-player-container">
+        <iframe class="rounded" src="https://open.spotify.com/embed/track/{{profile.spotify_song_id}}" width="100%"
+          height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
         </iframe>
+      </div>
+
       {{else}}
-        <p><em>No favorite song selected yet.</em></p>
+      <p><em>No favorite song selected yet.</em></p>
       {{/if}}
 
       <!-- Memories or Week View Section -->
@@ -88,22 +92,22 @@
         </h4>
 
         {{#if recentPhotos.length}}
-          <div class="row row-cols-1 row-cols-md-2 g-3">
-            {{#each recentPhotos}}
-              <div class="col text-center">
-                <img src="{{this.url}}" alt="Memory" class="img-fluid memory-photo">
-                <p class="text-muted mt-1">{{formatDate this.created_at}}</p>
-              </div>
-            {{/each}}
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+          {{#each recentPhotos}}
+          <div class="col text-center">
+            <img src="{{this.url}}" alt="Memory" class="img-fluid memory-photo">
+            <p class="text-muted mt-1">{{formatDate this.created_at}}</p>
           </div>
+          {{/each}}
+        </div>
 
-          {{#if isOwnProfile}}
-            <div class="text-center mt-3">
-              <a href="/memories" class="btn btn-outline-success">See More Memories</a>
-            </div>
-          {{/if}}
+        {{#if isOwnProfile}}
+        <div class="text-center mt-3">
+          <a href="/memories" class="btn btn-outline-success">See More Memories</a>
+        </div>
+        {{/if}}
         {{else}}
-          <p class="text-muted"><em>No photos uploaded this week.</em></p>
+        <p class="text-muted"><em>No photos uploaded this week.</em></p>
         {{/if}}
       </div>
     </div>
@@ -112,4 +116,3 @@
 
 {{> editProfileModal}}
 {{> editPreferencesModal profile=profile}}
-

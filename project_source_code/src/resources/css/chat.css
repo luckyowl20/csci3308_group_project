@@ -60,25 +60,16 @@
     }
   }  
 
-
-  /* Chat Box Scrollable Area */
-  /* .chat-box {
-    height: 400px;
-    overflow-y: auto;
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0.5rem;
-  } */
-  
-  /* Message Styling – optional: define message bubble styles */
-  /* .message-bubble {
-    margin-bottom: 0.75rem;
-  } */
   
   /* Friend Link Hover Effect */
-  a.text-decoration-none:hover {
+  .friend-chat-link {
+    text-decoration: none;
+    color: var(--color-primary-text); /* fallback if custom variable is missing */
+  }
+
+  .friend-chat-link:hover {
     text-decoration: underline;
-    color: var(--bs-success-dark, #146c43); /* fallback if custom variable is missing */
+    color: var(--color-alt-text); /* fallback if custom variable is missing */
   }
   
   /* Chat Panel Header and Footer Styling (if needed) */

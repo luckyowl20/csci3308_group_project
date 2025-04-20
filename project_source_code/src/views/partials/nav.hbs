@@ -1,50 +1,48 @@
-<header>
-  <nav class="navbar navbar-expand-lg bg-navbar px-4">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-      
-      <!-- LuckyMoment Logo on the Left -->
-      <a class="navbar-brand text-white fw-bold" href="/home">LuckyMoment</a>
-      
-      <!-- Navigation Links on the Right -->
-      <ul class="navbar-nav d-flex flex-row gap-4 align-items-center mb-0">
+<nav class="navbar navbar-expand-lg bg-navbar px-4">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
 
-        <li class="nav-item">
-          <a class="nav-link text-white fw-semibold" href="/home">Home</a>
-        </li>
+    <!-- LuckyMoment Logo on the Left -->
+    <a class="navbar-brand text-white fw-bold" href="/home">LuckyMoment</a>
 
-        <li class="nav-item">
-          <a class="nav-link text-white fw-semibold" href="/explore">Explore</a>
-        </li>
+    <!-- Navigation Links on the Right -->
+    <ul class="navbar-nav d-flex flex-row align-items-center ">
 
-        {{#if user}}
-          <li class="nav-item">
-            <a class="nav-link text-white fw-semibold" href="/chat">Chat</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white fw-semibold d-flex align-items-center" href="/profile/">
-              <span class="me-2">Profile</span>
-              <div class="profile-pic-small border border-white rounded-circle overflow-hidden">
-                {{#if user.profile_picture_url}}
-                  <img src="{{user.profile_picture_url}}" alt="Profile">
-                {{else}}
-                  <img src="https://via.placeholder.com/28?text=U" alt="Default">
-                {{/if}}
-              </div>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white fw-semibold" href="/auth/logout">Logout</a>
-          </li>
-        {{else}}
-          <li class="nav-item">
-            <a class="nav-link text-white fw-semibold" href="/auth/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white fw-semibold" href="/auth/register">Register</a>
-          </li>
-        {{/if}}
+      <li class="nav-item">
+        <a class="nav-link text-white fw-semibold" href="/home">Home</a>
+      </li>
 
-      </ul>
-    </div>
-  </nav>
-</header>
+      <li class="nav-item">
+        <a class="nav-link text-white fw-semibold" href="/explore">Explore</a>
+      </li>
+
+      {{#if user}}
+      <li class="nav-item">
+        <a class="nav-link text-white fw-semibold" href="/chat">Chat</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white fw-semibold d-flex align-items-center" href="/profile/">
+          <span class="me-2">Profile</span>
+          <div class="profile-pic-small border border-white rounded-circle overflow-hidden">
+            {{#if user.profile_picture_url}}
+            <img src="{{user.profile_picture_url}}" alt="Profile">
+            {{else}}
+            <img src="https://via.placeholder.com/28?text=U" alt="Default">
+            {{/if}}
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white fw-semibold" href="/auth/logout">Logout</a>
+      </li>
+      {{else}}
+      <li class="nav-item">
+        <a class="nav-link text-white fw-semibold" href="/auth/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white fw-semibold" href="/auth/register">Register</a>
+      </li>
+      {{/if}}
+
+    </ul>
+  </div>
+</nav>

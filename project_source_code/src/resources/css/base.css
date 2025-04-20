@@ -84,6 +84,7 @@ body {
     justify-content: center;
     font-family: var(--font-alt);
     padding: 0.5rem 1.5rem;
+    font-weight: bold;
 }
 
 .btn.btn-primary:hover {
@@ -99,6 +100,8 @@ body {
     justify-content: center;
     font-family: var(--font-alt);
     padding: 0.5rem 1.5rem;
+    font-weight: bold;
+
 }
 
 .btn.btn-secondary:hover {
@@ -137,9 +140,18 @@ body {
     margin-left: 1rem;
 }
 
+.nav-link:hover {
+    text-decoration: underline  
+}
+
 .navbar-brand {
     font-weight: bold;
     color: var(--color-white);
+}
+
+.navbar-brand:hover {
+    text-decoration: underline;
+    color: var(--color-white)
 }
 
 /* ===== PROFILE PICTURE STYLES ===== */
