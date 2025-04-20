@@ -2,6 +2,10 @@
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="POST" action="/profile/update" class="modal-content">
+      
+      <!-- Hidden input to preserve profile picture URL -->
+      <input type="hidden" name="profile_picture_url" value="{{profile.profile_picture_url}}">
+
       <div class="modal-header">
         <h5 class="modal-title font-alt fw-bold" id="editProfileModalLabel">Edit Profile</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -25,11 +29,11 @@
         <input name="birthday" type="date" class="form-control mb-2" value="{{profile.birthday}}">
 
         <!-- Profile Picture URL -->
-      <label class="form-label">Profile Picture</label>
-      <div class="d-flex align-items-center gap-3 mb-2">
-      <img src="{{profile.profile_picture_url}}" alt="Current Profile Picture" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-      <a href="/take_picture/profile" class="btn btn-outline-success">Change Picture</a>
-      </div>
+        <label class="form-label">Profile Picture</label>
+        <div class="d-flex align-items-center gap-3 mb-2">
+          <img src="{{profile.profile_picture_url}}" alt="Current Profile Picture" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+          <a href="/take_picture/profile" class="btn btn-outline-success">Change Picture</a>
+        </div>
 
         <!-- Spotify Track Search -->
         <p id="spotify-selected-display" class="text-muted mb-2"></p>

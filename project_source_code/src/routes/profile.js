@@ -143,7 +143,13 @@ router.post('/update', isAuthenticated, async (req, res) => {
     const clean_song_id = spotify_song_id === '' ? null : spotify_song_id;
 
     // THIS WILL NEED TO BE REPLCED WITH AN IMAGE DATABASE QUERY
-    const clean_profile_url = profile_picture_url === '' ? null : profile_picture_url;
+    let clean_profile_url = profile_picture_url;
+    if (!clean_profile_url || clean_profile_url.trim() === '') {
+        // fallback to existing URL in DB if none was passed
+        const existingProfile = await db.oneOrNone('SELECT profile_picture_url FROM profiles WHERE user_id = $1', [userId]);
+        clean_profile_url = existingProfile?.profile_picture_url || null;
+    }
+    
 
     // Upsert pattern — insert or update if exists
     // this is done by ON CONFLICT and EXCLUDED means we want to set the attribute to the value we attempted to insert 
