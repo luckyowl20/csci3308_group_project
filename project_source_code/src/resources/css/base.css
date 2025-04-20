@@ -2,15 +2,15 @@
 
 /* ===== VARIABLES ===== */
 :root {
-    --color-background: #ffffff;
-    --color-accent: #FF9169;
-    --color-secondary: #FFB2E5;
-    --color-primary: #2d6842;
+    --color-background: #fdfbf1;
+    --color-primary: #095D40;
+    --color-secondary: #37AB5A;
+    --color-accent: #8EDBA5;
     --color-white: #ffffff;
-    --color-button-primary: #FFB2E5;
-    --color-button-secondary: #FF9872;
+    --color-button-primary: var(--color-accent);
+    --color-button-secondary: var(--color-secondary);
     --color-button-tertiary: #76AAFF;
-    --color-button-hover: #e18855;
+    --color-button-hover: #e99600;
     --button-hover-opacity: 0.8;
 
     --color-message-in-text: #000000;
