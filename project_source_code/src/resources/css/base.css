@@ -3,9 +3,9 @@
 /* ===== VARIABLES ===== */
 :root {
     --color-background: #F3F1EA;
-    --color-primary: #184d2b;
-    --color-secondary: #528f61;
-    --color-accent: #ebbf58;
+    --color-primary: #1a522f;
+    --color-secondary: #3A7D44;
+    --color-accent: #dca632;
     --color-white: #ffffff;
     --color-button-primary: var(--color-accent);
     --color-button-secondary: var(--color-secondary);
