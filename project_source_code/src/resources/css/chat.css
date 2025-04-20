@@ -5,9 +5,6 @@
     font-family: 'Lalezar', cursive;
   } */
   
-  .primary-text {
-    color: var(--bs-success);
-  }
   
   /* Profile Picture */
   img.rounded-circle {
@@ -32,14 +29,14 @@
   
   /* Outgoing message (sent by current user) */
   .message-out {
-    background-color: var(--color-message-out-bubble, #f8c8dc); /* fallback soft pink */
-    color: var(--color-message-out-text, #fff); /* fallback white text */
+    background-color: var(--color-message-out-bubble); /* fallback soft pink */
+    color: var(--color-message-out-text); /* fallback white text */
   }
   
   /* Incoming message (from others) */
   .message-in {
-    background-color: var(--color-message-in-bubble, #e9ecef); /* fallback light gray */
-    color: var(--color-message-in-text, #343a40); /* fallback dark text */
+    background-color: var(--color-message-in-bubble); /* fallback light gray */
+    color: var(--color-message-in-text); /* fallback dark text */
   }
   
   /* Font style for message content */

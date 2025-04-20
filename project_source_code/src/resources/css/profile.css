@@ -1,0 +1,28 @@
+ /* 2. Constrain and crop “memory” photos in the week‑view grid */
+ .memory-photo {
+   max-height: 200px;
+   object-fit: cover;
+   width: 100%;
+   /* so they still fill their column */
+   border-radius: 0.25rem;
+   /* if you liked your “rounded” */
+   box-shadow: var(--bs-shadow);
+   /* or your own shadow */
+ }
+
+ .interest-badge {
+   display: inline-block;
+   background-color: var(--color-secondary);
+   color: var(--color-white);
+   font-family: var(--font-alt);
+   font-size: 0.875rem;
+   padding: 0.25rem 0.75rem;
+   border-radius: 0.5rem;
+   margin-bottom: 0.25rem;
+   transition: background-color 0.2s ease;
+ }
+
+ .interest-badge:hover {
+   background-color: var(--color-primary);
+   cursor: default;
+ }

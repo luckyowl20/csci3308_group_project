@@ -2,10 +2,10 @@
 
 /* ===== VARIABLES ===== */
 :root {
-    --color-background: #fdfbf1;
-    --color-primary: #095D40;
-    --color-secondary: #37a758;
-    --color-accent: #8EDBA5;
+    --color-background: #ffffff;
+    --color-primary: #184d2b;
+    --color-secondary: #528f61;
+    --color-accent: #EBBF58;
     --color-white: #ffffff;
     --color-button-primary: var(--color-accent);
     --color-button-secondary: var(--color-secondary);
@@ -14,6 +14,8 @@
     --button-hover-opacity: 0.8;
 
     --color-primary-text: #161616;
+    /* --color-primary-text: #ff0000; /* debug color */ 
+
     --color-alt-text: var(--color-primary);
 
     --color-message-in-text: var(--color-primary-text);
@@ -104,7 +106,7 @@ body {
 }
 
 .btn.btn-outline-success {
-    background-color: var(--color-white);
+    background-color: var(--color-background);
     border: 1px solid var(--color-primary);
     color: var(--color-primary);
     display: inline-flex;
