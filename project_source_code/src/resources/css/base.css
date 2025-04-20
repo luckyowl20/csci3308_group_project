@@ -2,10 +2,10 @@
 
 /* ===== VARIABLES ===== */
 :root {
-    --color-background: #ffffff;
+    --color-background: #F3F1EA;
     --color-primary: #184d2b;
     --color-secondary: #528f61;
-    --color-accent: #EBBF58;
+    --color-accent: #ebbf58;
     --color-white: #ffffff;
     --color-button-primary: var(--color-accent);
     --color-button-secondary: var(--color-secondary);
@@ -16,7 +16,7 @@
     --color-primary-text: #161616;
     /* --color-primary-text: #ff0000; /* debug color */ 
 
-    --color-alt-text: var(--color-primary);
+    --color-alt-text: var(--color-secondary);
 
     --color-message-in-text: var(--color-primary-text);
     --color-message-in-bubble: #e2e2e2;

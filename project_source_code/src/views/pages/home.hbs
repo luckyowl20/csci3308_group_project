@@ -13,14 +13,14 @@
     <!-- Left buttons -->
     <div class="col-md-2 d-flex flex-column align-items-start gap-4">
       {{#if userHasPostedToday}}
-        <a href="/swipe" class="btn btn-primary tile fw-bold w-100 py-4">Meet Someone</a>
-        <a href="/friends" class="btn btn-primary tile fw-bold w-100 py-4">Meet Friends</a>
+        <a href="/swipe" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Someone</a>
+        <a href="/friends" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Friends</a>
       {{else}}
-        <button class="btn btn-primary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Someone</button>
-        <button class="btn btn-primary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Friends</button>
+        <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Someone</button>
+        <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Friends</button>
       {{/if}}
 
-      <a href="/take_picture" class="btn btn-secondary tile fw-bold w-100 py-4 text-white">Upload Photo</a>
+      <a href="/take_picture" class="btn btn-primary tile fw-bold w-100 py-4 text-white">Upload Photo</a>
     </div>
 
     <!-- Instagram-style Feed -->
