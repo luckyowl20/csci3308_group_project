@@ -6,6 +6,11 @@
     --color-primary: #1a522f;
     --color-secondary: #3A7D44;
     --color-accent: #dca632;
+    /* alternate color scheme
+    --color-primary: #3D655D;
+    --color-secondary: #769353;
+    --color-accent: #EBBF58; 
+    */
     --color-white: #ffffff;
     --color-button-primary: var(--color-accent);
     --color-button-secondary: var(--color-secondary);
