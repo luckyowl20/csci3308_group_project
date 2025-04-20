@@ -52,3 +52,12 @@
   text-decoration: underline;
   color: var(--color-alt-text);
 }
+
+/* preferred distance slider */
+input[type=range] {
+  accent-color: var(--color-primary); /* Modern browsers (quick and easy way) */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  background-color: var(--color-primary);
+}
