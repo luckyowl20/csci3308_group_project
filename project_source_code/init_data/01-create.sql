@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS blogs_posts (
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE, -- to track which post is associated with the blog
     blog_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL
-)
+);
 -- table of user opinion on music
 CREATE TABLE IF NOT EXISTS music (
     user_id INTEGER NOT NULL,

@@ -24,7 +24,9 @@ router.get('/', isAuthenticated, async (req, res) => {
     // Use the existing spotifyUtils to get a token, or fall back to your original method
     let token;
     try {
-      token = await spotifyUtils.getSpotifyToken();
+      const clientId = process.env.SPOTIFY_CLIENT_ID;
+      const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+      token = await spotifyUtils.getAccessToken(clientId, clientSecret);
     } catch (tokenErr) {
       console.warn('Error using spotifyUtils for token:', tokenErr.message);
       token = await getSpotifyToken(); // Your original function as backup
@@ -100,9 +102,14 @@ router.get('/', isAuthenticated, async (req, res) => {
         [req.user.id, trackId]
       );
       
-      if (likeResult.rows.length > 0) {
-        userLiked = likeResult.rows[0].liked;
-      }
+      // Handle different possible return formats
+    if (likeResult && likeResult.rows && likeResult.rows.length > 0) {
+      userLiked = likeResult.rows[0].liked;
+    } else if (likeResult && Array.isArray(likeResult) && likeResult.length > 0) {
+      userLiked = likeResult[0].liked;
+    } else {
+      console.log('No existing like record found');
+    }
     } catch (dbError) {
       console.error('Error fetching user like status:', dbError);
     }
