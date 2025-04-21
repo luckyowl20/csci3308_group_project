@@ -1,66 +1,18 @@
 <div class="container text-center py-5 min-vh-100">
+ {{> message }}
+
   <h1 class="fw-bold mb-5 fw-bold">
     Discover Something New!
-  </h1>
+  </h1> 
 
   <div class="d-flex justify-content-center gap-4 flex-wrap">
     <a href="/explore/activities" class="btn-primary tile bg-pink text-white ">
       Different<br/>Activities
     </a>
-
-    <a href="/explore/loc" class="btn-primary tile bg-orange text-white" id="restaurants-btn" >
+    <a href="/explore/restaurants" class="btn-primary tile bg-orange text-white" id="restaurants-btn" >
+      
       Restaurants
     </a>
-
-    <script>
-      document.getElementById('restaurants-btn').addEventListener('click', function (e) {
-        e.preventDefault(); // prevent default link behavior
-
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const lat = position.coords.latitude;
-              const lon = position.coords.longitude;
-              // Redirect to location-based restaurant page
-              window.location.href = `/explore/restaurants/loc?lat=${lat}&lon=${lon}`;
-            },
-            (err) => {
-              alert('Location access denied. Showing default results.');
-              // Optional fallback
-              window.location.href = '/explore';
-            }
-          );
-        } else {
-          alert('Geolocation not supported.');
-          window.location.href = '/explore';
-        }
-      });
-    </script>
-
-    <script>
-      document.getElementById('restaurants-btn').addEventListener('click', function (e) {
-        e.preventDefault(); // prevent default link behavior
-
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const lat = position.coords.latitude;
-              const lon = position.coords.longitude;
-              // Redirect to location-based restaurant page
-              window.location.href = `/explore/restaurants/loc?lat=${lat}&lon=${lon}`;
-            },
-            (err) => {
-              alert('Location access denied. Showing default results.');
-              // Optional fallback
-              window.location.href = '/explore';
-            }
-          );
-        } else {
-          alert('Geolocation not supported.');
-          window.location.href = '/explore';
-        }
-      });
-    </script>
 
     <a href="/explore/music" class="btn-primary tile bg-blue text-white">
       Music

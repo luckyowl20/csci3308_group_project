@@ -12,13 +12,32 @@ router.get('/', isAuthenticated, async (req, res) => {
   }
 });
 
-// GET /restaurants/loc - Renders restaurants page to show nearby restaurants based on user location
-router.get('/restaurants/loc', isAuthenticated, async (req, res) => {
-  const { lat, lon } = req.query;
+// GET /restaurants - Renders restaurants page to show nearby restaurants based on user location
+router.get('/restaurants', isAuthenticated, async (req, res) => {
+  // Check if the db has the user's location
+  // if so then query the api
+ 
   
   const userId = req.session.user.id;
   const db = req.app.locals.db;
 
+  // Get user's location from the database
+  const userLocation = await db.oneOrNone(
+    `SELECT ST_Y(user_location::geometry) AS latitude, ST_X(user_location::geometry) AS longitude 
+    FROM profiles WHERE id = $1;`,
+    [userId]
+  );
+
+  if (!userLocation) {
+    console.error('User location not found in database');
+    return res.render('pages/explore', {
+      message: 'Location not provided, please update your profile.',
+      error: true
+    });
+  }
+
+  const lat = userLocation.latitude;
+  const lon = userLocation.longitude;
   // 1. Get restaurant data from Google Places API
   const restaurants = await getNearbyRestaurants(lat, lon);
 
@@ -51,7 +70,7 @@ router.get('/restaurants/loc', isAuthenticated, async (req, res) => {
     likedPlaceIds,
     dislikedPlaceIds
   });
-});
+}); 
 
 router.post('/restaurants/like', isAuthenticated, async (req, res) => {
   const { placeId } = req.body;
