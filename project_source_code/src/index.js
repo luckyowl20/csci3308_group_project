@@ -101,13 +101,14 @@ const chatRoutes = require('./routes/chat');
 const photosRoutes = require('./routes/photos');
 const profileRoutes = require('./routes/profile');
 const spotifyRoutes = require('./routes/spotify');
-const userRoutes = require('./routes/users');
 const settingsRoutes = require('./routes/settings');
 const exploreRoutes = require('./routes/explore');
 const learnmoreRoutes = require('./routes/learnMore');
 const homeRoutes = require('./routes/home');
 const take_picture = require('./routes/take_picture');
+const memories = require('./routes/memories');
 const swipeRoutes = require('./routes/swipe');
+const matchesRoutes = require('./routes/matches'); // will be replaced later with a better version
 
 const blogRoutes = require('./routes/blogs');
 
@@ -117,13 +118,14 @@ app.use('/chat', chatRoutes);
 app.use('/photos', photosRoutes);
 app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
-app.use('/users', userRoutes);
 app.use('/settings', settingsRoutes);
 app.use('/swipe', swipeRoutes);
 app.use('/explore', exploreRoutes);
 app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);
 app.use('/take_picture', take_picture);
+app.use('/matches', matchesRoutes); // will be replaced later with a better version
+app.use('/memories', memories)
 
 app.use('/blog', blogRoutes);
 

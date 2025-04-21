@@ -1,29 +1,49 @@
 /* resources/css/swipe.css */
+
+/* root styles for swipe specifically */
+:root {
+    --color-button-no: #ff4d4d; /* red button color */
+    --color-button-yes: #4caf50; /* Green button color */
+}
+
 .swipe-container {
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; /* Align everything to the center */
     position: relative;
+    padding-top: 0; /* Ensure there's no extra padding that could push the card up */
 }
 
 .card {
-    width: 80%;
-    max-width: 400px;
-    height: 70%;
-    background-color: white;
+    width: 80%;  /* Set width to 80% for a larger card */
+    max-width: 500px; 
+    height: 80%;  /* Set height to 80% for consistency */
+    background-color: var(--color-background);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative; /* Prevent shifting of card */
+    margin: 0 auto; /* Center the card */
+}
+
+/* Target the display name specifically */
+#user-name {
+    color: #2d6842; /* A nice green color */
+    font-weight: bold;
+    margin-bottom: 5px; /* Optional spacing */
+}
+
+/* Or if you want to use your color variable */
+#user-name {
+    color: var(--color-primary);
 }
 
 .user-photo {
-    width: 100%;
-    height: 70%;
-    object-fit: cover;
+    height: 75%; 
 }
 
 .info {
@@ -33,13 +53,13 @@
 
 .swipe-button {
     position: absolute;
-    top: 50%; /* Positioned lower to be near the bottom of the card */
+    top: 50%; 
     transform: translateY(-50%);
     padding: 0;
     border: none;
     border-radius: 50%;
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
@@ -50,15 +70,15 @@
 }
 
 .no-button {
-    left: 25%;
-    background-color: #ff4d4d;
-    color: white;
+    left: 20%;
+    background-color: var(--color-button-no);
+    color: var(--color-white);
 }
 
 .yes-button {
-    right: 25%;
-    background-color: #4caf50;
-    color: white;
+    right: 20%;
+    background-color: var(--color-button-yes);
+    color: var(--color-white);
 }
 
 /* Pulse animation for buttons */
@@ -72,7 +92,6 @@
     animation: pulse 1s infinite;
 }
 
-/* Rest of your existing CSS... */
 .modal {
     display: none;
     position: fixed;
@@ -87,7 +106,7 @@
 }
 
 .modal-content {
-    background-color: white;
+    background-color: var(--color-background);
     padding: 30px;
     border-radius: 10px;
     text-align: center;
@@ -99,8 +118,91 @@
     padding: 20px;
 }
 
-    .username {
-        color: #666;
-        font-style: italic;
-        margin-top: -15px;
-    }
+.username {
+    color: #666;
+    font-style: italic;
+    margin-top: -15px;
+}
+
+/* New styles for ensuring consistent card size and position */
+.card.swipe-card {
+    width: 40%;  /* Fixed width for all cards */
+    height: 80%; /* Fixed height for all cards */
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    margin: 0 auto; /* Center the card */
+}
+
+.card .user-photo {
+    width: 100%;
+    height: 70%; /* Adjust image height */
+    overflow: hidden;
+    position: relative;
+}
+
+.card .user-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio */
+}
+
+.card .info {
+    height: 30%;
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Style for carousel captions */
+.card .carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: var(--color-white);
+    width: 100%; /* Ensure the caption spans the full width */
+}
+
+/* Style for carousel arrows */
+.carousel-arrows {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.carousel-arrows button {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--color-white);
+    border: none;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.carousel-arrows button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Ensure the view posts button is correctly positioned and visible */
+#view-posts-btn,
+#view-profile-btn {
+    display: block;  /* Ensure buttons are visible */
+}
+
+#view-posts-btn {
+    display: inline-block;
+}
+
+#view-profile-btn {
+    display: none; /* Hide by default until toggled */
+}

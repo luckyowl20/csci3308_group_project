@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:14
+    image: postgis/postgis:14-3.3 # to use the geospatial features of PostgreSQL
     env_file: .env
     expose:
       - '5432'
