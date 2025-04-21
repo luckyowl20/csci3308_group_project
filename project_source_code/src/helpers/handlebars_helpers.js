@@ -37,6 +37,14 @@ module.exports = {
 
     jsonParse: function(varName, string, options) {
         options.data.root[varName] = JSON.parse(string);
+    },
+
+    includes: function (array, value, options) {
+        const normalizedArray = array?.map(String);
+        if (normalizedArray?.includes(String(value))) {
+          return options.fn(this);
+        }
+        return options.inverse(this);
     }
 
 };

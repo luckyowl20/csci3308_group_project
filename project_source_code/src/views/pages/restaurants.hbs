@@ -39,30 +39,29 @@
                 <h5 class="card-title">{{name}}</h5>
                 <p class="card-text">{{address}}</p>
                 {{#if rating}}<p class="card-text">⭐ {{rating}}</p>{{/if}}
-
-                {{!-- {{#if (includes likedPlaceIds place_id)}}
-                  <button class="btn btn-success text-white" style="pointer-events: none;">
+                {{#includes ../likedPlaceIds place_id}}
+                  <button class="btn btn-success text-white" disabled>
                     👍 Liked
                   </button>
-                {{else}} --}}
-
+                {{else}}
                   <form action="/explore/restaurants/like" method="POST" class="d-inline">
                     <input type="hidden" name="placeId" value="{{place_id}}">
                     <button type="submit" class="btn btn-outline-success">👍 Like</button>
                   </form>
-                {{!-- {{/if}} --}}
+                {{/includes}}
 
-                {{!-- {{#if (includes ../dislikedPlaceIds place_id)}}
-                  <button class="btn btn-danger text-white" style="pointer-events: none;">
+                {{#includes ../dislikedPlaceIds place_id}}
+                  <button class="btn btn-danger text-white" disabled>
                     👎 Disliked
                   </button>
-                {{else}} --}}
+                {{else}}
                   <form action="/explore/restaurants/dislike" method="POST" class="d-inline">
                     <input type="hidden" name="placeId" value="{{place_id}}">
                     <button type="submit" class="btn btn-outline-danger">👎 Dislike</button>
                   </form>
-                {{!-- {{/if}} --}}
-              </div>
+                {{/includes}}
+</div>
+
             </div>
           </div>
         {{/each}}

@@ -35,11 +35,14 @@ router.get('/restaurants/loc', isAuthenticated, async (req, res) => {
   // Separate liked and disliked place_ids
   const likedPlaceIds = opinions
     .filter(entry => entry.opinion === 1)
-    .map(entry => entry.place_id);
+    .map(entry => entry.place_id.trim());
 
   const dislikedPlaceIds = opinions
     .filter(entry => entry.opinion === -1)
-    .map(entry => entry.place_id);
+    .map(entry => entry.place_id.trim());
+
+  console.log('likedPlaceIds:', likedPlaceIds);
+  console.log('dislikedPlaceIds:', dislikedPlaceIds);
 
   res.render('pages/restaurants', {
     lat,
@@ -79,7 +82,6 @@ router.post('/restaurants/like', isAuthenticated, async (req, res) => {
       );
       console.log(`New like added: ${placeId}`);
     }
-
     
   } catch (err) {
     console.error('Failed to update like:', err);
