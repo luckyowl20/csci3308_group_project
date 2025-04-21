@@ -1,3 +1,8 @@
+{{#section "scripts"}}
+<script src="/socket.io/socket.io.js"></script>
+<script src="/resources/js/musicScript.js"></script>
+{{/section}}
+
 <link rel="stylesheet" href="/resources/css/swipe.css">
 
 <div class="swipe-container">
@@ -32,10 +37,7 @@
   </div>
 
   <div class="swipe-buttons">
-    <button id="left-swipe" class="swipe-button no-button">Dislike</button>
-    <button id="right-swipe" class="swipe-button yes-button">Like</button>
+    <a href="/explore/music/dislike?trackId={{trackId}}" class="swipe-button no-button">Dislike</a>
+    <a href="/explore/music/like?trackId={{trackId}}" class="swipe-button yes-button">Like</a>
   </div>
 </div>
-
-<!-- Include the external JavaScript file -->
-<script src="/resources/js/musicScript.js"></script>
