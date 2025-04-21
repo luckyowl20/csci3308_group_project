@@ -1,8 +1,53 @@
-<div class="card" id="card" data-user-id="{{user.id}}">
-    <img src="{{user.profile_picture_url}}" alt="{{user.display_name}}" class="user-photo">
+<!-- views/partials/swipe_users.hbs -->
+<div class="card swipe-card" id="card" data-user-id="{{user.id}}">
+    <!-- Profile View (shown by default) -->
+    <div id="profile-view" class="user-photo">
+        <img src="{{user.profile_picture_url}}" alt="{{user.display_name}}" class="w-100 h-100">
+    </div>
+
+    <!-- Posts Carousel (Hidden by default) -->
+    {{#if user.recent_posts}}
+    <div id="posts-carousel" class="user-photo" style="display: none;">
+        <div id="userCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+            <div class="carousel-inner h-100">
+                {{#each user.recent_posts}}
+                <div class="carousel-item h-100 {{#if @first}}active{{/if}}">
+                    <img src="{{this.photo_url}}" class="d-block w-100 h-100" style="object-fit: cover;" alt="Post">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{this.title}}</h5>
+                        <p>{{this.body}}</p>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#userCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#userCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+    {{/if}}
+
+    <!-- Profile Info (hidden when showing posts) -->
     <div class="info">
-        <h2 id="user-name">{{user.display_name}}</h2>
-        <p class="username">@{{user.username}}</p>
-        <p id="user-bio">{{user.biography}}</p>
+        <div class="profile-info">
+            <h2 id="user-name">{{user.display_name}}</h2>
+            <p class="username">@{{user.username}}</p>
+            <p id="user-bio">{{user.biography}}</p>
+        </div>
+        
+        <!-- Toggle Button (only shown if there are posts) -->
+        {{#if user.recent_posts}}
+        <div class="d-flex justify-content-center mt-3">
+            <button id="view-posts-btn" class="btn btn-sm btn-outline-secondary">
+                View Posts
+            </button>
+            <button id="view-profile-btn" class="btn btn-sm btn-outline-secondary" style="display: none;">
+                View Profile
+            </button>
+        </div>
+        {{/if}}
     </div>
 </div>

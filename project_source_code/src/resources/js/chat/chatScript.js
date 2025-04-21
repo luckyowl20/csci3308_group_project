@@ -59,9 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
 
       if (data.success) {
+        // Remove "No messages yet." message if it's present
         const newMessage = data.message;
         const isOutgoing = Number(newMessage.sender_id) === currentUserId;
         console.log('New message sender:', newMessage.sender_id, 'Is outgoing:', isOutgoing);
+
+        const noMessagesEl = document.getElementById('no-messages');
+        if (noMessagesEl) {
+          noMessagesEl.remove();
+        }
 
         // Create a new message bubble element for the sender
         const messageEl = document.createElement('div');
@@ -79,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         console.error('Server error:', data.error);
       }
+
     } catch (err) {
       console.error('Failed to send message:', err);
     }

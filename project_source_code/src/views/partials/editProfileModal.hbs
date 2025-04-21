@@ -18,8 +18,7 @@
         <textarea name="biography" class="form-control mb-2" placeholder="Biography">{{profile.biography}}</textarea>
 
         <!-- Interests -->
-        <label for="interests" class="form-label fw-semibold">Interests</label>
-        <input name="interests" class="form-control mb-2" placeholder="Interests" value="{{profile.interests}}">
+        {{> interestsSelector profile=profile interestOptions=interestOptions }}
 
         <!-- Birthday -->
         <label for="birthday" class="form-label fw-semibold">Birthday</label>
@@ -41,7 +40,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="submit" class="btn bg-navbar text-white font-alt">Save Changes</button>
+        <button type="submit" class="btn btn-primary bg-navbar text-white font-alt">Save Changes</button>
       </div>
     </form>
   </div>

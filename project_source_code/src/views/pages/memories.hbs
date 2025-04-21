@@ -1,0 +1,50 @@
+<!-- views/pages/memories.hbs -->
+<link rel="stylesheet" href="/resources/css/memories.css" />
+
+{{#section "scripts"}}
+<script src="/resources/js/memories/memoriesScript.js"></script>
+{{/section}}
+
+
+
+<div class="container py-5 memories-wrapper">
+  <h2 class="text-center text-success fw-bold mb-5">Your Memories</h2>
+
+  {{#if photos.length}}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {{#each photos}}
+        <div class="col text-center">
+          <div class="card shadow-sm memories-card">
+            <img 
+              src="{{this.url}}" 
+              alt="Memory" 
+              class="card-img-top memories-img"
+              onclick="openMemoryModal('{{this.url}}', '{{this.caption}}', '{{this.like_count}}', '{{this.post_id}}')"
+            >
+            <div class="card-body p-2">
+              <p class="text-muted mb-0">{{formatDate this.created_at}}</p>
+              {{#if this.caption}}
+                <p class="text-secondary small">{{this.caption}}</p>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="text-center text-muted"><em>No memories uploaded yet.</em></p>
+  {{/if}}
+</div>
+
+<!-- Popup Modal -->
+<div id="memoryModal" class="modal-overlay d-none">
+  <div class="modal-box">
+    <img id="modalImage" class="modal-image mb-3" />
+    <p id="modalCaption" class="modal-caption"></p>
+    <button class="modal-likes-toggle" onclick="toggleLikesList()">
+      ❤️ <span id="modalLikeCount">0</span> Likes
+    </button>
+    <ul id="modalLikesList" class="likes-list d-none"></ul>
+    <button class="btn btn-outline-secondary w-100" onclick="closeMemoryModal()">Close</button>
+  </div>
+</div>

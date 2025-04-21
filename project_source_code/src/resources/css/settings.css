@@ -1,0 +1,101 @@
+:root{ 
+    --color-dropdown-background: #f1f1f1;
+}
+
+/* Page‑specific tweaks */
+.settings-header {
+  margin-bottom: 60px;
+}
+
+.settings-section {
+  margin-top: 10px;
+}
+
+/* “Save Changes” buttons on this page */
+.btn-save {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* Uniform checkbox spacing & sizing */
+.checkbox-custom {
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.dropbtn {
+    /* color: var(--color-white);
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer; */
+
+    background-color: var(--color-primary);
+    border: 3px solid transparent;
+    color: var(--color-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-alt);
+    padding: 0.5rem 1.5rem;
+}
+
+.dropdown-content {
+    display: none;
+    position: relative;
+    background-color: var(--color-dropdown-background);
+    width: 70dvw;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    right: 0;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.show {
+    display: block;
+}
+
+.dropdown-button {
+    display: flex;
+    height: 50px;
+    width: 70dvw;
+    background-color: var(--color-primary);
+    text-align: center;
+}
+
+.dropdown-button:hover {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+    opacity: var(--button-hover-opacity);
+}
+
+.submit-button {
+    background-color: var(--color-dropdown-background);
+    border-width: 3px;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    display: inline-block;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"]:checked+label {
+    border-color: var(--color-white);
+    box-shadow: 0 0 5px #aeaeae;
+}
