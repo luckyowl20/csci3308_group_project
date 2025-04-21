@@ -117,11 +117,12 @@ router.get('/:type', isAuthenticated, async (req, res) => {
 
     matches.sort((a,b) => b.finalScore - a.finalScore);
 
-    return res.render('pages/matches', {
-      layout : 'main',
-      user   : req.session.user,
-      matches
-    });
+    return res.json({ matches});
+    // return res.render('pages/matches', {
+    //   layout : 'main',
+    //   user   : req.session.user,
+    //   matches
+    // });
 
   } catch (err) {
     console.error('Error loading matches:', err);
