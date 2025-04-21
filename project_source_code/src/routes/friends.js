@@ -15,14 +15,14 @@ router.get('/', async (req, res) => {
     const { matches } = await getMatches(
       req.app.locals.db,
       req.session.user.id,
-      'romantic'
+      'friend'
     );
 
     console.log(`Found ${matches?.length || 0} potential matches`);
 
     if (!matches?.length) {
       console.log('No users left to swipe on');
-      return res.render('pages/swipe', {
+      return res.render('pages/friends', {
         noUsersLeft: true,
         currentUser: req.session.user
       });
@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
 
     console.log(`Top match selected:`, topMatch);
 
-    res.render('pages/swipe', {
+    res.render('pages/friends', {
       user: { ...topMatch, match_score: matches[0].finalScore },
       noUsersLeft: false,
       currentUser: req.session.user
@@ -69,7 +69,7 @@ router.get('/', async (req, res) => {
       stack: error.stack,
       user: req.session.user
     });
-    res.status(500).render('pages/swipe', {
+    res.status(500).render('pages/friends', {
       noUsersLeft: true,
       currentUser: req.session.user
     });
@@ -98,7 +98,7 @@ router.post('/swipe', async (req, res) => {
     }
 
     const isLikedBool = isLiked === true || isLiked === 'true';
-    const swipeType = 'match'; 
+    const swipeType = 'friend'; 
 
     console.log(`Recording swipe of type "${swipeType}"`);
 
@@ -114,7 +114,7 @@ router.post('/swipe', async (req, res) => {
 
       await t.none(
         `INSERT INTO swipes (swiper_id, swipee_id, is_liked, swipe_type) 
-         VALUES ($1, $2, $3, 'match')`,
+         VALUES ($1, $2, $3, 'friend')`,
         [swiperId, swipeeId, isLikedBool]
       );
 
@@ -128,13 +128,7 @@ router.post('/swipe', async (req, res) => {
         );
 
         if (match) {
-          console.log('Match found! Creating match & friendship');
-
-          await t.none(
-            `INSERT INTO matches (user_id, matched_user_id, matched_at) 
-             VALUES ($1, $2, NOW()), ($2, $1, NOW())`,
-            [swiperId, swipeeId]
-          );
+          console.log('Match found! Creating friendship');
 
           await t.none(
             `INSERT INTO friends (user_id, friend_id, created_at)
@@ -150,24 +144,24 @@ router.post('/swipe', async (req, res) => {
       return { isMatch: false };
     }).then(result => {
       if (result.isMatch) {
-        console.log(`Match success between ${swiperId} and ${swipeeId}`);
+        console.log(`friend Match success between ${swiperId} and ${swipeeId}`);
         res.json({ 
           success: true, 
           isMatch: true,
-          message: "It's a match!" 
+          message: "You're now friends." 
         });
       } else {
-        console.log(`Swipe recorded without match`);
+        console.log(`Friend Swipe recorded without match`);
         res.json({ 
           success: true, 
           isMatch: false,
-          message: "Swipe recorded" 
+          message: "Friend Swipe recorded" 
         });
       }
     });
 
   } catch (error) {
-    console.error('Swipe processing failed:', {
+    console.error('Friend Swipe processing failed:', {
       error: error.message,
       stack: error.stack,
       body: req.body,

@@ -108,6 +108,7 @@ const homeRoutes = require('./routes/home');
 const take_picture = require('./routes/take_picture');
 const memories = require('./routes/memories');
 const swipeRoutes = require('./routes/swipe');
+const friendRoutes = require('./routes/friends');
 const matchesRoutes = require('./routes/matches'); // will be replaced later with a better version
 
 const blogRoutes = require('./routes/blogs');
@@ -120,6 +121,7 @@ app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
 app.use('/settings', settingsRoutes);
 app.use('/swipe', swipeRoutes);
+app.use('/friends', friendRoutes);
 app.use('/explore', exploreRoutes);
 app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);

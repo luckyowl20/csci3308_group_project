@@ -1,0 +1,38 @@
+<!-- views/pages/swipe.hbs -->
+{{!-- style sheets and carousel bootstrap--}}
+<link rel="stylesheet" href="/resources/css/swipe.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+{{!-- scripts --}}
+{{#section "scripts"}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/resources/js/swipe_script.js"></script>
+{{/section}}
+
+<body>
+    {{#if noUsersLeft}}
+    <div class="no-users">
+        <h2>No more users to swipe!</h2>
+        <p>Check back later for new users.</p>
+    </div>
+    {{else}}
+    <div class="swipe-container">
+        {{> swipe_users user=user}}
+        <button id="left-swipe" class="swipe-button no-button">
+            <i class="bi bi-x-lg" style="font-size: 2rem;"></i>
+        </button>
+        <button id="right-swipe" class="swipe-button yes-button">
+            <i class="bi bi-heart-fill" style="font-size: 2rem;"></i>
+        </button>
+    </div>
+    <div id="match-modal" class="modal">
+        <div class="modal-content">
+            <h2>It's a match!</h2>
+            <p>You and {{user.display_name}} have liked each other.</p>
+            <button id="close-match-modal">Continue Swiping</button>
+        </div>
+    </div>
+    {{/if}}
+
+</body>
