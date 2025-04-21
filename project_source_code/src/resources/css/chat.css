@@ -5,9 +5,6 @@
     font-family: 'Lalezar', cursive;
   } */
   
-  .primary-text {
-    color: var(--bs-success);
-  }
   
   /* Profile Picture */
   img.rounded-circle {
@@ -32,14 +29,14 @@
   
   /* Outgoing message (sent by current user) */
   .message-out {
-    background-color: var(--color-message-out-bubble, #f8c8dc); /* fallback soft pink */
-    color: var(--color-message-out-text, #fff); /* fallback white text */
+    background-color: var(--color-message-out-bubble); /* fallback soft pink */
+    color: var(--color-message-out-text); /* fallback white text */
   }
   
   /* Incoming message (from others) */
   .message-in {
-    background-color: var(--color-message-in-bubble, #e9ecef); /* fallback light gray */
-    color: var(--color-message-in-text, #343a40); /* fallback dark text */
+    background-color: var(--color-message-in-bubble); /* fallback light gray */
+    color: var(--color-message-in-text); /* fallback dark text */
   }
   
   /* Font style for message content */
@@ -63,25 +60,16 @@
     }
   }  
 
-
-  /* Chat Box Scrollable Area */
-  /* .chat-box {
-    height: 400px;
-    overflow-y: auto;
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0.5rem;
-  } */
-  
-  /* Message Styling – optional: define message bubble styles */
-  /* .message-bubble {
-    margin-bottom: 0.75rem;
-  } */
   
   /* Friend Link Hover Effect */
-  a.text-decoration-none:hover {
+  .friend-chat-link {
+    text-decoration: none;
+    color: var(--color-primary-text); /* fallback if custom variable is missing */
+  }
+
+  .friend-chat-link:hover {
     text-decoration: underline;
-    color: var(--bs-success-dark, #146c43); /* fallback if custom variable is missing */
+    color: var(--color-alt-text); /* fallback if custom variable is missing */
   }
   
   /* Chat Panel Header and Footer Styling (if needed) */

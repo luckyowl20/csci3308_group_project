@@ -65,38 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedDisplay.innerText = '';
   });
 
-  // === Picture viewer logic ===
-  // const panel = document.getElementById('viewerPanel');
-  // const slides = document.querySelectorAll('.day-slide');
-  // const prevBtn = document.getElementById('prevBtn');
-  // const nextBtn = document.getElementById('nextBtn');
-
-  // if (panel && slides.length && prevBtn && nextBtn) {
-  //   let currentIndex = 0;
-
-  //   const updateView = () => {
-  //     const offset = -currentIndex * 150; // slide width
-  //     panel.style.transform = `translateX(${offset}px)`;
-  //     panel.style.transition = 'transform 0.3s ease';
-  //   };
-
-  //   prevBtn.addEventListener('click', () => {
-  //     if (currentIndex > 0) {
-  //       currentIndex--;
-  //       updateView();
-  //     }
-  //   });
-
-  //   nextBtn.addEventListener('click', () => {
-  //     if (currentIndex < slides.length - 3) {
-  //       currentIndex++;
-  //       updateView();
-  //     }
-  //   });
-
-  //   updateView();
-  // }
-
   // === Interests editor logic ===
   const interestsSearchInput = document.getElementById('interests-search');
   const resultsBox = document.getElementById('interest-results');

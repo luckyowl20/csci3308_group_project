@@ -1,62 +1,87 @@
-<div class="container">
-  <div class="body d-md-flex align-items-center justify-content-between">
+<div class="container-with-alert position-relative">
 
-    <!-- Left box: now just rely on .box-1 styling in your CSS -->
-    <div class="box-1 d-flex flex-column h-100">
-      <p class="mb-1 h-1 cursor fw-bold">
-        <span>Hello,</span><br>
-        <span>Welcome!</span>
-      </p>
-    </div>
+  {{!-- this alert is removed from flow, so it sits on top --}}
+  {{#if error}}
+  <div class="text-center alert alert-danger position-absolute start-50 translate-middle-x" style="
+        top: -4rem;       /* ← bump it up 2rem above the top edge */
+        width: 100%;
+        max-width: 500px; /* match your card/container width */
+        z-index: 10;
+      ">
+    {{message}}
+  </div>
+  {{/if}}
 
-    <!-- Right box: rely on .box-2 + existing classes for background, text, etc. -->
-    <div class="box-2 d-flex flex-column h-100">
-      {{> message }}
-      <form action="/auth/register" method="POST">
-        <div class="mt-4">
+  {{#if success}}
+  <div class="text-center alert alert-success position-absolute start-50 translate-middle-x" style="
+        top: -4rem;       /* ← bump it up 2rem above the top edge */
+        width: 100%;
+        max-width: 500px; /* match your card/container width */
+        z-index: 10;
+      ">
+    {{message}}
+  </div>
+  {{/if}}
 
-          <!-- Example: Use .h-1 + .green-text and your CSS for the size. 
+
+  <div class="container">
+    <div class="body d-md-flex align-items-center justify-content-between">
+
+      <!-- Left box: now just rely on .box-1 styling in your CSS -->
+      <div class="box-1 d-flex flex-column h-100">
+        <p class="mb-1 h-1 cursor fw-bold">
+          <span>Hello,</span><br>
+          <span>Welcome!</span>
+        </p>
+      </div>
+
+      <!-- Right box: rely on .box-2 + existing classes for background, text, etc. -->
+      <div class="box-2 d-flex flex-column h-100">
+        <form action="/auth/register" method="POST">
+          <div class="mt-4">
+
+            <!-- Example: Use .h-1 + .green-text and your CSS for the size. 
                      If you want it bigger than .h-1’s 24px, define .big-heading or another utility class. -->
-          <p class="mb-1 primary-text fw-bold" style="font-size: 2rem;">
-            <!-- or create a .big-h1 class with 2rem in your CSS if you prefer -->
-            Create Account
-          </p>
-
-          <p class="mb-2 primary-text font-alt">
-            <!-- .green-text plus you can rely on .font-alt if you want Montserrat -->
-            Sign up for a free account on Lucky Moment!
-          </p>
-
-          <div class="d-flex flex-column">
-            <div class="mb-3">
-              <label for="username" class="form-label primary-text">
-                Username
-              </label>
-              <input type="text" class="form-control font-alt" id="username" name="username"
-                placeholder="Enter your username" autocomplete="username" required />
-            </div>
-
-            <div class="mb-3">
-              <label for="password" class="form-label primary-text">
-                Password
-              </label>
-              <input type="password" class="form-control font-alt" id="password" name="password"
-                placeholder="Enter your password" autocomplete="current-password" required />
-            </div>
-
-            <button type="submit" class="btn btn-secondary w-100">
-              Register
-            </button>
-          </div>
-
-          <div class="mt-3">
-            <p class="mb-0 primary-text font-alt">
-              Already have an account? <a href="/auth/login">Login</a>
+            <p class="mb-1 primary-text fw-bold" style="font-size: 2rem;">
+              <!-- or create a .big-h1 class with 2rem in your CSS if you prefer -->
+              Create Account
             </p>
-          </div>
-        </div>
-      </form>
-    </div>
 
+            <p class="mb-2 primary-text font-alt">
+              <!-- .green-text plus you can rely on .font-alt if you want Montserrat -->
+              Sign up for a free account on Lucky Moment!
+            </p>
+
+            <div class="d-flex flex-column">
+              <div class="mb-3">
+                <label for="username" class="form-label primary-text">
+                  Username
+                </label>
+                <input type="text" class="form-control font-alt" id="username" name="username"
+                  placeholder="Enter your username" autocomplete="username" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label primary-text">
+                  Password
+                </label>
+                <input type="password" class="form-control font-alt" id="password" name="password"
+                  placeholder="Enter your password" autocomplete="current-password" required />
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">
+                Register
+              </button>
+            </div>
+
+            <div class="mt-3">
+              <p class="mb-0 primary-text font-alt">
+                Already have an account? <a href="/auth/login" class="primary-text">Login</a>
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>

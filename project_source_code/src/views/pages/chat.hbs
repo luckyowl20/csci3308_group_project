@@ -13,24 +13,11 @@
     <!-- Friends List Sidebar -->
     <div class="col-md-3 border-end">
       <!-- "Friends" heading, 2rem font size with Lalezar and green text -->
-      <p class="mb-1 fs-2 fw-bold primary-text">Friends</p>
-
-      {{!--
-      Old commented-out list, keep the comment:
-      <ul class="list-unstyled">
-        {{#each friends}}
-        <li class="mb-3">
-          ...
-        </li>
-        {{/each}}
-      </ul>
-      --}}
+      <p class="mb-1 fs-2 fw-bold alt-text">Friends</p>
 
       <ul class="list-unstyled">
         {{#each friends}}
         <li class="mb-3 d-flex align-items-center">
-          {{!-- <img src="{{this.profilePicture}}" alt="{{this.username}}'s profile picture" class="rounded-circle me-2"
-            width="40" height="40"> --}}
           <div class="profile-pic me-3">
             {{#if this.profile_picture_url}}
               <img src="{{this.profile_picture_url}}" alt="{{this.username}}'s profile picture" class="rounded-circle me-2" width="40" height="40">
@@ -43,7 +30,7 @@
               Click friend to load messages. 
               We pass friend.id in the URL to identify which conversation. 
             -->
-          <a href="/chat/{{this.id}}" class="text-decoration-none font-alt primary-text">
+          <a href="/chat/{{this.id}}" class="friend-chat-link font-alt primary-text fw-semibold">
             <span>{{this.username}}</span>
           </a>
         </li>
@@ -62,7 +49,7 @@
           Chat messages container 
           Replaced inline style with class="chat-box"
         -->
-        <div class="card-body chat-box" id="chat-box" data-current-user-id="{{currentUserId}}">
+        <div class="card-body chat-box" id="chat-box" data-current-user-id="{{currentUserId}}" data-chat-partner-id="{{chatPartnerId}}">
 
           {{#if chatPartner}}
             {{#if messages.length}}

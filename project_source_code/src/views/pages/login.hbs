@@ -1,60 +1,72 @@
-<div class="container">
-  <div class="body d-md-flex align-items-center justify-content-between">
+<div class="container-with-alert position-relative">
 
-    <!-- Left Side Panel -->
-    <div class="box-1 d-flex flex-column h-100">
-      <p class="mb-1 h-1 fw-bold">
-        <span>Welcome</span><br>
-        <span>Back!</span>
-      </p>
-    </div>
+  {{!-- this alert is removed from flow, so it sits on top --}}
+  {{#if error}}
+  <div class="text-center alert alert-danger position-absolute start-50 translate-middle-x" style="
+        top: -4rem;       /* ← bump it up 2rem above the top edge */
+        width: 100%;
+        max-width: 500px; /* match your card/container width */
+        z-index: 10;
+      ">
+    {{message}}
+  </div>
+  {{/if}}
 
-    <!-- Right Side Login Form -->
-    <div class="box-2 d-flex flex-column h-100">
-      {{> message }}
-      <form action="/auth/login" method="POST">
-        <div class="mt-4">
-          <!-- Login Form Heading - bold text for "login" -->
-          <p class="mb-1 primary-text fw-bold" style="font-size: 2rem;">Login</p>
-          <p class="mb-2 primary-text font-alt">Welcome back! Please login to your account.</p>
+  {{#if success}}
+  <div class="text-center alert alert-success position-absolute start-50 translate-middle-x" style="
+        top: -4rem;       /* ← bump it up 2rem above the top edge */
+        width: 100%;
+        max-width: 500px; /* match your card/container width */
+        z-index: 10;
+      ">
+    {{message}}
+  </div>
+  {{/if}}
 
-          <div class="d-flex flex-column">
-            <div class="mb-3">
-              <label for="username" class="form-label primary-text">Username</label>
-              <input 
-                type="text" 
-                class="form-control font-alt"
-                id="username" 
-                name="username" 
-                placeholder="Enter your username" 
-                autocomplete="username" 
-                required 
-              />
+  <div class="container">
+    <div class="body d-md-flex align-items-center justify-content-between">
+
+      <!-- Left Side Panel -->
+      <div class="box-1 d-flex flex-column h-100">
+        <p class="mb-1 h-1 fw-bold">
+          <span>Welcome</span><br>
+          <span>Back!</span>
+        </p>
+      </div>
+
+      <!-- Right Side Login Form -->
+      <div class="box-2 d-flex flex-column h-100">
+
+        <form action="/auth/login" method="POST">
+          <div class="mt-4">
+            <!-- Login Form Heading - bold text for "login" -->
+            <p class="mb-1 primary-text fw-bold" style="font-size: 2rem;">Login</p>
+            <p class="mb-2 primary-text font-alt">Welcome back! Please login to your account.</p>
+
+            <div class="d-flex flex-column">
+              <div class="mb-3">
+                <label for="username" class="form-label primary-text">Username</label>
+                <input type="text" class="form-control font-alt" id="username" name="username"
+                  placeholder="Enter your username" autocomplete="username" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label primary-text">Password</label>
+                <input type="password" class="form-control font-alt" id="password" name="password"
+                  placeholder="Enter your password" autocomplete="current-password" required />
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Login</button>
             </div>
 
-            <div class="mb-3">
-              <label for="password" class="form-label primary-text">Password</label>
-              <input 
-                type="password" 
-                class="form-control font-alt"
-                id="password" 
-                name="password" 
-                placeholder="Enter your password" 
-                autocomplete="current-password" 
-                required 
-              />
+            <div class="mt-3">
+              <p class="mb-0 primary-text font-alt">
+                Don't have an account? <a href="/auth/register" class="primary-text">Register</a>
+              </p>
             </div>
-
-            <button type="submit" class="btn btn-secondary w-100">Login</button>
           </div>
-
-          <div class="mt-3">
-            <p class="mb-0 primary-text font-alt">
-              Don't have an account? <a href="/auth/register">Register</a>
-            </p>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>
