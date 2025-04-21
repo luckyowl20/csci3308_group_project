@@ -129,7 +129,8 @@ CREATE TABLE IF NOT EXISTS user_settings (
 -- table of user opinion on music
 CREATE TABLE IF NOT EXISTS music (
     user_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- the user who liked the song
-    song_id CHAR(500),
-    opinion INTEGER NOT NULL -- (-1) = dislike, (1) = like
+    song_id CHAR(500) NOT NULL,
+    opinion INTEGER NOT NULL CHECK (opinion IN (-1, 1)), -- -1 is dislike, 1 is like
+    PRIMARY KEY (user_id, song_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ); 

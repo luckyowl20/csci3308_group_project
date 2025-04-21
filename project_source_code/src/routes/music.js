@@ -103,39 +103,38 @@ async function getRandomTrack(token) {
   }
 }
 
-// router.get('/', isAuthenticated, async (req, res) => {
-//   try {
-//     let trackId;
-    
-//     // Try to get a track from the Spotify API
-//     try {
-//       const token = await getSpotifyToken();
-      
-//       if (token) {
-//         trackId = await getRandomTrack(token);
-//       } else {
-//         throw new Error('No Spotify token available');
-//       }
-//     } catch (apiError) {
-//       console.warn('Falling back to sample tracks due to API error:', apiError.message);
-//       // Fallback to sample tracks if the API call fails
-//       const randomIndex = Math.floor(Math.random() * fallbackTrackIds.length);
-//       trackId = fallbackTrackIds[randomIndex];
-//     }
-    
-//     console.log('Rendering music page with track ID:', trackId);
-    
-//     // Render the page with the track ID
-//     res.render('pages/music', {
-//       trackId: trackId
-//     });
-//   } catch (err) {
-//     console.error('Error loading Explore Music page:', err);
-//     res.status(500).send('Something went wrong loading the Explore Music page.');
-//   }
-// });
 
-router.get('/', isAuthenticated, async (req, res) => {
+// Handle both displaying music and recording opinions
+router.all('/', isAuthenticated, async (req, res) => {
+  // If it's a POST request, handle the opinion submission
+  if (req.method === 'POST') {
+    try {
+      const { trackId, opinion } = req.body;
+      const userId = req.user.id;
+      const db = req.app.locals.db;
+      
+      // Validate opinion value
+      if (opinion !== -1 && opinion !== 1) {
+        return res.status(400).json({ error: 'Invalid opinion value' });
+      }
+      
+      // Insert or update opinion in database
+      await db.query(
+        `INSERT INTO music (user_id, song_id, opinion) 
+         VALUES ($1, $2, $3)
+         ON CONFLICT (user_id, song_id) 
+         DO UPDATE SET opinion = $3`,
+        [userId, trackId, opinion]
+      );
+      
+      return res.json({ success: true });
+    } catch (error) {
+      console.error('Error saving music opinion:', error);
+      return res.status(500).json({ error: 'Failed to save opinion' });
+    }
+  }
+  
+  // Original GET functionality below
   const artistQuery = req.query.artist;
   let trackId;
 
@@ -180,9 +179,26 @@ router.get('/', isAuthenticated, async (req, res) => {
     trackId = fallbackTrackIds[randomIndex];
   }
 
+  // Check if the user has already rated this track
+  let userOpinion = null;
+  try {
+    const opinionResult = await db.query(
+      'SELECT opinion FROM music WHERE user_id = $1 AND song_id = $2',
+      [req.user.id, trackId]
+    );
+    
+    if (opinionResult.rows.length > 0) {
+      userOpinion = opinionResult.rows[0].opinion;
+    }
+  } catch (dbError) {
+    console.error('Error fetching user opinion:', dbError);
+    // Continue without the opinion data
+  }
+
   res.render('pages/music', {
     trackId,
-    artist: artistQuery || ''
+    artist: artistQuery || '',
+    userOpinion: userOpinion
   });
 });
 

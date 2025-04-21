@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Explore Music</title>
-  <link rel="stylesheet" href="/resources/css/swipe.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+
+<link rel="stylesheet" href="/resources/css/swipe.css">
+
   <div class="swipe-container">
     <div class="track-card">
       <h2>Random Music Explorer</h2>
@@ -23,25 +17,6 @@
             />
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
-
-        {{!-- <select name="genre" class="form-control mb-2">
-  <option value="">-- Choose a genre --</option>
-  <option value="pop" {{genre == 'pop' ? 'selected' : ''}}>Pop</option>
-  <option value="rock" {{genre == 'rock' ? 'selected' : ''}}>Rock</option>
-  <option value="hip-hop" {{genre == 'hip-hop' ? 'selected' : ''}}>Hip-Hop</option>
-  <option value="electronic" {{genre == 'electronic' ? 'selected' : ''}}>Electronic</option>
-  <option value="jazz" {{genre == 'jazz' ? 'selected' : ''}}>Jazz</option>
-  <option value="classical" {{genre == 'classical' ? 'selected' : ''}}>Classical</option>
-  <option value="country" {{genre == 'country' ? 'selected' : ''}}>Country</option>
-  <option value="r-n-b" {{genre == 'r-n-b' ? 'selected' : ''}}>R&B</option>
-  <option value="indie" {{genre == 'indie' ? 'selected' : ''}}>Indie</option>
-  <option value="folk" {{genre == 'folk' ? 'selected' : ''}}>Folk</option>
-  <option value="metal" {{genre == 'metal' ? 'selected' : ''}}>Metal</option>
-  <option value="blues" {{genre == 'blues' ? 'selected' : ''}}>Blues</option>
-  <option value="reggae" {{genre == 'reggae' ? 'selected' : ''}}>Reggae</option>
-  <option value="punk" {{genre == 'punk' ? 'selected' : ''}}>Punk</option>
-  <option value="ambient" {{genre == 'ambient' ? 'selected' : ''}}>Ambient</option>
-</select> --}}
 
 
       <iframe 
@@ -62,17 +37,59 @@
     </div>
   </div>
 
-  
-
   <script>
-    document.getElementById('left-swipe').addEventListener('click', () => {
+  document.getElementById('left-swipe').addEventListener('click', async (e) => {
+    const trackId = '{{trackId}}';
+    const opinion = -1;
+    
+    try {
+      await saveOpinion(trackId, opinion);
       window.location.reload();
-    });
+    } catch (error) {
+      console.error('Error saving dislike:', error);
+      window.location.reload();
+    }
+  });
 
-    document.getElementById('right-swipe').addEventListener('click', () => {
+  document.getElementById('right-swipe').addEventListener('click', async (e) => {
+    const trackId = '{{trackId}}';
+    const opinion = 1;
+    
+    try {
+      await saveOpinion(trackId, opinion);
       alert("Liked this track!");
       window.location.reload();
+    } catch (error) {
+      console.error('Error saving like:', error);
+      alert("Liked this track!");
+      window.location.reload();
+    }
+  });
+
+  async function saveOpinion(trackId, opinion) {
+    const response = await fetch('/explore/music/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ trackId, opinion })
     });
-  </script>
-</body>
-</html>
+    
+    if (!response.ok) {
+      throw new Error('Failed to save opinion');
+    }
+    
+    return response.json();
+  }
+  
+  // Optional: Show visual indication of previous opinion
+  document.addEventListener('DOMContentLoaded', () => {
+    const userOpinion = {{userOpinion}};
+    
+    if (userOpinion === 1) {
+      document.getElementById('right-swipe').classList.add('previously-selected');
+    } else if (userOpinion === -1) {
+      document.getElementById('left-swipe').classList.add('previously-selected');
+    }
+  });
+</script>
