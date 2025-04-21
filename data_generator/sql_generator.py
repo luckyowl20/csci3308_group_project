@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Generate dummy SQL data for the social-matching app *including* full `profiles` rows
-with realistic preference fields and Colorado-bounded geolocation.
+Generate dummy SQL data for the social‑matching app *including* full `profiles` rows
+with realistic preference fields and Colorado‑bounded geolocation.
 
 New in this revision
 --------------------
-* **--with-preferences / --no-preferences** - toggle generation of preference
+* **--with-preferences / --no-preferences** – toggle generation of preference
   fields inside `profiles`.
-* **Colorado-only coordinates** - `user_location` is filled with a PostGIS
+* **Colorado‑only coordinates** – `user_location` is filled with a PostGIS
   GEOGRAPHY point created via `ST_SetSRID(ST_MakePoint(lon, lat),4326)`.
-* Adds extra CLI knobs for match-distance and age-range bounds.
+* Adds extra CLI knobs for match‑distance and age‑range bounds.
 
 Example
 ~~~~~~~
@@ -260,7 +260,7 @@ def build_user_interests(users: List[Dict[str, Any]], interests: List[Dict[str, 
 # Colorado helpers
 ######################################################################
 
-# Rough bounding box for Colorado (lat 37-41, lon -109--102)
+# Rough bounding box for Colorado (lat 37–41, lon -109–-102)
 CO_LAT_RANGE = (37.0, 41.0)
 CO_LON_RANGE = (-109.05, -102.05)
 CO_CITIES = [
@@ -272,6 +272,7 @@ CO_CITIES = [
 def random_co_point() -> Tuple[float, float]:
     lat = random.uniform(*CO_LAT_RANGE)
     lon = random.uniform(*CO_LON_RANGE)
+    print(f"Generated random point: ({lon}, {lat})")
     return lon, lat  # note: (lon, lat) order for PostGIS POINT
 
 ######################################################################
@@ -286,11 +287,22 @@ def build_profiles(
     match_dist_bounds: Tuple[int, int],
     age_bounds: Tuple[int, int],
     profile_pics: Sequence[str] = None,
+    min_age: int = 18,
+    max_age: int = 100,
 ) -> List[Dict[str, Any]]:
     profiles: List[Dict[str, Any]] = []
-    genders = ["male", "female", "nonbinary", "other"]
+    gender_options = ["male", "female", "nonbinary", "other"]
+    gender_weights = [0.45, 0.45, 0.05, 0.05]  # most users are male/female
+    # gender_weights = [0.5, 0.5, 0, 0]  # most users are male/female
+
+
+    preferred_gender_options = ["male", "female", "nonbinary", "any"]
+    preferred_gender_weights = [0.4, 0.4, 0.05, 0.15]  # most want binary matches, some open to any
+    # preferred_gender_weights = [0.5, 0.5, 0, 0]  # most want binary matches, some open to any
+
+    
     for u in users:
-        birthday = faker.date_of_birth(minimum_age=18, maximum_age=100) if faker else datetime(1990, 1, 1).date()
+        birthday = faker.date_of_birth(minimum_age=min_age, maximum_age=max_age) if faker else datetime(1990, 1, 1).date()
         base = {
             "user_id": u["id"],
             "display_name": faker.name() if faker else u["username"].title(),
@@ -312,8 +324,8 @@ def build_profiles(
                 "user_location_text": random.choice(CO_CITIES),
                 "user_location": raw(f"ST_SetSRID(ST_MakePoint({lon:.6f}, {lat:.6f}),4326)::GEOGRAPHY"),
                 "match_distance_miles": random.randint(*match_dist_bounds),
-                "gender": random.choice(genders),
-                "preferred_gender": random.choice(genders + [None]),
+                "gender": random.choices(gender_options, weights=gender_weights, k=1)[0],
+                "preferred_gender": random.choices(preferred_gender_options, weights=preferred_gender_weights, k=1)[0],
                 "preferred_age_min": age_min,
                 "preferred_age_max": age_max,
             }
@@ -383,7 +395,7 @@ def sql_insert(table: str, rows: List[Dict[str, Any]]) -> str:
 
 
 # === Configuration Section ===
-NUM_USERS = 20
+NUM_USERS = 100
 MIN_POSTS = 2
 MAX_POSTS = 5
 MIN_FRIENDS = 3
@@ -391,6 +403,8 @@ MAX_FRIENDS = 10
 WITH_PREFERENCES = True
 MATCH_DISTANCE_MIN = 5
 MATCH_DISTANCE_MAX = 1000
+MIN_USER_AGE = 18
+MAX_USER_AGE = 45
 AGE_MIN_BOUND = 18
 AGE_MAX_BOUND = 100
 USERNAME_PATTERN = "user{index}"
@@ -445,7 +459,9 @@ def main2():
         WITH_PREFERENCES,
         (MATCH_DISTANCE_MIN, MATCH_DISTANCE_MAX),
         (AGE_MIN_BOUND, AGE_MAX_BOUND),
-        profile_pics
+        profile_pics,
+        MIN_USER_AGE,
+        MAX_USER_AGE
     )
 
     interests = build_interests()
