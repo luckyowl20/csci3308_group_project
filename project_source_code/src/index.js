@@ -124,8 +124,8 @@ app.use('/explore', exploreRoutes);
 app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);
 app.use('/take_picture', take_picture);
-
 app.use('/blog', blogRoutes);
+
 
 // -------------------------------------
 // http server setup

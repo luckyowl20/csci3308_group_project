@@ -1,0 +1,48 @@
+<!-- views/pages/activities.hbs -->
+<!DOCTYPE html>
+<html>
+
+<body>
+  <p>Getting your location...</p>
+  <p>Your location: {{lat}} {{lon}}</p>
+  <main class="container py-4">
+    <h2 class="mb-4">Nearby Activities</h2>
+
+    {{#if activities.length}}
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {{#each activities}}
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              {{#if photo}}
+                <img src="{{photo}}" alt="{{name}}" class="card-img-top" style="height: 200px; object-fit: cover;" referrerpolicy="no-referrer">
+              {{else}}
+                <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                  No image
+                </div>
+              {{/if}}
+
+              <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                <p class="card-text">{{address}}</p>
+                {{#if rating}}<p class="card-text">⭐ {{rating}}</p>{{/if}}
+
+                <form action="/explore/activities/like" method="POST" class="d-inline">
+                  <input type="hidden" name="placeId" value="{{place_id}}">
+                  <button type="submit" class="btn btn-outline-success">👍 Like</button>
+                </form>
+
+                <form action="/explore/activities/dislike" method="POST" class="d-inline">
+                  <input type="hidden" name="placeId" value="{{place_id}}">
+                  <button type="submit" class="btn btn-outline-danger">👎 Dislike</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>No activities found near you.</p>
+    {{/if}}
+  </main>
+</body>
+</html>

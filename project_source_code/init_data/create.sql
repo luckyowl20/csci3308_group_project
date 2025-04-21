@@ -152,3 +152,10 @@ CREATE TABLE IF NOT EXISTS restaurants (
     place_id CHAR(500), -- Google Map PlaceAPI's place_id
     opinion INTEGER NOT NULL -- (-1) = dislike, (1) = like
 );
+
+CREATE TABLE IF NOT EXISTS activities (
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  place_id CHAR(500),
+  opinion INTEGER NOT NULL -- (-1) = dislike, (1) = like
+);
