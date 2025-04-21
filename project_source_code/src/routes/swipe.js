@@ -29,8 +29,29 @@ router.get('/', async (req, res) => {
     }
 
     const topMatch = await req.app.locals.db.oneOrNone(`
-      SELECT u.*, p.* FROM users u
-      JOIN profiles p ON u.id = p.user_id
+      SELECT 
+        u.*, 
+        p.*,
+        (
+          SELECT json_agg(subq.post_data)
+          FROM (
+            SELECT json_build_object(
+              'id', pst.id,
+              'title', pst.title,
+              'body', pst.body,
+              'photo_url', ph.url,
+              'created_at', pst.created_at
+            ) as post_data
+            FROM posts pst
+            LEFT JOIN photos ph ON ph.id = pst.photo_id
+            WHERE pst.user_id = u.id
+            AND pst.created_at >= NOW() - INTERVAL '7 days'
+            ORDER BY pst.created_at DESC
+            LIMIT 5
+          ) subq
+        ) as recent_posts
+      FROM users u
+      JOIN profiles p ON p.user_id = u.id
       WHERE u.id = $1
     `, [matches[0].candidate.id]);
 
@@ -54,7 +75,6 @@ router.get('/', async (req, res) => {
     });
   }
 });
-
 
 // POST /swipe/swipe - Handles swipe actions
 router.post('/swipe', async (req, res) => {
