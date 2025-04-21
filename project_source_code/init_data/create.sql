@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS user_settings (
 CREATE TABLE IF NOT EXISTS music (
     user_id INTEGER NOT NULL,
     song_id CHAR(500) NOT NULL,
-    opinion INTEGER NOT NULL CHECK (opinion IN (-1, 1)), -- -1 is dislike, 1 is like
+    liked BOOLEAN NOT NULL,
     PRIMARY KEY (user_id, song_id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ); 
