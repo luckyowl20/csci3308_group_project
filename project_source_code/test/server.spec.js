@@ -34,7 +34,7 @@ describe('Testing Add User API', () => {
     chai
       .request(server)
       .post('/auth/register') // requires full path to register route
-      .send({username: 'john', password: 'password'})
+      .send({username: 'testuser123', password: 'password'})
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.text).to.include('Registration successful! You can now log in.');
@@ -50,7 +50,7 @@ describe('Testing Add User API', () => {
     chai
       .request(server)
       .post('/auth/register') // requires full path to register route
-      .send({username: 'john', password: 'password_2'})
+      .send({username: 'testuser123', password: 'password_2'})
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.text).to.include('Username already exists. Please choose another.');
@@ -62,7 +62,7 @@ describe('Testing Add User API', () => {
     // Clean up: delete test users and their related data
     // friends relation is also removed due to the ON DELETE CASCASE line in the database create.sql file
     // this means that if the user is deleted, the rest of their info is also deleted.
-    await db.none('DELETE FROM users WHERE username = $1', ['john']);
+    await db.none('DELETE FROM users WHERE username = $1', ['testuser123']);
   });
 });
 
