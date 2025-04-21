@@ -248,4 +248,73 @@ async function getRandomTrack(token) {
   }
 }
 
+// Add these routes to your music router file
+
+// Handle dislikes
+router.get('/dislike', isAuthenticated, async (req, res) => {
+  try {
+    console.log('User object:', req.user);
+    console.log('Session:', req.session);
+    
+    const trackId = req.query.trackId;
+    if (!trackId) {
+      return res.status(400).send('Track ID is required');
+    }
+    
+    // Simplify for testing - avoid using req.user properties at first
+    // Get the user ID from session directly
+    const userId = req.session.user ? req.session.user.id : null;
+    console.log('Using userId from session:', userId);
+    
+    if (!userId) {
+      return res.status(401).send('Cannot identify user');
+    }
+    
+    const db = req.app.locals.db;
+    
+    // Log the query we're about to execute
+    console.log(`Executing query: INSERT INTO music (user_id, song_id, liked) VALUES (${userId}, ${trackId}, false) ON CONFLICT...`);
+    
+    await db.query(
+      `INSERT INTO music (user_id, song_id, liked) 
+       VALUES ($1, $2, $3)
+       ON CONFLICT (user_id, song_id) 
+       DO UPDATE SET liked = $3`,
+      [userId, trackId, false]
+    );
+    
+    console.log('Database update successful');
+    res.redirect('/explore/music');
+  } catch (error) {
+    console.error('Error in simplified dislike route:', error);
+    res.status(500).send(`Error saving preference: ${error.message}`);
+  }
+});
+// Handle likes - same change here
+router.get('/like', isAuthenticated, async (req, res) => {
+  const db = req.app.locals.db;
+  const trackId = req.query.trackId;
+  
+  try {
+    if (!trackId) {
+      return res.status(400).send('Track ID is required');
+    }
+    
+    // Use req.user.id consistently
+    await db.query(
+      `INSERT INTO music (user_id, song_id, liked) 
+       VALUES ($1, $2, $3)
+       ON CONFLICT (user_id, song_id) 
+       DO UPDATE SET liked = $3`,
+      [req.user.id, trackId, true]
+    );
+    
+    // Redirect back to the music page
+    res.redirect('/explore/music');
+  } catch (error) {
+    console.error('Error saving like:', error);
+    res.status(500).send('Error saving preference');
+  }
+});
+
 module.exports = router;
