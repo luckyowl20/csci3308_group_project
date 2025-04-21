@@ -36,11 +36,31 @@ router.get('/:type', isAuthenticated, async (req, res) => {
         ST_Distance(p.user_location, $4) AS distance_meters
       FROM profiles p
       WHERE p.user_id != $1
+    
+        -- Exclude friends
         AND NOT EXISTS (
           SELECT 1 FROM friends f
           WHERE f.user_id = $1 AND f.friend_id = p.user_id
         )
+    
+        -- Exclude already matched users
+        AND NOT EXISTS (
+          SELECT 1 FROM matches m
+          WHERE
+            (m.user_id = $1 AND m.matched_user_id = p.user_id) OR
+            (m.user_id = p.user_id AND m.matched_user_id = $1)
+        )
+    
+        -- Exclude already swiped users
+        AND NOT EXISTS (
+          SELECT 1 FROM swipes s
+          WHERE s.swiper_id = $1 AND s.swipee_id = p.user_id
+        )
+    
+        -- Optional: Apply gender preferences if type is romantic
         ${genderFilter}
+    
+        -- Optional: Apply match distance filter
         AND (
           $5 > 995 OR ST_Distance(p.user_location::geography, $4::geography) <= $5 * 1609.34
         )
