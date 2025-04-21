@@ -1,95 +1,41 @@
-
 <link rel="stylesheet" href="/resources/css/swipe.css">
 
-  <div class="swipe-container">
-    <div class="track-card">
-      <h2>Random Music Explorer</h2>
+<div class="swipe-container">
+  <div class="track-card">
+    <h2>Random Music Explorer</h2>
 
-        <!-- Search form -->
-        <form method="GET" action="/explore/music" class="mb-4">
-            <input 
-                type="text" 
-                name="artist" 
-                placeholder="Search for an artist..." 
-                class="form-control mb-2" 
-                value="{{artist}}"
-                required
-            />
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
+    <!-- Search form -->
+    <form method="GET" action="/explore/music" class="mb-4">
+      <input 
+        type="text" 
+        name="artist" 
+        placeholder="Search for an artist..." 
+        class="form-control mb-2" 
+        value="{{artist}}"
+      />
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
 
+    <iframe 
+      style="border-radius:12px" 
+      src="https://open.spotify.com/embed/track/{{trackId}}"
+      width="100%" 
+      height="352" 
+      frameBorder="0" 
+      allowfullscreen="" 
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      loading="lazy">
+    </iframe>
 
-      <iframe 
-        style="border-radius:12px" 
-        src="https://open.spotify.com/embed/track/{{trackId}}"
-        width="100%" 
-        height="352" 
-        frameBorder="0" 
-        allowfullscreen="" 
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-        loading="lazy">
-      </iframe>
-    </div>
-
-    <div class="swipe-buttons">
-      <button id="left-swipe" class="swipe-button no-button">Dislike</button>
-      <button id="right-swipe" class="swipe-button yes-button">Like</button>
-    </div>
+    <!-- Hidden field to store the current track ID -->
+    <input type="hidden" id="current-track-id" value="{{trackId}}">
   </div>
 
-  <script>
-  document.getElementById('left-swipe').addEventListener('click', async (e) => {
-    const trackId = '{{trackId}}';
-    const opinion = -1;
-    
-    try {
-      await saveOpinion(trackId, opinion);
-      window.location.reload();
-    } catch (error) {
-      console.error('Error saving dislike:', error);
-      window.location.reload();
-    }
-  });
+  <div class="swipe-buttons">
+    <button id="left-swipe" class="swipe-button no-button">Dislike</button>
+    <button id="right-swipe" class="swipe-button yes-button">Like</button>
+  </div>
+</div>
 
-  document.getElementById('right-swipe').addEventListener('click', async (e) => {
-    const trackId = '{{trackId}}';
-    const opinion = 1;
-    
-    try {
-      await saveOpinion(trackId, opinion);
-      alert("Liked this track!");
-      window.location.reload();
-    } catch (error) {
-      console.error('Error saving like:', error);
-      alert("Liked this track!");
-      window.location.reload();
-    }
-  });
-
-  async function saveOpinion(trackId, opinion) {
-    const response = await fetch('/explore/music/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ trackId, opinion })
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to save opinion');
-    }
-    
-    return response.json();
-  }
-  
-  // Optional: Show visual indication of previous opinion
-  document.addEventListener('DOMContentLoaded', () => {
-    const userOpinion = {{userOpinion}};
-    
-    if (userOpinion === 1) {
-      document.getElementById('right-swipe').classList.add('previously-selected');
-    } else if (userOpinion === -1) {
-      document.getElementById('left-swipe').classList.add('previously-selected');
-    }
-  });
-</script>
+<!-- Include the external JavaScript file -->
+<script src="/resources/js/musicScript.js"></script>
