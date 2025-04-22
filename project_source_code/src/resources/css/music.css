@@ -1,5 +1,9 @@
 /* music.css */
 
+html, body {
+    overflow-x: hidden;
+  }
+
 .swipe-container {
     margin-top: -70px; /* Adjust this value to control vertical positioning */
     margin-bottom: 0px;
