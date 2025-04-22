@@ -15,6 +15,7 @@
       <!-- "Friends" heading, 2rem font size with Lalezar and green text -->
       <p class="mb-1 fs-2 fw-bold alt-text">Friends</p>
 
+      {{!-- friends list --}}
       <ul class="list-unstyled">
         {{#each friends}}
         <li class="mb-3 d-flex align-items-center">
@@ -25,6 +26,8 @@
               <img src="https://via.placeholder.com/40?text=U" alt="Default profile picture" class="rounded-circle me-2" width="40" height="40">
             {{/if}}
           </div>
+      
+      {{!-- matches list --}}
 
           <!-- 
               Click friend to load messages. 
