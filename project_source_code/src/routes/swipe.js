@@ -128,18 +128,11 @@ router.post('/swipe', async (req, res) => {
         );
 
         if (match) {
-          console.log('Match found! Creating match & friendship');
+          console.log('Match found! Creating match');
 
           await t.none(
             `INSERT INTO matches (user_id, matched_user_id, matched_at) 
              VALUES ($1, $2, NOW()), ($2, $1, NOW())`,
-            [swiperId, swipeeId]
-          );
-
-          await t.none(
-            `INSERT INTO friends (user_id, friend_id, created_at)
-             VALUES ($1, $2, NOW()), ($2, $1, NOW())
-             ON CONFLICT (user_id, friend_id) DO NOTHING`,
             [swiperId, swipeeId]
           );
 

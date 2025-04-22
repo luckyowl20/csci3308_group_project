@@ -200,3 +200,12 @@
 #view-profile-btn {
     display: none; /* Hide by default until toggled */
 }
+
+/* Friend swipe buttons */
+.swipe-container.friends .yes-button {
+    background-color: #4a89dc; /* Different blue color */
+}
+
+.swipe-container.friends .yes-button:hover {
+    background-color: #3a70c2;
+}
