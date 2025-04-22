@@ -3,114 +3,130 @@ const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
 
 router.get('/:type', isAuthenticated, async (req, res) => {
-  const db = req.app.locals.db;
-  const viewerId = req.session.user.id;
-  const matchType = req.params.type; // 'friend' or 'romantic'
+  const db        = req.app.locals.db;
+  const viewerId  = req.session.user.id;
+  const matchType = req.params.type; // 'friend' | 'romantic'
 
   try {
-    // Step 1: Get current user's profile (location, age prefs, gender prefs)
-    const profile = await db.oneOrNone('SELECT * FROM profiles WHERE user_id = $1', [viewerId]);
-    if (!profile) return res.status(400).send("No profile found");
+    /* ---------- 1.  Grab *everything* we need about the viewer in one go ---------- */
+    const profile = await db.oneOrNone(`
+      SELECT
+        p.*,
+        /*  ST_AsEWKT includes the SRID so we can round-trip the value safely  */
+        ST_AsEWKT(p.user_location) AS user_location_ewkt
+      FROM profiles p
+      WHERE p.user_id = $1
+    `, [viewerId]);
 
-    // Step 2: Get IDs of user's friends — exclude these from matches
-    const friends = await db.any('SELECT friend_id FROM friends WHERE user_id = $1', [viewerId]);
-    const friendIds = friends.map(f => f.friend_id);
+    if (!profile)             return res.status(400).send('No profile found');
+    if (!profile.user_location)
+      return res.status(400).send('Please set a location in your profile first!');
 
-    // Step 3: Get user's interests
-    const userInterests = await db.any('SELECT interest_id FROM user_interests WHERE user_id = $1', [viewerId]);
-    const userInterestSet = new Set(userInterests.map(i => i.interest_id));
+    /* ---------- 2.  Pre‑fetch lists we’ll need in JS ---------- */
+    const friendIds        = (await db.any(
+      'SELECT friend_id FROM friends WHERE user_id = $1', [viewerId]
+    )).map(r => r.friend_id);
 
-    // Step 4: Get potential matches
+    const userInterestSet  = new Set(
+      (await db.any(
+        'SELECT interest_id FROM user_interests WHERE user_id = $1', [viewerId]
+      )).map(r => r.interest_id)
+    );
+
+    /* ---------- 3.  Build gender filter snippet ---------- */
     const genderFilter = matchType === 'romantic' ? `
-      AND (
-        $2 = 'any' OR p.gender = $2
-      )
-      AND (
-        p.preferred_gender = 'any' OR p.preferred_gender = $3
-      )
+      AND ($2 = 'any' OR p.gender           = $2)
+      AND (p.preferred_gender = 'any' OR p.preferred_gender = $3)
     ` : '';
 
+    /* ---------- 4.  Pull candidate rows – distance is done in‑DB ---------- */
     const candidates = await db.any(`
       SELECT
         p.*,
-        ST_Distance(p.user_location, $4) AS distance_meters
+        ST_Distance(p.user_location, ST_GeogFromText($4)) AS distance_meters
       FROM profiles p
-      WHERE p.user_id != $1
+      WHERE p.user_id <> $1
+        -- exclude friends
         AND NOT EXISTS (
           SELECT 1 FROM friends f
           WHERE f.user_id = $1 AND f.friend_id = p.user_id
         )
+        -- exclude already matched users
+        AND NOT EXISTS (
+          SELECT 1 FROM matches m
+          WHERE 
+            (m.user_id = $1 AND m.matched_user_id = p.user_id) OR
+            (m.user_id = p.user_id AND m.matched_user_id = $1)
+        )
+        
+        -- exclide already swiped users
+        AND NOT EXISTS (
+          SELECT 1 FROM swipes s
+          WHERE s.swiper_id = $1 AND s.swipee_id = p.user_id
+        )
+        -- gender filters for romantic matches
         ${genderFilter}
         AND (
-          $5 > 995 OR ST_Distance(p.user_location::geography, $4::geography) <= $5 * 1609.34
+          $5 >= 995
+          OR ST_Distance(p.user_location, ST_GeogFromText($4)) <= $5 * 1609.34
         )
     `, [
-      viewerId,                       // $1 - current user id
-      profile.preferred_gender,       // $2 - Bob's preferred gender (current user example)
-      profile.gender,                 // $3 - Bob's own gender
-      profile.user_location,          // $4 - Bob's location as a PostGIS POINT
-      profile.match_distance_miles    // $5 - match distance
+      viewerId,
+      profile.preferred_gender,   // $2
+      profile.gender,             // $3
+      profile.user_location_ewkt, // $4 (already has SRID=4326;)
+      profile.match_distance_miles// $5
     ]);
 
+    /* ---------- 5.  Score & rank in JS ---------- */
     const matches = [];
+    for (const c of candidates) {
+      if (friendIds.includes(c.user_id)) continue;
 
-    for (const candidate of candidates) {
-      if (friendIds.includes(candidate.user_id)) continue; // exclude friends
+      const candInterestSet = new Set(
+        (await db.any(
+          'SELECT interest_id FROM user_interests WHERE user_id = $1', [c.user_id]
+        )).map(r => r.interest_id)
+      );
 
-      // Get candidate interests
-      const candidateInterests = await db.any('SELECT interest_id FROM user_interests WHERE user_id = $1', [candidate.user_id]);
-      const candidateInterestSet = new Set(candidateInterests.map(i => i.interest_id));
-
-      // Jaccard Score (union of interests between user and candidate / intersection of interests, A u B / A n B) 
-      const intersection = new Set([...userInterestSet].filter(x => candidateInterestSet.has(x)));
-      const union = new Set([...userInterestSet, ...candidateInterestSet]);
+      const intersection = new Set([...userInterestSet].filter(i => candInterestSet.has(i)));
+      const union        = new Set([...userInterestSet, ...candInterestSet]);
       const jaccardScore = union.size === 0 ? 0 : intersection.size / union.size;
 
-      // Age Calculation
-      const age = calculateAge(candidate.birthday);
-      const ageScore = (age >= profile.preferred_age_min && age <= profile.preferred_age_max) ? 1 : 0;
+      /* ----- Age ----- */
+      const age          = calculateAge(c.birthday);
+      const ageScore     = (age >= profile.preferred_age_min && age <= profile.preferred_age_max) ? 1 : 0;
 
-      // Distance Score (only calculated if user has a location and distance preference)
-      let distanceScore = 1;
-      let actualDistance = null;
-      if (profile.user_location && candidate.user_location && profile.match_distance_miles < 1000) {
-        const result = await db.one(`
-                  SELECT ST_Distance(
-                      $1::geography, $2::geography
-                  ) / 1609.34 AS miles
-              `, [profile.user_location, candidate.user_location]);
+      /* ----- Distance (re‑use distance_meters we just selected) ----- */
+      const miles        = c.distance_meters / 1609.34;
+      const distanceScore= (profile.match_distance_miles < 1000 && miles > profile.match_distance_miles) ? 0 : 1;
 
-        actualDistance = result.miles;
-        if (actualDistance > profile.match_distance_miles) distanceScore = 0;
-      }
+      /* ----- Final weighted score ----- */
+      const finalScore   = (jaccardScore * 0.6) + (ageScore * 0.2) + (distanceScore * 0.2);
 
-      // Final score (adjust weights as needed)
-      const finalScore = (jaccardScore * 0.6) + (ageScore * 0.2) + (distanceScore * 0.2);
-
-      matches.push({ // this is the format of one match item, candidate is the profile of the match
-        candidate,
+      matches.push({
+        candidate       : c,
         jaccardScore,
+        candidate_age: age,
         ageScore,
         distanceScore,
-        actualDistance,
+        actualDistance  : miles,
         finalScore
       });
     }
 
-    // Sort by final score descending
-    matches.sort((a, b) => b.finalScore - a.finalScore);
-    console.log("Matches found:", matches);
+    matches.sort((a,b) => b.finalScore - a.finalScore);
 
-    // res.render('pages/matches', {
-    //   layout: 'main',
-    //   user: req.session.user,
+    return res.json({ matches});
+    // return res.render('pages/matches', {
+    //   layout : 'main',
+    //   user   : req.session.user,
     //   matches
     // });
-    res.json({ matches }); // sends back the matches as a JSON response
 
   } catch (err) {
-    console.error("Error loading matches:", err);
-    res.status(500).send("Something went wrong.");
+    console.error('Error loading matches:', err);
+    return res.status(500).send('Something went wrong.');
   }
 });
 
