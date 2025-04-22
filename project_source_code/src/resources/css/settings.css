@@ -64,6 +64,7 @@
 }
 
 .dropdown-button {
+    color: var(--color-white);
     display: flex;
     height: 50px;
     width: 70dvw;
