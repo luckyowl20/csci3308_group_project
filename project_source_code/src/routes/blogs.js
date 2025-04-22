@@ -76,7 +76,7 @@ router.get('/', isAuthenticated, async(req,res) => {
         error = true;
     }
     if(!error) {
-        res.render('pages/blogs', {user: req.session.user, blogs_string: blogs_string, user_posts: user_posts, friend_posts: friend_posts});
+        res.render('pages/blogs', {user: req.session.user, blogs: blogs, user_posts: user_posts, friend_posts: friend_posts});
     }
     else {
         res.status(500).json({ error: 'Internal server error' });
