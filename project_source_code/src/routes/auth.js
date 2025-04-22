@@ -43,6 +43,16 @@ router.post('/login', async (req, res) => {
         }
 
         req.session.user = user;
+
+        // make sure the profile picture is available in the session for navbar in all partials
+        const { profile_picture_url } = await db.oneOrNone(
+            'SELECT profile_picture_url FROM profiles WHERE user_id = $1',
+            [user.id]
+        ) || {};
+
+        req.session.user.profile_picture_url = profile_picture_url?.profile_picture_url || null; // save url to user
+
+
         req.session.save(() => {
             console.log("Successfully logged in user:", username)
             res.redirect('/home');
@@ -98,28 +108,30 @@ router.post('/register', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log("Hashed password for user:", username, "is:", password, hashedPassword);
         await db.query('INSERT INTO users (username, password_hash) VALUES ($1, $2)', [username, hashedPassword]);
 
-        const user_id = await db.oneOrNone(`SELECT id FROM users WHERE username = $1`,[username]); //getting user id
+        const user_id = await db.oneOrNone(`SELECT id FROM users WHERE username = $1`, [username]); //getting user id
 
         await db.query(`INSERT INTO user_settings (user_id) VALUES ($1)`, [user_id.id]); //creating row for user settings
+        await db.query(`INSERT INTO profiles (user_id) VALUES ($1)`, [user_id.id]); //creating row for user profile
 
         req.session.message = 'Registration successful! You can now log in.';
         console.log("Successfully registered user:", username);
 
         // res.status(200);
-        
+
         // return res.redirect('/auth/login');
         req.session.message = null;
         return res.render('pages/login', {
-        layout: 'landing',
-        title: 'Login | LuckyMoment',
-        message: 'Registration successful! You can now log in.',
-        error: false
+            layout: 'landing',
+            title: 'Login | LuckyMoment',
+            message: 'Registration successful! You can now log in.',
+            success: true
         });
         // return res.render('auth/login', { message: 'Registration successful! You can now log in.', error: false });
 
-        
+
     } catch (error) {
         console.error('Registration error:', error.message);
         res.status(400);

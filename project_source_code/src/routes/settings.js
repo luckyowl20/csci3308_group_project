@@ -4,17 +4,18 @@ const { isAuthenticated } = require('../middleware/auth');
 const app = require('..');
 const bcrypt = require('bcryptjs');
 
-router.get('/',isAuthenticated, async (req, res) => {
-    db = req.app.locals.db; 
-    const user_id = req.session.user.id //refreshing user information
-    const user = await db.oneOrNone(
-        `SELECT * FROM users WHERE users.id = $1`, [user_id]
-    )
-    req.session.user = user; //saving user information to session
-    req.session.save();
+router.get('/', isAuthenticated, async (req, res) => {
+    db = req.app.locals.db;
+    // doing this deletes the profile picture from the session
+    // const user_id = req.session.user.id //refreshing user information
+    // const user = await db.oneOrNone(
+    //     `SELECT * FROM users WHERE users.id = $1`, [user_id]
+    // )
+    // req.session.user = user; //saving user information to session
+    user = req.session.user; //getting user from session
 
     if (!user) {
-    return res.status(401).json({ error: 'Unauthorized'});
+        return res.status(401).json({ error: 'Unauthorized' });
     }
     //getting current user settings
     try {
@@ -24,34 +25,29 @@ router.get('/',isAuthenticated, async (req, res) => {
             WHERE user_settings.user_id = $1`,
             [user.id]
         );
-        res.render('pages/settings', {user : user, settings : user_settings});
+        res.render('pages/settings', { user: user, settings: user_settings });
         // res.json(user_settings.apperance_mode);
     } catch (err) {
         console.error('Error querying user settings:', err);
         res.status(500).json({ error: 'Internal server error' });
     }
-  
+
 });
 
-router.post('/account',isAuthenticated, async (req,res) => {
-    db = req.app.locals.db; 
-    const user_id = req.session.user.id //refreshing user information
-    const user = await db.oneOrNone(
-        `SELECT * FROM users WHERE users.id = $1`, [user_id]
-    )
-    req.session.user = user; //saving user information to session
-    req.session.save();
-    
-    const {newUsername, newPassword, passwordCheck, password} = req.body; //getting account settings form results
+router.post('/account', isAuthenticated, async (req, res) => {
+    db = req.app.locals.db;
+    user = req.session.user; //getting user from session
+    const user_id = user.id //refreshing user information
 
-    
+    const { newUsername, newPassword, passwordCheck, password } = req.body; //getting account settings form results
+
     let valid = await bcrypt.compare(password, user.password_hash); //checking if password is correct to verify changes to important information
-    if(!(valid)) {
+    if (!(valid)) {
         console.log('invalid password')
     }
 
-    else{ //updating database based on which of the optional forms were filled
-        if(newUsername != '') { //updating username
+    else { //updating database based on which of the optional forms were filled
+        if (newUsername != '') { //updating username
             console.log('setting new username');
             try {
                 await db.none(
@@ -60,14 +56,14 @@ router.post('/account',isAuthenticated, async (req,res) => {
                     WHERE id = $2`, [newUsername, user.id]
                 );
                 console.log('success');
-            } 
+            }
             catch {
                 console.log('error updating new username');
             }
         }
-        if(newPassword != '') { //updating password
+        if (newPassword != '') { //updating password
             console.log('setting new password');
-            if(newPassword != passwordCheck) { //password verification (user must enter it twice)
+            if (newPassword != passwordCheck) { //password verification (user must enter it twice)
                 console.log('passwords do not match');
             }
             else {
@@ -76,7 +72,7 @@ router.post('/account',isAuthenticated, async (req,res) => {
                     await db.none(
                         `UPDATE users
                         SET password_hash = $1
-                        WHERE id = $2`, [hashedPassword,user.id]
+                        WHERE id = $2`, [hashedPassword, user.id]
                     );
                     console.log('success');
                 }
@@ -86,18 +82,31 @@ router.post('/account',isAuthenticated, async (req,res) => {
             }
         }
     }
+
+    // update user information in session
+    user = await db.oneOrNone(
+        `SELECT * FROM users WHERE users.id = $1`, [user_id]
+    )
+    req.session.user = user; //saving user information to session
+
+    // make sure the profile picture is available in the session for navbar in all partials
+    const { profile_picture_url } = await db.oneOrNone(
+        'SELECT profile_picture_url FROM profiles WHERE user_id = $1',
+        [user.id]
+    ) || {};
+
+    req.session.user.profile_picture_url = profile_picture_url?.profile_picture_url || null; // save url to user
+    req.session.save();
+
     console.log('post complete');
     res.redirect('/settings');
 });
 
-router.post('/Privacy',isAuthenticated, async (req,res) => {
+router.post('/Privacy', isAuthenticated, async (req, res) => {
     db = req.app.locals.db;
-    const user_id = req.session.user.id
-    const user = await db.oneOrNone(
-        `SELECT * FROM users WHERE users.id = $1`, [user_id]
-    )
-    req.session.user = user;
-    req.session.save();
+    user = req.session.user; //getting user from session
+    const user_id = user.id //refreshing user information
+
     const user_settings = await db.oneOrNone(
         `SELECT *
         FROM user_settings
@@ -105,9 +114,9 @@ router.post('/Privacy',isAuthenticated, async (req,res) => {
         [user_id]
     );
 
-    let{public_friends} = req.body;
+    let { public_friends } = req.body;
 
-    if(public_friends != 1) {
+    if (public_friends != 1) {
         public_friends = false;
     }
     try {
@@ -121,27 +130,40 @@ router.post('/Privacy',isAuthenticated, async (req,res) => {
 
     }
 
+    // update user information in session
+    user = await db.oneOrNone(
+        `SELECT * FROM users WHERE users.id = $1`, [user_id]
+    )
+    req.session.user = user; //saving user information to session
+
+    // make sure the profile picture is available in the session for navbar in all partials
+    const { profile_picture_url } = await db.oneOrNone(
+        'SELECT profile_picture_url FROM profiles WHERE user_id = $1',
+        [user.id]
+    ) || {};
+
+    req.session.user.profile_picture_url = profile_picture_url?.profile_picture_url || null; // save url to user
+    req.session.save();
+
     console.log('post complete');
     res.redirect('/settings');
 });
 
 router.post('/notifications', isAuthenticated, async (req, res) => {
     db = req.app.locals.db;
-    const user_id = req.session.user.id
-    const user = await db.oneOrNone(
-        `SELECT * FROM users WHERE users.id = $1`, [user_id]
-    );
-    req.session.user = user;
-    req.session.save();
-    const user_settings = await db.oneOrNone(
-        `SELECT *
-        FROM user_settings
-        WHERE user_settings.user_id = $1`,
-        [user_id]
-    );
+    user = req.session.user; //getting user from session
+    const user_id = user.id //refreshing user information
 
-    let {messageNotifs, matchNotifs} = req.body;
-    if(messageNotifs != 1) {
+    // query not used, commented out
+    // const user_settings = await db.oneOrNone(
+    //     `SELECT *
+    //     FROM user_settings
+    //     WHERE user_settings.user_id = $1`,
+    //     [user_id]
+    // );
+
+    let { messageNotifs, matchNotifs } = req.body;
+    if (messageNotifs != 1) {
         messageNotifs = false;
     }
     try {
@@ -155,7 +177,7 @@ router.post('/notifications', isAuthenticated, async (req, res) => {
     catch {
         console.log('failure')
     }
-    if(matchNotifs != 1) {
+    if (matchNotifs != 1) {
         matchNotifs = false;
     }
     try {
@@ -169,6 +191,22 @@ router.post('/notifications', isAuthenticated, async (req, res) => {
     catch {
         console.log('failure')
     }
+
+    // update user information in session
+    user = await db.oneOrNone(
+        `SELECT * FROM users WHERE users.id = $1`, [user_id]
+    )
+    req.session.user = user; //saving user information to session
+
+    // make sure the profile picture is available in the session for navbar in all partials
+    const { profile_picture_url } = await db.oneOrNone(
+        'SELECT profile_picture_url FROM profiles WHERE user_id = $1',
+        [user.id]
+    ) || {};
+
+    req.session.user.profile_picture_url = profile_picture_url?.profile_picture_url || null; // save url to user
+    req.session.save();
+
     console.log(messageNotifs)
     console.log(matchNotifs)
     console.log('post complete');
@@ -180,14 +218,11 @@ router.post('/notifications', isAuthenticated, async (req, res) => {
 
 //skipping ahead
 
-router.post('/apperance',isAuthenticated, async (req,res) => {
+router.post('/apperance', isAuthenticated, async (req, res) => {
     db = req.app.locals.db;
-    const user_id = req.session.user.id
-    const user = await db.oneOrNone(
-        `SELECT * FROM users WHERE users.id = $1`, [user_id]
-    );
-    req.session.user = user;
-    req.session.save();
+    user = req.session.user; //getting user from session
+    const user_id = user
+
     const user_settings = await db.oneOrNone(
         `SELECT *
         FROM user_settings
@@ -195,8 +230,8 @@ router.post('/apperance',isAuthenticated, async (req,res) => {
         [user_id]
     );
 
-    const {mode} = req.body;
-    if(mode != user_settings.apperance_mode) {
+    const { mode } = req.body;
+    if (mode != user_settings.apperance_mode) {
         try {
             await db.none(
                 `UPDATE user_settings
@@ -208,6 +243,22 @@ router.post('/apperance',isAuthenticated, async (req,res) => {
 
         }
     }
+
+    // update user information in session
+    user = await db.oneOrNone(
+        `SELECT * FROM users WHERE users.id = $1`, [user_id]
+    )
+    req.session.user = user; //saving user information to session
+
+    // make sure the profile picture is available in the session for navbar in all partials
+    const { profile_picture_url } = await db.oneOrNone(
+        'SELECT profile_picture_url FROM profiles WHERE user_id = $1',
+        [user.id]
+    ) || {};
+
+    req.session.user.profile_picture_url = profile_picture_url?.profile_picture_url || null; // save url to user
+    req.session.save();
+
     console.log('post complete');
     res.redirect('/settings');
 
