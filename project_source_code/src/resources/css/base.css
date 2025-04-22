@@ -28,6 +28,8 @@
     --color-message-out-text: var(--color-white);
     --color-message-out-bubble: var(--color-primary);
 
+    --color-button-red: #ff0000;
+
     --font-primary: 'Poppins', sans-serif;
     --font-heading: 'Lalezar', sans-serif;
     --font-alt: 'Montserrat', sans-serif;
