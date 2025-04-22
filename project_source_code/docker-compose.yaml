@@ -1,12 +1,19 @@
 services:
   db:
-    image: postgis/postgis:14-3.3 # to use the geospatial features of PostgreSQL
+    image: postgis/postgis:14-3.3
+    platform: linux/amd64  # optional for Apple Silicon
     env_file: .env
     expose:
       - '5432'
     volumes:
       - group-project:/var/lib/postgresql/data
       - ./init_data:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   web:
     image: node:lts
     user: 'node'
@@ -15,11 +22,13 @@ services:
     environment:
       - NODE_ENV=development
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - '3000:3000'
     volumes:
       - ./:/repository
-    command: 'npm run testandrun' #change the command to `npm run testandrun` to run mocha
+    command: 'npm run testandrun'
+
 volumes:
-  group-project:
+  group-project:  # ✅ Don't forget this section
