@@ -4,10 +4,11 @@
 {{/section}}
 
 <link rel="stylesheet" href="/resources/css/swipe.css">
+<link rel="stylesheet" href="/resources/css/music.css">
 
 <div class="swipe-container">
   <div class="track-card">
-    <h2>Random Music Explorer</h2>
+    <h2 class="music-title">Random Music Explorer</h2>
 
     <!-- Search form -->
     <form method="GET" action="/explore/music" class="mb-4">
@@ -37,7 +38,7 @@
   </div>
 
   <div class="swipe-buttons">
-    <a href="/explore/music/dislike?trackId={{trackId}}" class="swipe-button no-button">Dislike</a>
-    <a href="/explore/music/like?trackId={{trackId}}" class="swipe-button yes-button">Like</a>
+    <a href="/explore/music/dislike?trackId={{trackId}}" class="swipe-button no-button">👎</a>
+    <a href="/explore/music/like?trackId={{trackId}}" class="swipe-button yes-button">❤️</a>
   </div>
 </div>
