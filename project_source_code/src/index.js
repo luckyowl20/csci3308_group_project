@@ -110,7 +110,7 @@ const take_picture = require('./routes/take_picture');
 const memories = require('./routes/memories');
 const swipeRoutes = require('./routes/swipe');
 const matchesRoutes = require('./routes/matches'); // will be replaced later with a better version
-
+const swipeRoutes2 = require('./routes/swipe2');
 const blogRoutes = require('./routes/blogs');
 
 app.use('/', indexRoutes); 
@@ -127,8 +127,8 @@ app.use('/home', homeRoutes);
 app.use('/take_picture', take_picture);
 app.use('/matches', matchesRoutes); // will be replaced later with a better version
 app.use('/memories', memories)
-
 app.use('/blog', blogRoutes);
+app.use('/swipe2', swipeRoutes2);
 
 // -------------------------------------
 // http server setup

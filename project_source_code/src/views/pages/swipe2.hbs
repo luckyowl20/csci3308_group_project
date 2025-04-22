@@ -1,0 +1,28 @@
+{{!-- views/pages/swipe2.hbs --}}
+{{#section "scripts"}}
+<script>window.swipeType = "{{swipeType}}";</script>
+<script src="/resources/js/swipe/swipeUserMatch.js"></script>
+{{/section}}
+
+<link rel="stylesheet" href="/resources/css/swipe.css" />
+
+<div class="swipe-container">
+  <div id="swipe-card-container" class="swipe-card custom-swipe-style">
+    {{!-- render first match immediately: --}}
+    {{#with matches.[0] as |m|}}
+      {{> swipeContentUser candidate=m.candidate candidate_age=m.candidate_age }}
+    {{/with}}
+  </div>
+
+  <div class="swipe-buttons">
+    <button id="dislike-btn" class="btn btn-dislike">Dislike</button>
+    <button id="like-btn"    class="btn btn-like">Like</button>
+  </div>
+</div>
+
+{{!-- 1) store matches JSON in a SCRIPT tag --}}
+<script id="matches-data" type="application/json">
+  {{{json matches}}}
+</script>
+
+

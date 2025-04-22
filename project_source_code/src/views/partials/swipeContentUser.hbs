@@ -1,0 +1,51 @@
+<div class="swipe-profile-card text-center">
+
+  <!-- Profile Picture -->
+  <div class="swipe-profile-pic mb-3">
+    {{#if candidate.profile_picture_url}}
+      <img src="{{candidate.profile_picture_url}}" alt="Profile Picture">
+    {{else}}
+      <img src="https://via.placeholder.com/150?text=User" alt="Default">
+    {{/if}}
+  </div>
+
+  <!-- Name + (Location optional) -->
+  <h3 class="fw-bold alt-text">{{candidate.display_name}}</h3>
+  {{#if candidate.user_location_text}}
+    <p class="primary-text mb-2">{{candidate.user_location_text}}</p>
+  {{/if}}
+
+  <!-- Age (if passed) -->
+  {{#if candidate_age}}
+    <p class="font-alt primary-text">Age: {{candidate_age}}</p>
+  {{/if}}
+
+  <!-- Interests -->
+  <h5 class="fw-bold alt-text mt-3">Interests</h5>
+  {{#if candidate.selectedInterestsDetails.length}}
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+      {{#each candidate.selectedInterestsDetails}}
+        <span class="interest-badge">{{this.name}}</span>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="font-alt primary-text fst-italic">No interests listed.</p>
+  {{/if}}
+
+  <!-- Bio -->
+  {{#if candidate.biography}}
+    <p class="font-alt primary-text mt-3">{{candidate.biography}}</p>
+  {{else}}
+    <p class="font-alt primary-text fst-italic mt-3">No bio available.</p>
+  {{/if}}
+
+  <!-- Spotify Favorite Song -->
+  {{#if candidate.spotify_song_id}}
+    <div class="spotify-player-container mt-3">
+      <iframe class="rounded" src="https://open.spotify.com/embed/track/{{candidate.spotify_song_id}}" width="100%" height="80"
+        frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+      </iframe>
+    </div>
+  {{/if}}
+
+</div>
