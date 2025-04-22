@@ -55,49 +55,81 @@
       <p>No restaurants found near you.</p>
     {{/if}}
   </main>
-
+  
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll(".like-form").forEach(form => {
-        form.addEventListener("submit", function (e) {
-          const card = e.target.closest(".card");
-          const likeBtn = card.querySelector(".like-btn");
-          const dislikeBtn = card.querySelector(".dislike-btn");
+  document.addEventListener("DOMContentLoaded", function () {
+    function handleFormSubmit(form, isLike) {
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault(); // prevent default form submit behavior
 
-          // Disable Like button and apply active class
-          likeBtn.disabled = true;
-          likeBtn.classList.remove("btn-outline-success");
-          likeBtn.classList.add("btn-success", "text-white");
+        console.log(isLike);
+        const card = e.target.closest(".card");
+        const thisBtn = form.querySelector("button"); // the one being clicked
+        const otherForm = card.querySelector(isLike ? ".dislike-form" : ".like-form");
+        const otherBtn = otherForm.querySelector("button"); // the opposite button
 
-          // Enable Dislike button and revert its style
-          if (dislikeBtn) {
-            dislikeBtn.disabled = false;
-            dislikeBtn.classList.remove("btn-danger", "text-white");
-            dislikeBtn.classList.add("btn-outline-danger");
+
+        // Prepare form data
+        const formData = new URLSearchParams(new FormData(form));
+
+
+        // Send the form data with fetch
+        try {
+          const response = await fetch(form.action, {
+            method: form.method,
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData
+          });
+
+          if (response.status === 200) {
+            console.log('hit');
+            if (isLike) {
+              // Disable Like button
+              thisBtn.disabled = true;
+              thisBtn.classList.remove("btn-outline-success");
+              thisBtn.classList.add("btn-success", "text-white");
+
+              // Enable Dislike button
+              if (otherBtn) {
+                otherBtn.disabled = false;
+                otherBtn.classList.remove("btn-danger", "text-white");
+                otherBtn.classList.add("btn-outline-danger");
+              }
+            } else {
+              // Disable Dislike button
+              thisBtn.disabled = true;
+              thisBtn.classList.remove("btn-outline-danger");
+              thisBtn.classList.add("btn-danger", "text-white");
+
+              // Enable Like button
+              if (otherBtn) {
+                otherBtn.disabled = false;
+                otherBtn.classList.remove("btn-success", "text-white");
+                otherBtn.classList.add("btn-outline-success");
+              }
+            }
+          } else {
+            console.error("Unexpected response status:", response.status);
           }
-        });
+        } catch (err) {
+          console.error("Error sending form:", err);
+        }
       });
+    }
 
-      document.querySelectorAll(".dislike-form").forEach(form => {
-        form.addEventListener("submit", function (e) {
-          const card = e.target.closest(".card");
-          const dislikeBtn = card.querySelector(".dislike-btn");
-          const likeBtn = card.querySelector(".like-btn");
-
-          // Disable Dislike button and apply active class
-          dislikeBtn.disabled = true;
-          dislikeBtn.classList.remove("btn-outline-danger");
-          dislikeBtn.classList.add("btn-danger", "text-white");
-
-          // Enable Like button and revert its style
-          if (likeBtn) {
-            likeBtn.disabled = false;
-            likeBtn.classList.remove("btn-success", "text-white");
-            likeBtn.classList.add("btn-outline-success");
-          }
-        });
-      });
+    // Attach to all like forms
+    document.querySelectorAll(".like-form").forEach(form => {
+      handleFormSubmit(form, true);
     });
-  </script>
+
+    // Attach to all dislike forms
+    document.querySelectorAll(".dislike-form").forEach(form => {
+      handleFormSubmit(form, false);
+    });
+  });
+</script>
+
 </body>
 </html>

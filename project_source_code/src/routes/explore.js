@@ -38,10 +38,9 @@ router.get('/restaurants', isAuthenticated, async (req, res) => {
 
   const lat = userLocation.latitude;
   const lon = userLocation.longitude;
+
   // 1. Get restaurant data from Google Places API
   const restaurants = await getNearbyRestaurants(lat, lon);
-
-  // console.log(restaurants);
 
   // // 2. Query user's opinions
   const opinions = await db.any(
@@ -53,15 +52,12 @@ router.get('/restaurants', isAuthenticated, async (req, res) => {
 
   // Separate liked and disliked place_ids
   const likedPlaceIds = opinions
-    .filter(entry => entry.opinion === 1)
+    .filter(entry => entry.opinion === true)
     .map(entry => entry.place_id.trim());
 
   const dislikedPlaceIds = opinions
-    .filter(entry => entry.opinion === -1)
+    .filter(entry => entry.opinion === false)
     .map(entry => entry.place_id.trim());
-
-  console.log('likedPlaceIds:', likedPlaceIds);
-  console.log('dislikedPlaceIds:', dislikedPlaceIds);
 
   res.render('pages/restaurants', {
     lat,
@@ -87,22 +83,22 @@ router.post('/restaurants/like', isAuthenticated, async (req, res) => {
     );
 
     if (existingOpinion) {
-      // If the user already has an opinion, update it (set like to 1)
+      // If the user already has an opinion, update it to like (opinion = true)
       await db.none(
         `UPDATE restaurants SET opinion = $1 WHERE user_id = $2 AND place_id = $3`,
-        [1, userId, placeId]
+        [true, userId, placeId]
       );
       console.log(`Updated opinion: Liked ${placeId}`);
     } else {
-      // If the user hasn't given an opinion, insert a new record with "like" (opinion = 1)
+      // If the user hasn't given an opinion, insert a new record with "like" (opinion = true)
       await db.none(
         `INSERT INTO restaurants (user_id, place_id, opinion) VALUES ($1, $2, $3)`,
-        [userId, placeId, 1]
+        [userId, placeId, true]
       );
       console.log(`New like added: ${placeId}`);
     }
 
-    res.status(200);
+    res.status(200).send();
     
   } catch (err) {
     console.error('Failed to update like:', err);
@@ -125,23 +121,23 @@ router.post('/restaurants/dislike', isAuthenticated, async (req, res) => {
     );
 
     if (existingOpinion) {
-      // If the user already has an opinion, update it (set dislike to -1)
+      // If the user already has an opinion, update it (set to dislike (false))
       await db.none(
         `UPDATE restaurants SET opinion = $1 WHERE user_id = $2 AND place_id = $3`,
-        [-1, userId, placeId]
+        [false, userId, placeId]
       );
       console.log(`Updated opinion: Disliked ${placeId}`);
     } else {
-      // If the user hasn't given an opinion, insert a new record with "dislike" (opinion = -1)
+      // If the user hasn't given an opinion, insert a new record with "dislike" (opinion = false)
       await db.none(
         `INSERT INTO restaurants (user_id, place_id, opinion) VALUES ($1, $2, $3)`,
-        [userId, placeId, -1]
+        [userId, placeId, false]
       );
       console.log(`New dislike added: ${placeId}`);
     }
 
-    res.status(200);
-    
+    res.status(200).send();
+
   } catch (err) {
     console.error('Failed to update dislike:', err);
     res.status(500).send('Error updating restaurant dislike');
@@ -154,7 +150,7 @@ const axios = require('axios');
 async function getNearbyRestaurants(lat, lon) {
   const apiKey = process.env.MAP_API_KEY;
   const radius = 2000; // meters
-
+ 
   // Api request structure
   const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${radius}&type=restaurant&key=${apiKey}`;
 
