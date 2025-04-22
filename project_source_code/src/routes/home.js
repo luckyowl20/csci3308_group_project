@@ -72,7 +72,7 @@ router.get('/', isAuthenticated, async (req, res) => {
 
     const feed = await Promise.all(friends.map(async friend => {
       const post = await db.oneOrNone(`
-        SELECT posts.id AS post_id, photos.url, posts.body
+        SELECT posts.id AS post_id, photos.url, photos.description
         FROM posts
         JOIN photos ON posts.photo_id = photos.id
         WHERE posts.user_id = $1
@@ -95,7 +95,7 @@ router.get('/', isAuthenticated, async (req, res) => {
         ...friend,
         post_id: post.post_id,
         todays_photo_url: post.url,
-        todays_caption: post.body,
+        todays_caption: post.description,
         like_count: parseInt(likeCount.count, 10),
         liked_by_user: !!likedByUser
       };
