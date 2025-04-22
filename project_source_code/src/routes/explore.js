@@ -101,6 +101,8 @@ router.post('/restaurants/like', isAuthenticated, async (req, res) => {
       );
       console.log(`New like added: ${placeId}`);
     }
+
+    res.status(200);
     
   } catch (err) {
     console.error('Failed to update like:', err);
@@ -137,6 +139,8 @@ router.post('/restaurants/dislike', isAuthenticated, async (req, res) => {
       );
       console.log(`New dislike added: ${placeId}`);
     }
+
+    res.status(200);
     
   } catch (err) {
     console.error('Failed to update dislike:', err);

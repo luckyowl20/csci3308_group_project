@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 
 <body>
@@ -9,10 +9,9 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {{#each restaurants}}
           <div class="col">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm" data-place-id="{{place_id}}">
               {{#if photo}}
                 <img src="{{photo}}" alt="{{name}}" class="card-img-top" style="height: 200px; object-fit: cover;" referrerpolicy="no-referrer">
-                
               {{else}}
                 <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
                   No image
@@ -23,29 +22,31 @@
                 <h5 class="card-title">{{name}}</h5>
                 <p class="card-text">{{address}}</p>
                 {{#if rating}}<p class="card-text">⭐ {{rating}}</p>{{/if}}
+
                 {{#includes ../likedPlaceIds place_id}}
-                  <button class="btn btn-success text-white" disabled>
-                    👍 Liked
-                  </button>
+                  <form action="/explore/restaurants/like" method="POST" class="d-inline like-form">
+                    <input type="hidden" name="placeId" value="{{place_id}}">
+                    <button type="submit" class="btn btn-success text-white like-btn" disabled>👍 Like</button>
+                  </form>
                 {{else}}
-                  <form action="/explore/restaurants/like" method="POST" class="d-inline">
-                    <input type="hidden" name="placeId" value="{{place_id}}_like">
-                    <button type="submit" class="btn btn-outline-success" onClick="this.disabled=true">👍 Like</button>
+                  <form action="/explore/restaurants/like" method="POST" class="d-inline like-form">
+                    <input type="hidden" name="placeId" value="{{place_id}}">
+                    <button type="submit" class="btn btn-outline-success like-btn">👍 Like</button>
                   </form>
                 {{/includes}}
 
                 {{#includes ../dislikedPlaceIds place_id}}
-                  <button class="btn btn-danger text-white" disabled>
-                    👎 Disliked
-                  </button>
-                {{else}}
-                  <form action="/explore/restaurants/dislike" method="POST" class="d-inline">
+                  <form action="/explore/restaurants/dislike" method="POST" class="d-inline dislike-form">
                     <input type="hidden" name="placeId" value="{{place_id}}">
-                    <button type="submit" class="btn btn-outline-danger">👎 Dislike</button>
+                    <button type="submit" class="btn btn-danger text-white dislike-btn" disabled>👎 Dislike</button>
+                  </form>
+                {{else}}
+                  <form action="/explore/restaurants/dislike" method="POST" class="d-inline dislike-form">
+                    <input type="hidden" name="placeId" value="{{place_id}}">
+                    <button type="submit" class="btn btn-outline-danger dislike-btn">👎 Dislike</button>
                   </form>
                 {{/includes}}
               </div>
-
             </div>
           </div>
         {{/each}}
@@ -54,5 +55,49 @@
       <p>No restaurants found near you.</p>
     {{/if}}
   </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".like-form").forEach(form => {
+        form.addEventListener("submit", function (e) {
+          const card = e.target.closest(".card");
+          const likeBtn = card.querySelector(".like-btn");
+          const dislikeBtn = card.querySelector(".dislike-btn");
+
+          // Disable Like button and apply active class
+          likeBtn.disabled = true;
+          likeBtn.classList.remove("btn-outline-success");
+          likeBtn.classList.add("btn-success", "text-white");
+
+          // Enable Dislike button and revert its style
+          if (dislikeBtn) {
+            dislikeBtn.disabled = false;
+            dislikeBtn.classList.remove("btn-danger", "text-white");
+            dislikeBtn.classList.add("btn-outline-danger");
+          }
+        });
+      });
+
+      document.querySelectorAll(".dislike-form").forEach(form => {
+        form.addEventListener("submit", function (e) {
+          const card = e.target.closest(".card");
+          const dislikeBtn = card.querySelector(".dislike-btn");
+          const likeBtn = card.querySelector(".like-btn");
+
+          // Disable Dislike button and apply active class
+          dislikeBtn.disabled = true;
+          dislikeBtn.classList.remove("btn-outline-danger");
+          dislikeBtn.classList.add("btn-danger", "text-white");
+
+          // Enable Like button and revert its style
+          if (likeBtn) {
+            likeBtn.disabled = false;
+            likeBtn.classList.remove("btn-success", "text-white");
+            likeBtn.classList.add("btn-outline-success");
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
