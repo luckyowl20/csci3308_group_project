@@ -1,0 +1,11 @@
+<!-- views/partials/_sidebar_user.hbs -->
+<div class="me-3">
+  {{#if user.profile_picture_url}}
+    <img src="{{user.profile_picture_url}}" alt="{{user.username}}'s profile picture" class="profile-pic">
+  {{else}}
+    <img src="https://via.placeholder.com/40?text=U" alt="Default profile picture" class="profile-pic">
+  {{/if}}
+</div>
+<a href="/chat/{{user.id}}" class="friend-chat-link font-alt primary-text fw-semibold">
+  <span>{{user.username}}</span>
+</a>

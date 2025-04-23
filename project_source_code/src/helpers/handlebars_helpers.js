@@ -39,6 +39,8 @@ module.exports = {
         options.data.root[varName] = JSON.parse(string);
     },
 
+    json: (context) => JSON.stringify(context)
+
     includes: function (array, value, options) {
         const normalizedArray = array?.map(String);
         if (normalizedArray?.includes(String(value))) {
@@ -46,5 +48,4 @@ module.exports = {
         }
         return options.inverse(this);
     }
-
 };
