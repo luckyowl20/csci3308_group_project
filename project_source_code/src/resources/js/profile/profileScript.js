@@ -223,4 +223,85 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAgeDisplay();
   }
 
+  // friends / matches display logic
+  const btn = document.getElementById('toggle-matches-btn');
+  const list = document.getElementById('sidebar-list');
+  const heading = document.getElementById('sidebar-heading');
+
+  // grab the arrays we inlined
+  const friends = window.__FRIENDS__ || [];
+  const matches = window.__MATCHES__ || [];
+
+  // current mode: either 'friends' or 'matches'
+  let mode = 'friends';
+
+  // initial render
+  renderList(friends);
+
+  btn.addEventListener('click', () => {
+    if (mode === 'friends') {
+      mode = 'matches';
+      heading.textContent = 'Matches';
+      btn.textContent = 'Show Friends';
+      renderList(matches);
+    } else {
+      mode = 'friends';
+      heading.textContent = 'Friends';
+      btn.textContent = 'Show Matches';
+      renderList(friends);
+    }
+    btn.setAttribute('data-mode', mode);
+  });
+
+  function renderList(items) {
+    list.innerHTML = '';
+    if (items.length) {
+      items.forEach(user => {
+        const li = document.createElement("li");
+        li.className = "mb-3 d-flex align-items-center justify-content-center";
+
+        // 1) profile picture HTML
+        const profilePicHTML = user.profile_picture_url
+          ? `<img
+              src="${user.profile_picture_url}"
+              alt="${user.username}'s profile picture"
+              class="profile-pic rounded-circle"
+              width="40"
+              height="40"
+            >`
+          : `<img
+              src="https://via.placeholder.com/40?text=U"
+              alt="Default profile picture"
+              class="profile-pic rounded-circle"
+              width="40"
+              height="40"
+            >`;
+
+        // 2) username display (as link or plain text)
+        const usernameHTML = window.__OWN_PROFILE__
+          ? `<a href="/profile/${user.id}" class="friend-chat-link font-alt primary-text fw-semibold">
+            <span>${user.username}</span>
+            </a>`
+          : `<a class="font-alt primary-text fw-bold text-decoration-none"><span>${user.username}<span></a>`;
+
+        // 3) combine and inject
+        li.innerHTML = `
+          <div class="me-3">
+            ${profilePicHTML}
+          </div>
+          ${usernameHTML}
+        `;
+        list.appendChild(li);
+
+      });
+    } else {
+      const li = document.createElement('li');
+      li.className = 'fst-italic primary-text';
+      li.textContent = mode === 'friends'
+        ? 'No friends yet.'
+        : 'No matches yet.';
+      list.appendChild(li);
+    }
+  }
+
 });

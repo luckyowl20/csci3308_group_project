@@ -168,6 +168,9 @@ CREATE TABLE IF NOT EXISTS blogs (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+SELECT pg_get_serial_sequence('blogs', 'id');
+
+
 CREATE TABLE IF NOT EXISTS blogs_posts (
     PRIMARY KEY (blog_id, post_id),
     FOREIGN KEY (blog_id) REFERENCES blogs(id) ON DELETE CASCADE, -- to track which blog the post belongs to
@@ -175,6 +178,7 @@ CREATE TABLE IF NOT EXISTS blogs_posts (
     blog_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL
 );
+
 -- table of user opinion on music
 CREATE TABLE IF NOT EXISTS music (
     user_id INTEGER NOT NULL,
@@ -183,3 +187,11 @@ CREATE TABLE IF NOT EXISTS music (
     PRIMARY KEY (user_id, song_id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ); 
+
+-- table of user opinion on restaurants
+CREATE TABLE IF NOT EXISTS restaurants (
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- the user who liked the restaurant
+    place_id CHAR(500), -- Google Map PlaceAPI's place_id
+    opinion BOOLEAN NOT NULL -- (False) = dislike, (True) = like
+);

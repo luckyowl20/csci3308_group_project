@@ -30,20 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function myFunction(id) {
         document.getElementById(id + 'Dropdown').classList.toggle("show");
         /*Javascript for displaying current settings*/
-        if (id == 'privacy') {
-            checkbox = document.getElementById('public_friends_checkbox')
-            checkbox.checked = JSON.parse('{{{settings.public_friends}}}');
-        }
-        else if (id == 'notif') {
-            checkbox = document.getElementById('message_notif_checkbox')
-            checkbox.checked = JSON.parse('{{{settings.message_notifs}}}');
-            checkbox = document.getElementById('match_notif_checkbox')
-            checkbox.checked = JSON.parse('{{{settings.match_notifs}}}');
-        }
-        else if (id == 'apperance') {
+        // if (id == 'privacy') {
+        //     checkbox = document.getElementById('public_friends_checkbox')
+        //     checkbox.checked = JSON.parse('{{{settings.public_friends}}}');
+        // }
+        // else if (id == 'notif') {
+        //     checkbox = document.getElementById('message_notif_checkbox')
+        //     checkbox.checked = JSON.parse('{{{settings.message_notifs}}}');
+        //     checkbox = document.getElementById('match_notif_checkbox')
+        //     checkbox.checked = JSON.parse('{{{settings.match_notifs}}}');
+        // }
+        // else if (id == 'apperance') {
 
-            mode_select = document.getElementById('mode_select');
-            mode_select.value = ('{{settings.apperance_mode}}');
-        }
+        //     mode_select = document.getElementById('mode_select');
+        //     mode_select.value = ('{{settings.apperance_mode}}');
+        // }
     }
 });

@@ -10,8 +10,14 @@ router.get('/', isAuthenticated, async (req, res) => {
     const userId = req.session.user.id;
 
     try {
-        // loading the users profile information
-        const profile = await db.oneOrNone('SELECT * FROM profiles WHERE user_id = $1', [userId]);
+        // loading the users profile information, including lat/long from point
+        const profile = await db.oneOrNone(`
+            SELECT *,
+                   ST_Y(user_location::geometry) AS latitude,
+                   ST_X(user_location::geometry) AS longitude
+            FROM profiles
+            WHERE user_id = $1
+          `, [userId]);
 
         // loading the users selected interests
         const selectedInterests = await db.any(`
@@ -23,7 +29,7 @@ router.get('/', isAuthenticated, async (req, res) => {
         // console.log("found interests:", selectedInterests);
 
         const recentPhotos = await db.any(
-            `SELECT photos.url, photos.description, posts.created_at
+            `SELECT photos.url, photos.description AS caption, posts.created_at
              FROM posts
              JOIN photos ON posts.photo_id = photos.id
              WHERE posts.user_id = $1
@@ -36,10 +42,30 @@ router.get('/', isAuthenticated, async (req, res) => {
 
         // loading the users friends
         const friends = await db.any(`
-            SELECT users.id, users.username
-            FROM friends
-            JOIN users ON users.id = friends.friend_id
-            WHERE friends.user_id = $1
+            SELECT
+              u.id,
+              u.username,
+              p.profile_picture_url
+            FROM friends f
+            JOIN users u
+              ON u.id = f.friend_id
+            JOIN profiles p
+              ON p.user_id = u.id
+            WHERE f.user_id = $1
+          `, [userId]);
+
+        // 2) Matches
+        const matches = await db.any(`
+            SELECT
+              u.id,
+              u.username,
+              p.profile_picture_url
+            FROM matches m
+            JOIN users u
+              ON u.id = m.matched_user_id
+            JOIN profiles p
+              ON p.user_id = u.id
+            WHERE m.user_id = $1
           `, [userId]);
 
         // console.log("found friends:", friends);
@@ -50,9 +76,11 @@ router.get('/', isAuthenticated, async (req, res) => {
             profile,
             recentPhotos,
             friends,
+            matches,
             user: req.session.user, // if you use it in nav bar or elsewhere
             isOwnProfile: true,
             selectedInterestsDetails: selectedInterests,
+            public_friends: true // no need to keep friends private for viewing own profile
         });
 
     } catch (err) {
@@ -90,8 +118,18 @@ router.get('/:id', isAuthenticated, async (req, res) => {
             WHERE user_id = $1 AND friend_id = $2
         `, [viewerId, targetId]);
 
-        if (!isFriend) {
-            return res.status(403).send("You can only view your own friends' profiles.");
+        const isMatch = await db.oneOrNone(`
+            SELECT 1
+              FROM matches
+             WHERE (user_id         = $1 AND matched_user_id = $2)
+                OR (user_id         = $2 AND matched_user_id = $1)
+             LIMIT 1
+          `, [viewerId, targetId]);
+        console.log("users matching:", viewerId, targetId, isMatch);
+        console.log("users matching:", viewerId, targetId, isFriend);
+
+        if (!isFriend && !isMatch) {
+            return res.status(403).send("You can only view your own friends'/matches' profiles.");
         }
 
         const profile = await db.oneOrNone(`
@@ -116,7 +154,7 @@ router.get('/:id', isAuthenticated, async (req, res) => {
         `, [targetId]);
 
         const recentPhotos = await db.any(`
-            SELECT photos.url, photos.description, posts.created_at
+            SELECT photos.url, photos.description AS caption, posts.created_at
             FROM posts
             JOIN photos ON posts.photo_id = photos.id
             WHERE posts.user_id = $1
@@ -124,9 +162,27 @@ router.get('/:id', isAuthenticated, async (req, res) => {
             ORDER BY posts.created_at DESC
         `, [targetId]);
 
+        const friends = await db.any(`
+            SELECT
+              u.id,
+              u.username,
+              p.profile_picture_url
+            FROM friends f
+            JOIN users u
+              ON u.id = f.friend_id
+            JOIN profiles p
+              ON p.user_id = u.id
+            WHERE f.user_id = $1
+          `, [targetId]);
 
-
-        const friends = []; // intentionally left blank
+        const user_settings = await db.oneOrNone(`
+            SELECT *
+            FROM user_settings us
+            WHERE us.user_id = $1`, [targetId]
+        );
+        if (user_settings)
+            public_friends = user_settings.public_friends;
+        else public_friends = true; //reflects default setting
 
         // the profile of the friend we are viewing
 
@@ -136,8 +192,10 @@ router.get('/:id', isAuthenticated, async (req, res) => {
             selectedInterestsDetails: selectedInterests,
             recentPhotos,
             friends,
+            matches : [],
             user: req.session.user,
             isOwnProfile: false,
+            public_friends: public_friends
         });
 
     } catch (err) {
@@ -149,7 +207,7 @@ router.get('/:id', isAuthenticated, async (req, res) => {
 // for updating the profile after the edit profile modal is submitted
 router.post('/update', isAuthenticated, async (req, res) => {
     const db = req.app.locals.db;
-    user = req.session.user; //getting user from session
+    const user = req.session.user; //getting user from session
     const userId = user.id;
     const { display_name, biography, interests, birthday, profile_picture_url, spotify_song_id } = req.body;
     // console.log("update called with song:", spotify_song_id)
@@ -210,6 +268,7 @@ router.post('/update', isAuthenticated, async (req, res) => {
         }
 
 
+
         res.redirect('/profile');
     } catch (err) {
         console.error('Failed to update profile:', err);
@@ -233,9 +292,14 @@ router.post('/update-preferences', isAuthenticated, async (req, res) => {
     } = req.body;
 
 
-    const point = latitude && longitude
-        ? `SRID=4326;POINT(${longitude} ${latitude})`
-        : null;
+    let point = null;
+    if (latitude && longitude) {
+        point = `SRID=4326;POINT(${longitude} ${latitude})`;
+    } else {
+        // dont update the location if lat/lng are missing
+        const existing = await db.oneOrNone(`SELECT user_location FROM profiles WHERE user_id = $1`, [userId]);
+        point = existing?.user_location || null;
+    }
 
 
     // Construct POINT string only if both latitude and longitude are valid
