@@ -28,9 +28,11 @@ router.get('/restaurants', isAuthenticated, async (req, res) => {
     [userId]
   );
 
+  console.log(userLocation);
+
   if (!userLocation) {
     console.error('User location not found in database');
-    return res.render('pages/explore', {
+    return res.render('pages/explore2', {
       message: 'Location not provided, please update your profile.',
       error: true
     });
@@ -38,6 +40,14 @@ router.get('/restaurants', isAuthenticated, async (req, res) => {
 
   const lat = userLocation.latitude;
   const lon = userLocation.longitude;
+
+  if (lat === null || lon === null) {
+    console.error('User location not found in database');
+    return res.render('pages/explore2', {
+      message: 'Location not provided, please update your profile.',
+      error: true
+    });
+  }
 
   // 1. Get restaurant data from Google Places API
   const restaurants = await getNearbyRestaurants(lat, lon);
