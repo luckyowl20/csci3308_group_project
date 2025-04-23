@@ -34,7 +34,7 @@ router.get('/', isAuthenticated, async(req,res) => {
             GROUP BY b.id, pr2.display_name
             ORDER BY b.created_at DESC;`
         );
-        console.log(blogs);
+        // console.log(blogs);
     }
     catch (err) {
         console.log("Error gettings blogs:",err);
