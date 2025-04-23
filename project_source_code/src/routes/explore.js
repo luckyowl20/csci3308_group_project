@@ -108,7 +108,7 @@ router.get('/activities', isAuthenticated, async (req, res) => {
   }
 
   // Filter out unwanted results by name
-  const blockedKeywords = ['hotel', 'motel', 'inn', 'pharmacy', 'gas', 'court', 'market', 'store', 'walmart', 'target', 'best buy', 'auto', 'clinic', 'hospital', 'hardware'];
+  const blockedKeywords = ['hotel', 'motel', 'inn', 'pharmacy', 'gas', 'court', 'market', 'store', 'walmart', 'target', 'best buy', 'auto', 'clinic', 'hospital', 'hardware', 'inc'];
   allActivities = allActivities.filter(place => {
     const name = place.name.toLowerCase();
     return !blockedKeywords.some(keyword => name.includes(keyword));
