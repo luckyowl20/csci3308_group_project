@@ -3,9 +3,9 @@ const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
 const app = require('..');
 const bcrypt = require('bcryptjs');
+const db = require('../utils/database');
 
 router.get('/', isAuthenticated, async (req, res) => {
-    db = req.app.locals.db;
     // doing this deletes the profile picture from the session
     // const user_id = req.session.user.id //refreshing user information
     // const user = await db.oneOrNone(
@@ -19,15 +19,34 @@ router.get('/', isAuthenticated, async (req, res) => {
     }
     //getting current user settings
     try {
-        const user_settings = await db.oneOrNone(
+        user_settings = await db.oneOrNone(
             `SELECT *
             FROM user_settings
             WHERE user_settings.user_id = $1`,
             [user.id]
         );
+        if(!user_settings) {
+            console.log('creating user settings');
+            await db.none(
+                `INSERT INTO user_settings (user_id)
+                VALUES ($1)`,
+                [user.id]
+            )
+            user_settings = await db.oneOrNone(
+                `SELECT *
+                FROM user_settings
+                WHERE user_settings.user_id = $1`,
+                [user.id]
+            );
+        }
+        else {
+            console.log('user settings found');
+        }
+        console.log(user_settings);
         res.render('pages/settings', { user: user, settings: user_settings });
         // res.json(user_settings.apperance_mode);
     } catch (err) {
+        
         console.error('Error querying user settings:', err);
         res.status(500).json({ error: 'Internal server error' });
     }
@@ -35,7 +54,7 @@ router.get('/', isAuthenticated, async (req, res) => {
 });
 
 router.post('/account', isAuthenticated, async (req, res) => {
-    db = req.app.locals.db;
+    
     user = req.session.user; //getting user from session
     const user_id = user.id //refreshing user information
 
@@ -103,7 +122,7 @@ router.post('/account', isAuthenticated, async (req, res) => {
 });
 
 router.post('/Privacy', isAuthenticated, async (req, res) => {
-    db = req.app.locals.db;
+    
     user = req.session.user; //getting user from session
     const user_id = user.id //refreshing user information
 
@@ -150,7 +169,7 @@ router.post('/Privacy', isAuthenticated, async (req, res) => {
 });
 
 router.post('/notifications', isAuthenticated, async (req, res) => {
-    db = req.app.locals.db;
+    
     user = req.session.user; //getting user from session
     const user_id = user.id //refreshing user information
 
@@ -219,9 +238,9 @@ router.post('/notifications', isAuthenticated, async (req, res) => {
 //skipping ahead
 
 router.post('/apperance', isAuthenticated, async (req, res) => {
-    db = req.app.locals.db;
+    
     user = req.session.user; //getting user from session
-    const user_id = user
+    const user_id = user.id;
 
     const user_settings = await db.oneOrNone(
         `SELECT *

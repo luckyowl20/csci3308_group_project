@@ -179,6 +179,15 @@ CREATE TABLE IF NOT EXISTS blogs_posts (
     post_id INTEGER NOT NULL
 );
 
+-- table of user opinion on music
+CREATE TABLE IF NOT EXISTS music (
+    user_id INTEGER NOT NULL,
+    song_id CHAR(500) NOT NULL,
+    liked BOOLEAN NOT NULL,
+    PRIMARY KEY (user_id, song_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+); 
+
 -- table of user opinion on restaurants
 CREATE TABLE IF NOT EXISTS restaurants (
     user_id INTEGER NOT NULL,

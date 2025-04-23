@@ -12,6 +12,22 @@ router.get('/', async (req, res) => {
 
     console.log(`Friends page requested by user ID: ${req.session.user.id}`);
 
+        // Get the full logged-in user details first (for nav bar)
+        const loggedInUser = await req.app.locals.db.oneOrNone(`
+        SELECT 
+          u.*, 
+          p.*
+        FROM users u
+        JOIN profiles p ON p.user_id = u.id
+        WHERE u.id = $1
+      `, [req.session.user.id]);
+  
+      if (!loggedInUser) {
+        console.error('Could not find logged in user details');
+        return res.redirect('/auth/login');
+      }
+  
+
     const { matches } = await getMatches(
       req.app.locals.db,
       req.session.user.id,
@@ -24,6 +40,10 @@ router.get('/', async (req, res) => {
       console.log('No users left to swipe on');
       return res.render('pages/friends', {
         noUsersLeft: true,
+        // IMPORTANT: For nav compatibility, pass logged in user details in the way nav expects it
+        user: loggedInUser,
+        // Add swipeTarget as null to indicate no users to swipe on
+        swipeTarget: null,
         currentUser: req.session.user
       });
     }
@@ -58,7 +78,10 @@ router.get('/', async (req, res) => {
     console.log(`Top friend selected:`, topFriend);
 
     res.render('pages/friends', {
-      user: { ...topFriend, match_score: matches[0].finalScore },
+            // IMPORTANT: Keep logged-in user details for the navbar as 'user'
+            user: loggedInUser,
+            // Pass the potential match as a separate variable
+            swipeTarget: { ...topFriend, match_score: matches[0].finalScore },
       noUsersLeft: false,
       currentUser: req.session.user
     });

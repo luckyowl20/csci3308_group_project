@@ -113,7 +113,7 @@ async function calculateMatches(db, userId, matchType) {
     const miles = candidate.distance_meters / 1609.34;
     const distanceScore = (profile.match_distance_miles < 1000 && miles > profile.match_distance_miles) ? 0 : 1;
 
-    // Final score (adjust weights as needed)
+    // Final score
     const finalScore = (jaccardScore * 0.6) + (ageScore * 0.2) + (distanceScore * 0.2);
 
     console.log(`[MatchDebug] Candidate ${candidate.user_id} - Age: ${age}, Jaccard: ${jaccardScore.toFixed(2)}, Distance: ${miles?.toFixed(2)}, Final: ${finalScore.toFixed(2)}`);
@@ -133,7 +133,7 @@ async function calculateMatches(db, userId, matchType) {
 
   // Sort by final score descending
   matches.sort((a, b) => b.finalScore - a.finalScore);
-  console.log("Matches found:", matches);
+  console.log("[MatchDebug] Matches found:", matches);
   return { matches };
 }
 
