@@ -10,8 +10,14 @@ router.get('/', isAuthenticated, async (req, res) => {
     const userId = req.session.user.id;
 
     try {
-        // loading the users profile information
-        const profile = await db.oneOrNone('SELECT * FROM profiles WHERE user_id = $1', [userId]);
+        // loading the users profile information, including lat/long from point
+        const profile = await db.oneOrNone(`
+            SELECT *,
+                   ST_Y(user_location::geometry) AS latitude,
+                   ST_X(user_location::geometry) AS longitude
+            FROM profiles
+            WHERE user_id = $1
+          `, [userId]);
 
         // loading the users selected interests
         const selectedInterests = await db.any(`
@@ -110,7 +116,7 @@ router.get('/:id', isAuthenticated, async (req, res) => {
             SELECT 1 FROM friends
             WHERE user_id = $1 AND friend_id = $2
         `, [viewerId, targetId]);
-        
+
         const isMatch = await db.oneOrNone(`
             SELECT 1
               FROM matches
@@ -239,7 +245,7 @@ router.post('/update', isAuthenticated, async (req, res) => {
                 [userId, interestId]
             );
         }
-        
+
 
 
         res.redirect('/profile');
@@ -265,9 +271,14 @@ router.post('/update-preferences', isAuthenticated, async (req, res) => {
     } = req.body;
 
 
-    const point = latitude && longitude
-        ? `SRID=4326;POINT(${longitude} ${latitude})`
-        : null;
+    let point = null;
+    if (latitude && longitude) {
+        point = `SRID=4326;POINT(${longitude} ${latitude})`;
+    } else {
+        // dont update the location if lat/lng are missing
+        const existing = await db.oneOrNone(`SELECT user_location FROM profiles WHERE user_id = $1`, [userId]);
+        point = existing?.user_location || null;
+    }
 
 
     // Construct POINT string only if both latitude and longitude are valid
