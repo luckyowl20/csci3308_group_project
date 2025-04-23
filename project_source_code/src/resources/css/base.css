@@ -3,9 +3,9 @@
 /* ===== VARIABLES ===== */
 :root {
     --color-background: #F3F1EA;
-    --color-primary: #1a522f;
-    --color-secondary: #3A7D44;
-    --color-accent: #dca632;
+    --color-primary: #184D47;
+    --color-secondary: #81ad48;
+    --color-accent: #f5cd3d; 
     /* alternate color scheme
     --color-primary: #3D655D;
     --color-secondary: #769353;
@@ -27,6 +27,8 @@
     --color-message-in-bubble: #e2e2e2;
     --color-message-out-text: var(--color-white);
     --color-message-out-bubble: var(--color-primary);
+
+    --color-button-red: #ff0000;
 
     --font-primary: 'Poppins', sans-serif;
     --font-heading: 'Lalezar', sans-serif;

@@ -1,0 +1,66 @@
+:root {
+    --color-liked: #28a745;
+    --color-disliked: #dc3545;
+
+}
+
+/* Base styles for all custom buttons */
+.btn-like,
+.btn-like--active,
+.btn-dislike,
+.btn-dislike--active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: var(--font-primary);
+  border-radius: 0.25rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+/* Like button, default (outline) */
+.btn-like {
+  color: var(--color-liked);
+  border-color: var(--color-liked);
+  background-color: transparent;
+}
+.btn-like:hover:not(:disabled) {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+/* Like button, active */
+.btn-like--active {
+  background-color: var(--color-liked);
+  color: #fff;
+  border-color: var(--color-liked);
+}
+
+/* Dislike button, default (outline) */
+.btn-dislike {
+  color: var(--color-disliked);
+  border-color: var(--color-disliked);
+  background-color: transparent;
+}
+.btn-dislike:hover:not(:disabled) {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Dislike button, active */
+.btn-dislike--active {
+  background-color: var(--color-disliked);
+  color: #fff;
+  border-color: var(--color-disliked);
+}
+
+/* Disabled state */
+.btn-like:disabled,
+.btn-like--active:disabled,
+.btn-dislike:disabled,
+.btn-dislike--active:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
