@@ -27,7 +27,7 @@ router.get('/restaurants', isAuthenticated, async (req, res) => {
   );
 
   if (!userLocation) {
-    return res.render('pages/explore', {
+    return res.render('pages/explore2', {
       message: 'Location not provided, please update your profile.',
       error: true
     });
@@ -90,7 +90,7 @@ router.get('/activities', isAuthenticated, async (req, res) => {
   );
 
   if (!userLocation) {
-    return res.render('pages/explore', {
+    return res.render('pages/explore2', {
       message: 'Location not provided, please update your profile.',
       error: true
     });
