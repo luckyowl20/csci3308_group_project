@@ -9,7 +9,7 @@
 
   {{!-- Account --}}
   <div class="dropdown mb-3">
-    <button id="account" class="btn btn-outline-success dropdown-button">Account</button>
+    <button id="account" class="btn  dropdown-button">Account</button>
     <div id="accountDropdown" class="dropdown-content">
       <a>
         <form action="/settings/account" method="post">
@@ -41,13 +41,13 @@
 
   {{!-- Privacy --}}
   <div class="dropdown mb-3">
-    <button id="privacy" class="btn btn-outline-success dropdown-button">Privacy</button>
+    <button id="privacy" class="btn  dropdown-button">Privacy</button>
     <div id="privacyDropdown" class="dropdown-content">
       <a>
         <form action="/settings/privacy" method="post">
-          <div class="d-flex align-items-center mb-3">
+          <div class="d-flex mb-3">
             <label class="form-label me-2">Public Friends</label>
-            <input id="public_friends_checkbox" name="public_friends" value="1" type="checkbox" class="form-check-input">
+            <input id="public_friends_checkbox" name="public_friends" value="1" type="checkbox" class="form-check-input" {{#if settings.public_friends}}checked{{/if}}>
           </div>
           <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
@@ -56,28 +56,28 @@
   </div>
 
   {{!-- Notifications --}}
-  <div class="dropdown mb-3">
-    <button id="notif" class="btn btn-outline-success dropdown-button">Notifications</button>
+  {{!-- <div class="dropdown mb-3">
+    <button id="notif" class="btn  dropdown-button">Notifications</button>
     <div id="notifDropdown" class="dropdown-content">
       <a>
         <form action="/settings/notifications" method="post">
           <div class="d-flex align-items-center mb-3">
             <label class="form-label me-2">Message Notifications</label>
-            <input id="message_notif_checkbox" name="messageNotifs" value="1" type="checkbox" class="form-check-input">
+            <input id="message_notif_checkbox" name="messageNotifs" value="1" type="checkbox" class="form-check-input" checked = {{settings.messageNotifs}}>
           </div>
           <div class="d-flex align-items-center mb-3">
             <label class="form-label me-2">Match Notifications</label>
-            <input id="match_notif_checkbox" name="matchNotifs" value="1" type="checkbox" class="form-check-input">
+            <input id="match_notif_checkbox" name="matchNotifs" value="1" type="checkbox" class="form-check-input" checked = {{settings.matchNotifs}}>
           </div>
           <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
       </a>
     </div>
-  </div>
+  </div> --}}
 
   {{!-- Security --}}
-  <div class="dropdown mb-3">
-    <button id="security" class="btn btn-outline-success dropdown-button">Security</button>
+  {{!-- <div class="dropdown mb-3">
+    <button id="security" class="btn  dropdown-button">Security</button>
     <div id="securityDropdown" class="dropdown-content">
       <a>
         <form action="/settings/security" method="post">
@@ -85,11 +85,11 @@
         </form>
       </a>
     </div>
-  </div>
+  </div> --}}
 
   {{!-- Chat and Messaging --}}
-  <div class="dropdown mb-3">
-    <button id="chat" class="btn btn-outline-success dropdown-button">Chat and Messaging</button>
+  {{!-- <div class="dropdown mb-3">
+    <button id="chat" class="btn  dropdown-button">Chat and Messaging</button>
     <div id="chatDropdown" class="dropdown-content">
       <a>
         <form action="/settings/chat" method="post">
@@ -97,22 +97,23 @@
         </form>
       </a>
     </div>
-  </div>
+  </div> --}}
 
   {{!-- Appearance and Display --}}
-  <div class="dropdown mb-3">
-    <button id="apperance" class="btn btn-outline-success dropdown-button">Appearance and Display</button>
+  {{!-- <div class="dropdown mb-3">
+    <button id="apperance" class="btn  dropdown-button">Appearance and Display</button>
     <div id="apperanceDropdown" class="dropdown-content">
       <a>
         <form id="apperanceForm" action="/settings/apperance" method="post">
           <label class="form-label">Page Appearance</label>
-          <select name="mode" class="form-select" id="mode_select">
+          <select name="mode" class="form-select" id="mode_select" value = "{{settings.mode}}">
             <option value="light">Light Mode</option>
             <option value="dark">Dark Mode</option>
           </select>
-          <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+          <button type="submit" class="btn  mt-3btn-primary">Save Changes</button>
         </form>
       </a>
     </div>
-  </div>
+  </div> --}}
+
 </div>
