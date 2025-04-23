@@ -33,7 +33,7 @@
   }
   
   .modal-box {
-    background-color: -var(--color-background);
+    background-color: var(--color-background); /* remove the minus sign */
     max-width: 500px;
     width: 90%;
     max-height: 90vh;

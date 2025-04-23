@@ -22,44 +22,26 @@
               {{#if rating}}<p class="card-text">⭐ {{rating}}</p>{{/if}}
 
               {{#includes ../likedPlaceIds place_id}}
-                <!-- Liked: use active style + disabled -->
                 <form action="/explore/restaurants/like" method="POST" class="d-inline like-form">
                   <input type="hidden" name="placeId" value="{{place_id}}">
-                  <button
-                    type="submit"
-                    class="btn-like--active like-btn"
-                    disabled
-                  >👍 Like</button>
+                  <button type="submit" class="btn-like--active like-btn" disabled>👍 Like</button>
                 </form>
               {{else}}
-                <!-- Not yet liked -->
                 <form action="/explore/restaurants/like" method="POST" class="d-inline like-form">
                   <input type="hidden" name="placeId" value="{{place_id}}">
-                  <button
-                    type="submit"
-                    class="btn-like like-btn"
-                  >👍 Like</button>
+                  <button type="submit" class="btn-like like-btn">👍 Like</button>
                 </form>
               {{/includes}}
 
               {{#includes ../dislikedPlaceIds place_id}}
-                <!-- Disliked: use active style + disabled -->
                 <form action="/explore/restaurants/dislike" method="POST" class="d-inline dislike-form">
                   <input type="hidden" name="placeId" value="{{place_id}}">
-                  <button
-                    type="submit"
-                    class="btn-dislike--active dislike-btn"
-                    disabled
-                  >👎 Dislike</button>
+                  <button type="submit" class="btn-dislike--active dislike-btn" disabled>👎 Dislike</button>
                 </form>
               {{else}}
-                <!-- Not yet disliked -->
                 <form action="/explore/restaurants/dislike" method="POST" class="d-inline dislike-form">
                   <input type="hidden" name="placeId" value="{{place_id}}">
-                  <button
-                    type="submit"
-                    class="btn-dislike dislike-btn"
-                  >👎 Dislike</button>
+                  <button type="submit" class="btn-dislike dislike-btn">👎 Dislike</button>
                 </form>
               {{/includes}}
             </div>
@@ -68,7 +50,12 @@
       {{/each}}
     </div>
   {{else}}
-    <p>No restaurants found near you.</p>
+    <div class="alert alert-warning text-center">
+      <p>No restaurants found near you.</p>
+      <a href="/profile#editPreferencesModal" class="btn btn-success mt-2">
+        To see nearby restaurants, update your location
+      </a>
+    </div>
   {{/if}}
 </main>
 
@@ -91,23 +78,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         if (response.ok) {
           if (isLike) {
-            // Disable Like button
-            // switch to active like style
             thisBtn.disabled = true;
             thisBtn.classList.replace("btn-like", "btn-like--active");
-
-            // Enable Dislike button
-            // switch other button back to outline
             if (otherBtn) {
               otherBtn.disabled = false;
               otherBtn.classList.replace("btn-dislike--active", "btn-dislike");
             }
           } else {
-            // Disable Dislike button
             thisBtn.disabled = true;
             thisBtn.classList.replace("btn-dislike", "btn-dislike--active");
-
-            // Enable Like button
             if (otherBtn) {
               otherBtn.disabled = false;
               otherBtn.classList.replace("btn-like--active", "btn-like");
