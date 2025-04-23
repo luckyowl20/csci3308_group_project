@@ -201,6 +201,22 @@
     display: none; /* Hide by default until toggled */
 }
 
+.username {
+    color: #666;
+    font-style: italic;
+    margin-top: -15px;
+}
+
+/* .music-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+} */
+
+
 /* Friend swipe buttons */
 .swipe-container.friends .yes-button {
     background-color: #4a89dc; /* Different blue color */
