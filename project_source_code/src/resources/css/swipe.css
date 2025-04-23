@@ -171,23 +171,17 @@
 }
 
 /* Style for carousel arrows */
-.carousel-arrows {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #2d6842; /* Updated color */
+    border-radius: 40%;
 }
 
-.carousel-arrows button {
-    background: rgba(0, 0, 0, 0.5);
-    color: var(--color-white);
-    border: none;
-    font-size: 24px;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 50%;
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+    background-color: #2d6842; /* Updated hover color */
 }
+
 
 .carousel-arrows button:hover {
     background: rgba(0, 0, 0, 0.8);
@@ -205,4 +199,13 @@
 
 #view-profile-btn {
     display: none; /* Hide by default until toggled */
+}
+
+/* Friend swipe buttons */
+.swipe-container.friends .yes-button {
+    background-color: #4a89dc; /* Different blue color */
+}
+
+.swipe-container.friends .yes-button:hover {
+    background-color: #3a70c2;
 }

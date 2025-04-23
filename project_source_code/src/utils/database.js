@@ -1,8 +1,9 @@
 // database.js
 const pgp = require('pg-promise')();
+require('dotenv').config();
 
 const dbConfig = {
-    host: 'db', // database server hostname
+    host: process.env.POSTGRES_HOST, // database server hostname
     port: 5432,
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
