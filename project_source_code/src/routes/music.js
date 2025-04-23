@@ -260,8 +260,8 @@ async function getRandomTrack(token) {
 // Handle dislikes
 router.get('/dislike', isAuthenticated, async (req, res) => {
   try {
-    console.log('User object:', req.user);
-    console.log('Session:', req.session);
+    // console.log('User object:', req.user);
+    // console.log('Session:', req.session);
     
     const trackId = req.query.trackId;
     if (!trackId) {
@@ -270,7 +270,8 @@ router.get('/dislike', isAuthenticated, async (req, res) => {
     
     // Simplify for testing - avoid using req.user properties at first
     // Get the user ID from session directly
-    const userId = req.session.user ? req.session.user.id : null;
+    // const userId = req.session.user ? req.session.user.id : null; dont need this since we know there is a user bc of isAuthenticated middleware
+    const userId = req.session.user.id;
     console.log('Using userId from session:', userId);
     
     if (!userId) {
@@ -290,7 +291,7 @@ router.get('/dislike', isAuthenticated, async (req, res) => {
       [userId, trackId, false]
     );
     
-    console.log('Database update successful');
+    console.log('Database update successful for music');
     res.redirect('/explore/music');
   } catch (error) {
     console.error('Error in simplified dislike route:', error);
@@ -301,6 +302,7 @@ router.get('/dislike', isAuthenticated, async (req, res) => {
 router.get('/like', isAuthenticated, async (req, res) => {
   const db = req.app.locals.db;
   const trackId = req.query.trackId;
+  const userId = req.session.user.id;
   
   try {
     if (!trackId) {
@@ -313,7 +315,7 @@ router.get('/like', isAuthenticated, async (req, res) => {
        VALUES ($1, $2, $3)
        ON CONFLICT (user_id, song_id) 
        DO UPDATE SET liked = $3`,
-      [req.user.id, trackId, true]
+      [userId, trackId, true]
     );
     
     // Redirect back to the music page
