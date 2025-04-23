@@ -3,9 +3,9 @@
 /* ===== VARIABLES ===== */
 :root {
     --color-background: #F3F1EA;
-    --color-primary: #1a522f;
-    --color-secondary: #3A7D44;
-    --color-accent: #dca632;
+    --color-primary: #184D47;
+    --color-secondary: hsl(86, 41%, 48%);
+    --color-accent: hsl(47, 90%, 60%); 
     /* alternate color scheme
     --color-primary: #3D655D;
     --color-secondary: #769353;

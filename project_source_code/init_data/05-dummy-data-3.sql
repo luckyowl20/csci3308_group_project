@@ -1758,6 +1758,8 @@ INSERT INTO posts (id, user_id, photo_id, title, body, created_at) VALUES
 
 -- === FRIENDS ===
 INSERT INTO friends (user_id, friend_id) VALUES
+(1, 2),
+(2, 1),
 (1, 7),
 (1, 8),
 (1, 24),
