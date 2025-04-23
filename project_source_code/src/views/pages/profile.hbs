@@ -44,18 +44,22 @@
         data-bs-target="#editPreferencesModal">
         Preferences
       </button>
-
-      <div class="sidebar position-relative mb-3 mx-auto">
+      {{/if}}  
+      {{#if public_friends}}
+        <div class="sidebar position-relative mb-3 mx-auto">
         <div class="mb-3 sidebar-header text-center">
           <p class="mb-2 fs-2 fw-semibold primary-text" id="sidebar-heading">Friends</p>
-          <button id="toggle-matches-btn" class="btn btn-secondary w-90" data-mode="friends">Show Matches</button>
+          {{#if isOwnProfile}}
+            <button id="toggle-matches-btn" class="btn btn-secondary w-90" data-mode="friends">Show Matches</button>
+          {{/if}}
         </div>
-
         <ul id="sidebar-list" class="list-unstyled">
           <!-- populated by profileScript.js -->
         </ul>
       </div>
-      {{/if}}  
+      {{else}}
+      <p class="small primary-text mb-4">Friends are not public.</p>
+      {{/if}}
     </div>
 
 

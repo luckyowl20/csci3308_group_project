@@ -70,6 +70,8 @@
     width: 70dvw;
     background-color: var(--color-primary);
     text-align: center;
+    display: flex;
+    align-items: center;
 }
 
 .dropdown-button:hover {

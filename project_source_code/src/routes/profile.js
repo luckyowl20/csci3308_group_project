@@ -74,6 +74,7 @@ router.get('/', isAuthenticated, async (req, res) => {
             user: req.session.user, // if you use it in nav bar or elsewhere
             isOwnProfile: true,
             selectedInterestsDetails: selectedInterests,
+            public_friends: true // no need to keep friends private for viewing own profile
         });
 
     } catch (err) {
@@ -155,9 +156,27 @@ router.get('/:id', isAuthenticated, async (req, res) => {
             ORDER BY posts.created_at DESC
         `, [targetId]);
 
+        const friends = await db.any(`
+            SELECT
+              u.id,
+              u.username,
+              p.profile_picture_url
+            FROM friends f
+            JOIN users u
+              ON u.id = f.friend_id
+            JOIN profiles p
+              ON p.user_id = u.id
+            WHERE f.user_id = $1
+          `, [targetId]);
 
-
-        const friends = []; // intentionally left blank
+        const user_settings = await db.oneOrNone(`
+            SELECT *
+            FROM user_settings us
+            WHERE us.user_id = $1`, [targetId]
+        );
+        if (user_settings)
+            public_friends = user_settings.public_friends;
+        else public_friends = true; //reflects default setting
 
         // the profile of the friend we are viewing
 
@@ -167,8 +186,10 @@ router.get('/:id', isAuthenticated, async (req, res) => {
             selectedInterestsDetails: selectedInterests,
             recentPhotos,
             friends,
+            matches : [],
             user: req.session.user,
             isOwnProfile: false,
+            public_friends: public_friends
         });
 
     } catch (err) {
