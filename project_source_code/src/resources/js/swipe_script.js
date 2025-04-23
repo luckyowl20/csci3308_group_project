@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeMatchModal) {
         closeMatchModal.addEventListener('click', () => {
             if (matchModal) matchModal.style.display = 'none';
-            window.location.reload(); // Refresh page to load next profile
+            window.location.reload(); // Reload to get next profile
         });
     }
 
@@ -52,13 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 matchModal.style.display = 'flex';
             } else {
                 // If not a match, wait for animation then load next profile
-                setTimeout(() => window.location.reload(), 300);
+                setTimeout(() => window.location.href = '/swipe', 300);
             }
         } catch (error) {
             // Handle errors and reload to allow retry
             console.error('Swipe failed:', error);
             alert(`Swipe error: ${error.message}`);
-            setTimeout(() => window.location.reload(), 300);
+            setTimeout(() => window.location.href = '/swipe', 300);
         }
     }
 

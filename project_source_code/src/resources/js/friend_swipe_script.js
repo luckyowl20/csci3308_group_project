@@ -61,13 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 friendModal.style.display = 'flex';
             } else {
                 // If not connected, wait for animation then load next profile
-                setTimeout(() => window.location.reload(), 300);
+                setTimeout(() => window.location.href = '/friends', 300);
             }
         } catch (error) {
             // Handle errors and reload to allow retry
             console.error('Friend swipe failed:', error);
             alert(`Friend swipe error: ${error.message}`);
-            setTimeout(() => window.location.reload(), 300);
+            setTimeout(() => window.location.href = '/friends', 300);
         }
     }
 
