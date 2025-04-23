@@ -6,18 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const friendModal = document.getElementById('friend-modal'); // Changed to friend modal
     const closeFriendModal = document.getElementById('close-friend-modal'); // Changed to friend modal
 
-        // Debug: Log all found elements
-        console.log("Found elements:", {
-            card, 
-            leftBtn, 
-            rightBtn, 
-            friendModal, 
-            closeFriendModal
-        });
+    // Debug: Log all found elements
+    console.log("[SwipeDebug] Found elements:", {
+        card,
+        leftBtn,
+        rightBtn,
+        friendModal,
+        closeFriendModal
+    });
 
     // Debug log to see which user's profile is currently being shown
     if (card) {
-        console.log("Current friend swipe card user ID:", card.dataset.userId);
+        console.log("[SwipeDebug] Current friend swipe card user ID:", card.dataset.userId);
     }
 
     // Handle closing the friend modal popup when user clicks the "close" button
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!card) return;
 
         const userId = card.dataset.userId;
-        console.log("Attempting friend swipe on user:", userId);
+        console.log("[SwipeDebug] Attempting friend swipe on user:", userId);
 
         // Animate card swipe direction and fade out
         card.style.transform = `translateX(${isLiked ? '100%' : '-100%'})`;
@@ -75,20 +75,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Button event listeners with robust checks
     if (leftBtn) {
         leftBtn.addEventListener('click', (e) => {
-            console.log("Left button clicked", e);
+            console.log("[SwipeDebug] Left button clicked", e);
             handleFriendSwipe(false);
         });
     } else {
-        console.error("Left swipe button not found!");
+        console.error("[SwipeDebug] Left swipe button not found!");
     }
 
     if (rightBtn) {
         rightBtn.addEventListener('click', (e) => {
-            console.log("Right button clicked", e);
+            console.log("[SwipeDebug] Right button clicked", e);
             handleFriendSwipe(true);
         });
     } else {
-        console.error("Right swipe button not found!");
+        console.error("[SwipeDebug] Right swipe button not found!");
     }
 
 
