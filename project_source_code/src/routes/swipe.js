@@ -150,11 +150,7 @@ router.post('/swipe', async (req, res) => {
         );
 
         if (match) {
-<<<<<<< HEAD
           console.log('[SwipeDebug] Match found! Creating match & friendship');
-=======
-          console.log('Match found! Creating match');
->>>>>>> 7828401c870eafbc5871ff3fae554d78bbbea542
 
           await t.none(
             `INSERT INTO matches (user_id, matched_user_id, matched_at) 
