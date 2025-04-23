@@ -31,20 +31,27 @@
 #postSelectionCarousel .carousel-control-next-icon {
     filter: invert(100%);
 }
-.left.container {
+.blog.box {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 720px;
-    height: 400px;
-    margin: 20px auto;
     border: 1px solid #dddd;
     border-radius: 18px;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+.blog.box-shadowless {
+    display: flex;
+    border-radius: 18px;
+    overflow: hidden;
+}
+#leftbox {
+    flex-direction: column;
+    align-items: center;
+    width: 470px;
+    height: 400px;
+    
+}
 
-.box-upper {
+#leftupper {
     width: 110%;
     height: 30%;
     background-color: var(--color-secondary);
@@ -53,18 +60,23 @@
     align-items: center;
     color: var(--color-white);
 }
-.box-upper p {
+#leftupper p {
     font-family: var(--font-heading) !important;
     font-size: 2rem;
 }
 
-.box-lower {
+#leftlower {
     width: 110%;
     height: 70%;
     background-color: var(--color-white);
     display: flex;
     flex-direction: column;
     align-items: center
+}
+
+#leftlower p {
+    font-family: var(--font-alt) !important;
+    font-size: 1.5rem;
 }
 
 .create-blog.btn.btn-primary {
@@ -75,11 +87,6 @@
     font-size: 1.5rem;
 }
 
-.box-lower p {
-    font-family: var(--font-alt) !important;
-    font-size: 1.5rem;
-}
-
 #main {
     display: flex;
     flex-direction: row;
@@ -87,64 +94,112 @@
     height: 100%;
 }
 /* Blog container styling */
-#content-container {
+#content {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 20px;
+    gap: 40px;
     width: 100%;
     flex-wrap: wrap;
     margin: 0 auto;
 }
 
 /* Blog card styling */
-.card {
-    width: 30dvw;
+.blogcard {
+    display: flex;
+    background-color: var(--color-white);
+    flex-direction: column;
+    align-items: center;
+    width: 470px; /* Keep dvw as is */
+    height: 734px; /* Converted from 75dvh */
     margin-bottom: 20px;
 }
 
-.card-header {
+.blogcard-header {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 91px; /* Converted from 10dvh */
+    width: 120%; /* Keep dvw as is */
+    color: var(--color-white);
+    background-color: var(--color-secondary);
 }
 
-.card-footer {
+.blogcard-header p {
+    margin-top: 10px;
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+}
+
+.blogcard-body {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 137px; /* Converted from 15dvh */
+}
+
+.blogcard-body p {
+    max-width: 373px; /* Keep dvw as is */
+    overflow-wrap: break-word;
+    width: 320px; /* Keep dvw as is */
+    margin-top: 10px;
+    font-family: var(--font-alt);
+    font-size: 1.0rem;
 }
 
 /* Blog carousel styling */
-.card .carousel-inner {
-    height: 600px;
+.blogcard .carousel-inner {
+    display: flex;
+    align-items: center;
+    width: 98%;
 }
-
-/* Fix for overlapping carousel items */
-.card .carousel-inner .carousel-item {
-    display: none; /* Hide all items by default */
-    height: 600px;
+.blogcard .carousel.slide {
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
+    width : 100%;
+}
+/* Fix for overlapping carousel items */
+.blogcard .carousel-inner .carousel-item {
+    width: 100%;
+    display: none; /* Hide all items by default */
+    flex-direction: column;
+    align-items: center;
 }
 
-.card .carousel-inner .carousel-item.active {
-    display: flex; /* Show only the active item */
+.blogcard .carousel-inner .carousel-item.active {
+    display: flex;
 }
 
-.card .carousel-inner img {
+.blogcard .carousel-inner img {
     width: 300px;
     height: 300px;
 }
 
-.card .carousel-control-prev-icon,
-.card .carousel-control-next-icon {
+.blogcard .carousel-control-prev-icon,
+.blogcard .carousel-control-next-icon {
     filter: invert(100%);
 }
 
 .mb-1 {
     margin-bottom: 0.1rem !important;
+}
+
+.blog.modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-secondary);
+}
+
+.blog.modal-header p {
+    margin-top: 20px;
+    color : var(--color-white);
+    font-family: var(--font-heading);
+    font-size: 2rem;
 }

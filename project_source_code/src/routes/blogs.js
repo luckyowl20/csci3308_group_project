@@ -10,12 +10,11 @@ router.get('/', isAuthenticated, async(req,res) => {
     let blogs, blogs_string;
     try {
         blogs = await db.any(
-            `SELECT b.id, pr2.display_name as author, b.title, b.body, b.created_at, 
+            `SELECT b.id, pr2.display_name as author, b.title, b.body, MIN(p.created_at) as created_at, 
             JSON_AGG(
                 JSON_BUILD_OBJECT(
                     'id', p.id,
-                    'title', p.title,
-                    'body', p.body,
+                    'body', ph.description,
                     'created_at', p.created_at,
                     'url', ph.url,
                     'author', pr.display_name
@@ -35,7 +34,7 @@ router.get('/', isAuthenticated, async(req,res) => {
             GROUP BY b.id, pr2.display_name
             ORDER BY b.created_at DESC;`
         );
-        blogs_string = JSON.stringify(JSON.stringify(blogs));
+        console.log(blogs);
     }
     catch (err) {
         console.log("Error gettings blogs:",err);
@@ -43,7 +42,7 @@ router.get('/', isAuthenticated, async(req,res) => {
     }
     try {
         user_posts = await db.any(
-            `SELECT p.id, pr.display_name as author, p.title, p.body, p.created_at, ph.url
+            `SELECT p.id, pr.display_name as author, ph.description, p.created_at, ph.url
             FROM users u
             LEFT JOIN profiles pr
             ON pr.user_id = u.id
@@ -59,7 +58,7 @@ router.get('/', isAuthenticated, async(req,res) => {
     }
     try {
         friend_posts = await db.any(
-            `SELECT p.id, pr.display_name as author, p.title, p.body, p.created_at, ph.url
+            `SELECT p.id, pr.display_name as author, ph.description, p.created_at, ph.url
             FROM users u
             LEFT JOIN friends f
             On f.user_id = u.id
@@ -103,6 +102,7 @@ router.post('/create', isAuthenticated, async(req,res) => {
                 VALUES ($1, $2)`, [blog.id, post_id]
             );
         }
+        console.log("Blog created successfully");
     }
     catch (err) {
         console.log("Error creating blog:",err);

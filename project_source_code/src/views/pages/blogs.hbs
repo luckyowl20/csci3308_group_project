@@ -1,21 +1,22 @@
 {{#section 'scripts'}}
     <!-- Bootstrap JS bundle -->
-    <link rel="stylesheet" href="/resources/css/blog.css" />
+    
     <script src = "/resources/js/blogs/blogScript.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {{/section}}
+<link rel="stylesheet" href="/resources/css/blog.css" />
 <div id = "main">
     <div style="width: 25px"></div>
-    <div id = "content-container">
+    <div id = "content">
         <div>   
-            <div style="display: flex; justify-content:center; width: 30dvw; margin-bottom: 20px;">
-                <div class = "left container">
-                    <div class = "box-upper">
+            <div style="display: flex; justify-content:center; margin-bottom: 20px;">
+                <div class = "blog box" id = "leftbox">
+                    <div id = "leftupper">
                         <p class="mb-1 h-1 fw-bold">
                             <span>Lucky Moment Blogs</span>
                         </p>
                     </div>
-                    <div class = "box-lower">
+                    <div id = "leftlower">
                         <div style="margin-top: 20px;"></div>
                         <p class="mb-1 primary-text fw-bold">
                             <span>Want to Share Your Story?</span>
@@ -29,11 +30,10 @@
             {{!-- blog modal --}}
             <div class="modal fade" id="createBlogModal" tabindex="-1" aria-labelledby="createBlogModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class="blog box-shadowless modal-content">
                         {{!-- modal header --}}
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="createBlogModalLabel">Create Blog</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="blog modal-header">
+                            <p id="createBlogModalLabel">Create Blog</p>
                         </div>
                         {{!-- modal body --}}
                         <div class="modal-body">
@@ -43,7 +43,7 @@
                                 {{!-- title form --}}
                                 <div class="mb-3">
                                     <label for="blogTitle" class="form-label">Title</label>
-                                    <input type="text" class="form-control" id="blogTitle" name="title" required>
+                                    <input type="text" class="form-control" id="blogTitle" name="title" maxlength="35" required>
                                 </div>
                                 {{!-- post selection form --}}
                                 <div>
@@ -51,18 +51,18 @@
                                         <div class="carousel-inner">
                                             {{#each user_posts}}
                                             <div class="carousel-item {{#if @first}}active{{/if}}">
-                                                
                                                 <div class="form-check" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+                                                    <p>{{this.author}}</p>
                                                     {{#if this.url}}
-                                                        <img style="width: 120px; height: 120px;" src="{{this.url}}" alt="Invalid Image URL">
+                                                        <img style="width: 180px; height: 180px;" src="{{this.url}}" alt="Invalid Image URL">
                                                     {{else}}
                                                         <p>&#60;No Image&#62;</p>
                                                     {{/if}}
-                                                    <p>{{this.body}}</p>
+                                                    <p>{{this.description}}</p>
                                                     <div style="display: flex; flex-direction: row; align-items: center;">
-                                                        <input class="form-check-input" type="checkbox" name="postSelection" id="post{{@index}}" value="{{this.id}}">
-                                                        <label class="form-check-label" for="post{{@index}}">
-                                                            {{this.title}}
+                                                        <input style="form-check-input" type="checkbox" name="postSelection" id="post{{@index}}" value="{{this.id}}">
+                                                        <label style = "margin-left: 5px" class ="form-check-label" for="post{{@index}}">
+                                                            Select Post?
                                                         </label>
                                                     </div>
                                                 </div>
@@ -70,18 +70,18 @@
                                             {{/each}}
                                             {{#each friend_posts}}
                                             <div class="carousel-item">
-                                                
                                                 <div class="form-check" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+                                                    <p>{{this.author}}</p>
                                                     {{#if this.url}}
-                                                        <img style="width: 120px; height: 120px;" src="{{this.url}}" alt="Invalid Image URL">
+                                                        <img style="width: 180px; height: 180px;" src="{{this.url}}" alt="Invalid Image URL">
                                                     {{else}}
                                                         <p>&#60;No Image&#62;</p>
                                                     {{/if}}
-                                                    <p>{{this.body}}</p>
+                                                    <p>{{this.description}}</p>
                                                     <div style="display: flex; flex-direction: row; align-items: center;">
-                                                        <input class="form-check-input" type="checkbox" name="postSelection" id="post{{@index}}" value="{{this.id}}">
-                                                        <label class="form-check-label" for="post{{@index}}">
-                                                            {{this.title}}
+                                                        <input style="form-check-input" type="checkbox" name="postSelection" id="post{{@index}}" value="{{this.id}}">
+                                                        <label style = "margin-left: 5px" class ="form-check-label" for="post{{@index}}">
+                                                            Select Post?
                                                         </label>
                                                     </div>
                                                 </div>
@@ -99,8 +99,8 @@
 
                                 {{!-- body form --}}
                                 <div class="mb-3">
-                                    <label for="blogContent" class="form-label">Content</label>
-                                    <textarea class="form-control" id="blogContent" name="body" rows="5" required></textarea>
+                                    <label for="blogContent" class="form-label">Description</label>
+                                    <textarea class="form-control" id="blogContent" name="body" rows="5" maxlength="250" required></textarea>
                                 </div>
                             </form>
                         </div>
@@ -114,35 +114,36 @@
         </div>
     {{#if blogs}}
         {{#each blogs}}
-        <div class="card">
-            <p class="card-header">
-                {{title}}: {{author}}
-            </p>
+        <div class="blog box blogcard">
+            <div class="blogcard-header">
+                <p>{{title}}: {{author}}</p>
+            </div>
             <div id="carousel-{{id}}" class="carousel slide" data-interval="false">
-                <div class="carousel-inner">
+                <div class="blog carousel-inner">
                     {{#each blogposts}}
                     <div class="carousel-item {{#if @first}}active{{/if}}">
-                        <div>
-                            <p>{{title}}: {{author}}</p>
-                            {{#if url}}
-                            <img src="{{url}}" alt="Blog image {{id}}">
-                            {{/if}}
-                            <p>{{body}}</p>
-                            <p>{{created_at}}</p>
-                        </div>
+                        <p>{{author}}</p>
+                        {{#if url}}
+                        <img src="{{url}}" alt="Blog image {{id}}">
+                        {{/if}}
+                        <p>{{body}}</p>
+                        {{!-- <p>{{created_at}}</p> --}}
                     </div>
                     {{/each}}
-                </div>
-                <a class="carousel-control-prev" href="#carousel-{{id}}" role="button" data-bs-slide="prev">
+                    <a class="carousel-control-prev" href="#carousel-{{id}}" role="button" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </a>
-                <a class="carousel-control-next" href="#carousel-{{id}}" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </a>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-{{id}}" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+                
             </div>
-            <div class="card-footer">
+            <div class="blogcard-body">
                 <p>{{body}}</p>
+                <p>{{formatDate this.created_at}}</p>
             </div>
+            
         </div>
         {{/each}}
     {{else}}
