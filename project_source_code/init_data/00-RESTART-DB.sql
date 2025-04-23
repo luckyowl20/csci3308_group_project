@@ -1,8 +1,4 @@
--- Disable foreign key checks temporarily
-SET session_replication_role = replica;
-
--- Truncate all tables
-TRUNCATE TABLE
+DROP TABLE IF EXISTS
   blogs_posts,
   blogs,
   user_settings,
@@ -18,7 +14,4 @@ TRUNCATE TABLE
   photos,
   restaurants,
   users
-RESTART IDENTITY CASCADE;
-
--- Re-enable foreign key checks
-SET session_replication_role = DEFAULT;
+CASCADE;
