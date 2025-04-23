@@ -2,7 +2,30 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
-const app = require('..');
+const { getUserFriends, getUserMatches } = require('../utils/chatUtils');
+// const app = require('..');
+
+// for changing between friends and matches in the chat sidebar
+router.get('/friends', isAuthenticated, async (req, res, next) => {
+  const user = req.session.user;
+  try {
+    const friends = await getUserFriends(user.id);
+    res.json({ friends });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/matches', isAuthenticated, async (req, res, next) => {
+  const user = req.session.user;
+  try {
+    const matches = await getUserMatches(user.id);
+    res.json({ matches });
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 // GET /chat/:chatPartnerId? - Load chat page with optional chat partner
 router.get('/:chatPartnerId?', isAuthenticated, async (req, res) => {
@@ -95,6 +118,8 @@ router.post('/messages/send', isAuthenticated, async (req, res) => {
     res.status(500).json({ error: 'Failed to send message' });
   }
 });
+
+
 
 
 module.exports = router;
