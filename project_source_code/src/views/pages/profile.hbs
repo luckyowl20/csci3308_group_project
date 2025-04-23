@@ -1,7 +1,15 @@
 <link rel="stylesheet" href="/resources/css/profile.css" />
+<link rel="stylesheet" href="/resources/css/chat.css">
+
 
 {{#section 'scripts'}}
 <!-- Bootstrap JS bundle -->
+<script>
+  window.__FRIENDS__ = {{{json friends}}};
+  window.__MATCHES__ = {{{json matches}}};
+  window.__OWN_PROFILE__ = {{isOwnProfile}};
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/resources/js/profile/profileScript.js"></script>
 {{/section}}
@@ -20,7 +28,7 @@
         {{/if}}
       </div>
 
-      <h2 class="fw-bold alt-text">{{profile.display_name}}</h2>
+      <h2 class="fw-bold primary-text">{{profile.display_name}}</h2>
       {{#if isOwnProfile}}
       <p class="small primary-text mb-4">@{{user.username}}</p>
       {{else}}
@@ -37,23 +45,24 @@
         data-bs-target="#editPreferencesModal">
         Preferences
       </button>
-
-      {{/if}}
-
-      <!-- Friends List -->
-      <h5 class="mt-4 fw-bold alt-text">Friends</h5>
-      {{#if friends.length}}
-      <ul class="list-unstyled">
-        {{#each friends}}
-        <li>
-          <a href="/profile/{{this.id}}" class="friend-link primary-text">{{this.username}}</a>
-        </li>
-        {{/each}}
-      </ul>
+      {{/if}}  
+      {{#if public_friends}}
+        <div class="sidebar position-relative mb-3 mx-auto">
+        <div class="mb-3 sidebar-header text-center">
+          <p class="mb-2 fs-2 fw-semibold primary-text" id="sidebar-heading">Friends</p>
+          {{#if isOwnProfile}}
+            <button id="toggle-matches-btn" class="btn btn-secondary w-90" data-mode="friends">Show Matches</button>
+          {{/if}}
+        </div>
+        <ul id="sidebar-list" class="list-unstyled">
+          <!-- populated by profileScript.js -->
+        </ul>
+      </div>
       {{else}}
-      <p class="fst-italic primary-text font-alt fst-italix">No friends yet.</p>
+      <p class="small primary-text mb-4">Friends are not public.</p>
       {{/if}}
     </div>
+
 
     <!-- Right Column -->
     <div class="col-lg-8">
@@ -65,7 +74,6 @@
       {{/if}}
 
       {{!-- {{#if isOwnProfile}} --}}
-
 
       <h4 class="fw-bold alt-text">Interests</h4>
       {{#if selectedInterestsDetails.length}}
@@ -102,7 +110,7 @@
       <!-- Memories or Week View Section -->
       <div class="mt-5">
         <h4 class="fw-bold alt-text mb-3">
-          {{#if isOwnProfile}}Memories{{else}}Week View{{/if}}
+          {{#if isOwnProfile}}Memories{{else}}{{profile.display_name}}'s Week{{/if}}
         </h4>
 
         {{#if recentPhotos.length}}
@@ -111,6 +119,9 @@
           <div class="col text-center">
             <img src="{{this.url}}" alt="Memory" class="img-fluid memory-photo">
             <p class="primary-text mt-1">{{formatDate this.created_at}}</p>
+            {{#if this.caption}}
+            <p class="primary-text font-alt mb-0">{{this.caption}}</p>
+            {{/if}}
           </div>
           {{/each}}
         </div>

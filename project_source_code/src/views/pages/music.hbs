@@ -1,0 +1,44 @@
+{{#section "scripts"}}
+<script src="/socket.io/socket.io.js"></script>
+<script src="/resources/js/musicScript.js"></script>
+{{/section}}
+
+<link rel="stylesheet" href="/resources/css/swipe.css">
+<link rel="stylesheet" href="/resources/css/music.css">
+
+<div class="swipe-container">
+  <div class="track-card">
+    <h2 class="music-title">Random Music Explorer</h2>
+
+    <!-- Search form -->
+    <form method="GET" action="/explore/music" class="mb-4">
+      <input 
+        type="text" 
+        name="artist" 
+        placeholder="Search for an artist..." 
+        class="form-control mb-2" 
+        value="{{artist}}"
+      />
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <iframe 
+      style="border-radius:12px" 
+      src="https://open.spotify.com/embed/track/{{trackId}}"
+      width="100%" 
+      height="352" 
+      frameBorder="0" 
+      allowfullscreen="" 
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      loading="lazy">
+    </iframe>
+
+    <!-- Hidden field to store the current track ID -->
+    <input type="hidden" id="current-track-id" value="{{trackId}}">
+  </div>
+
+  <div class="swipe-buttons">
+    <a href="/explore/music/dislike?trackId={{trackId}}" class="swipe-button no-button">👎</a>
+    <a href="/explore/music/like?trackId={{trackId}}" class="swipe-button yes-button">❤️</a>
+  </div>
+</div>
