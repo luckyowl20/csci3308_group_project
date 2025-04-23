@@ -10,7 +10,9 @@
 <script src="/resources/js/swipe_script.js"></script>
 {{/section}}
 
+
 <body>
+    <div class="fullscreen-bg"></div>
     {{#if noUsersLeft}}
     <div class="no-users">
         <h2>No more users to swipe!</h2>
@@ -18,7 +20,7 @@
     </div>
     {{else}}
     <div class="swipe-container">
-        {{> swipe_users user=user}}
+        {{> swipe_users user=swipeTarget}}
         <button id="left-swipe" class="swipe-button no-button">
             <i class="bi bi-x-lg" style="font-size: 2rem;"></i>
         </button>
@@ -29,8 +31,13 @@
     <div id="match-modal" class="modal">
         <div class="modal-content">
             <h2>It's a match!</h2>
+<<<<<<< HEAD
             <p>You and {{user.display_name}} have liked each other.</p>
             <button id="btn btn-primary">Continue Swiping</button>
+=======
+            <p>You and {{swipeTarget.display_name}} have liked each other.</p>
+            <button id="close-match-modal">Continue Swiping</button>
+>>>>>>> 7828401c870eafbc5871ff3fae554d78bbbea542
         </div>
     </div>
     {{/if}}

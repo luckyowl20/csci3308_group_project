@@ -95,7 +95,18 @@ router.get('/:id', isAuthenticated, async (req, res) => {
         }
 
         const profile = await db.oneOrNone(`
-            SELECT * FROM profiles WHERE user_id = $1
+            SELECT
+            p.id,
+            p.user_id,
+            p.display_name,
+            p.biography,
+            p.birthday,
+            p.profile_picture_url,
+            u.username         -- pull in the username
+        FROM profiles p
+        JOIN users u
+            ON u.id = p.user_id
+        WHERE p.user_id = $1
         `, [targetId]);
 
         const selectedInterests = await db.any(`
@@ -113,7 +124,11 @@ router.get('/:id', isAuthenticated, async (req, res) => {
             ORDER BY posts.created_at DESC
         `, [targetId]);
 
+
+
         const friends = []; // intentionally left blank
+
+        // the profile of the friend we are viewing
 
         res.render('pages/profile', {
             layout: 'main',
@@ -122,7 +137,7 @@ router.get('/:id', isAuthenticated, async (req, res) => {
             recentPhotos,
             friends,
             user: req.session.user,
-            isOwnProfile: false
+            isOwnProfile: false,
         });
 
     } catch (err) {
@@ -134,16 +149,26 @@ router.get('/:id', isAuthenticated, async (req, res) => {
 // for updating the profile after the edit profile modal is submitted
 router.post('/update', isAuthenticated, async (req, res) => {
     const db = req.app.locals.db;
-    const userId = req.session.user.id;
+    user = req.session.user; //getting user from session
+    const userId = user.id;
     const { display_name, biography, interests, birthday, profile_picture_url, spotify_song_id } = req.body;
     // console.log("update called with song:", spotify_song_id)
 
     // cleaning some variables to prevent insertion errors
-    const clean_birthday = birthday === '' ? null : birthday;
-    const clean_song_id = spotify_song_id === '' ? null : spotify_song_id;
+    const clean_birthday = birthday && birthday.trim().length > 0
+        ? birthday.trim()
+        : null;
+
+    const clean_song_id = spotify_song_id?.trim()
+        ? spotify_song_id.trim()
+        : user.spotify_song_id;
 
     // THIS WILL NEED TO BE REPLCED WITH AN IMAGE DATABASE QUERY
-    const clean_profile_url = profile_picture_url === '' ? null : profile_picture_url;
+    const clean_profile_url = profile_picture_url?.trim()
+        ? profile_picture_url.trim()
+        : user.profile_picture_url;
+
+    console.log("clean profile url:", clean_profile_url);
 
     // Upsert pattern — insert or update if exists
     // this is done by ON CONFLICT and EXCLUDED means we want to set the attribute to the value we attempted to insert 
@@ -153,30 +178,37 @@ router.post('/update', isAuthenticated, async (req, res) => {
         // Upsert profile info (excluding interests)
         await db.none(`
                 INSERT INTO profiles (user_id, display_name, biography, birthday, profile_picture_url, spotify_song_id)
-                VALUES ($1, $2, $3, $4, $5, $6)
+                VALUES ($1, $2, $3, NULLIF($4, '')::date, $5, $6)
                 ON CONFLICT (user_id) DO UPDATE SET
                     display_name = EXCLUDED.display_name,
                     biography = EXCLUDED.biography,
-                    birthday = EXCLUDED.birthday,
+                    birthday = COALESCE(EXCLUDED.birthday, profiles.birthday),
                     profile_picture_url = EXCLUDED.profile_picture_url,
                     spotify_song_id = EXCLUDED.spotify_song_id
             `, [userId, display_name, biography, clean_birthday, clean_profile_url, clean_song_id]);
 
         // update interests in user_interests table
-        const selectedInterestIds = Array.isArray(interests)
-            ? interests.map(id => parseInt(id.trim()))
-            : typeof interests === 'string'
-                ? interests.split(',').map(id => parseInt(id.trim()))
-                : [];
+        // normalize to an array of raw strings (["1","2","3"] or [""] if empty)
+        const rawList = Array.isArray(interests)
+            ? interests
+            : (typeof interests === 'string' ? interests.split(',') : []);
 
+        // map → int → filter out NaN
+        const selectedInterestIds = rawList
+            .map(s => parseInt(s.trim(), 10))
+            .filter(id => Number.isInteger(id));
+
+        // clear out old choices
         await db.none('DELETE FROM user_interests WHERE user_id = $1', [userId]);
 
+        // only insert real IDs
         for (const interestId of selectedInterestIds) {
             await db.none(
                 'INSERT INTO user_interests (user_id, interest_id) VALUES ($1, $2)',
                 [userId, interestId]
             );
         }
+
 
         res.redirect('/profile');
     } catch (err) {
@@ -198,7 +230,7 @@ router.post('/update-preferences', isAuthenticated, async (req, res) => {
         match_distance_miles,
         preferred_age_min,
         preferred_age_max
-      } = req.body;
+    } = req.body;
 
 
     const point = latitude && longitude

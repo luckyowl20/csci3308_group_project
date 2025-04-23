@@ -12,6 +12,21 @@ router.get('/', async (req, res) => {
 
     console.log(`[SwipeDebug] Swipe page requested by user ID: ${req.session.user.id}`);
 
+    // Get the full logged-in user details first (for nav bar)
+    const loggedInUser = await req.app.locals.db.oneOrNone(`
+      SELECT 
+        u.*, 
+        p.*
+      FROM users u
+      JOIN profiles p ON p.user_id = u.id
+      WHERE u.id = $1
+    `, [req.session.user.id]);
+
+    if (!loggedInUser) {
+      console.error('Could not find logged in user details');
+      return res.redirect('/auth/login');
+    }
+
     const { matches } = await getMatches(
       req.app.locals.db,
       req.session.user.id,
@@ -24,6 +39,10 @@ router.get('/', async (req, res) => {
       console.log('[SwipeDebug] No users left to swipe on');
       return res.render('pages/swipe', {
         noUsersLeft: true,
+        // IMPORTANT: For nav compatibility, pass logged in user details in the way nav expects it
+        user: loggedInUser,
+        // Add swipeTarget as null to indicate no users to swipe on
+        swipeTarget: null,
         currentUser: req.session.user
       });
     }
@@ -58,7 +77,10 @@ router.get('/', async (req, res) => {
     console.log(`[SwipeDebug] Top match selected:`, topMatch);
 
     res.render('pages/swipe', {
-      user: { ...topMatch, match_score: matches[0].finalScore },
+      // IMPORTANT: Keep logged-in user details for the navbar as 'user'
+      user: loggedInUser,
+      // Pass the potential match as a separate variable
+      swipeTarget: { ...topMatch, match_score: matches[0].finalScore },
       noUsersLeft: false,
       currentUser: req.session.user
     });
@@ -128,18 +150,15 @@ router.post('/swipe', async (req, res) => {
         );
 
         if (match) {
+<<<<<<< HEAD
           console.log('[SwipeDebug] Match found! Creating match & friendship');
+=======
+          console.log('Match found! Creating match');
+>>>>>>> 7828401c870eafbc5871ff3fae554d78bbbea542
 
           await t.none(
             `INSERT INTO matches (user_id, matched_user_id, matched_at) 
              VALUES ($1, $2, NOW()), ($2, $1, NOW())`,
-            [swiperId, swipeeId]
-          );
-
-          await t.none(
-            `INSERT INTO friends (user_id, friend_id, created_at)
-             VALUES ($1, $2, NOW()), ($2, $1, NOW())
-             ON CONFLICT (user_id, friend_id) DO NOTHING`,
             [swiperId, swipeeId]
           );
 

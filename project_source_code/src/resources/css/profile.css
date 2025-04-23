@@ -1,0 +1,63 @@
+ /* 2. Constrain and crop “memory” photos in the week‑view grid */
+ .memory-photo {
+   max-height: 200px;
+   object-fit: cover;
+   width: 100%;
+   /* so they still fill their column */
+   border-radius: 0.25rem;
+   /* if you liked your “rounded” */
+   box-shadow: var(--bs-shadow);
+   /* or your own shadow */
+ }
+
+ .interest-badge {
+   display: inline-block;
+   background-color: var(--color-secondary);
+   color: var(--color-white);
+   font-family: var(--font-alt);
+   font-size: 0.875rem;
+   padding: 0.25rem 0.75rem;
+   border-radius: 0.5rem;
+   margin-bottom: 0.25rem;
+   transition: background-color 0.2s ease;
+ }
+
+ .interest-badge:hover {
+   background-color: var(--color-primary);
+   cursor: default;
+ }
+
+ /* spotify song container */
+ 
+.spotify-player-container {
+  /* make it 100% wide but never wider than 400px */
+  width: 100%;
+  max-width: 500px;
+
+  /* center it (optional) */
+  /* margin: 1rem auto; */
+
+}
+
+/* if you also want to tweak the iframe itself: */
+.spotify-player-container iframe {
+  width: 100% !important;
+  height: 80px; /* or whatever fixed height you like */
+}
+
+.friend-link {
+  text-decoration: none;
+}
+.friend-link:hover {
+  text-decoration: underline;
+  color: var(--color-alt-text);
+}
+
+/* preferred distance slider */
+input[type=range] {
+  accent-color: var(--color-primary); /* Modern browsers (quick and easy way) */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  background-color: var(--color-primary);
+}
