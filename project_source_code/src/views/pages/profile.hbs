@@ -114,6 +114,9 @@
           <div class="col text-center">
             <img src="{{this.url}}" alt="Memory" class="img-fluid memory-photo">
             <p class="primary-text mt-1">{{formatDate this.created_at}}</p>
+            {{#if this.caption}}
+            <p class="primary-text font-alt mb-0">{{this.caption}}</p>
+            {{/if}}
           </div>
           {{/each}}
         </div>

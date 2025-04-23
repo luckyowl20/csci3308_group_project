@@ -23,7 +23,7 @@ router.get('/', isAuthenticated, async (req, res) => {
         // console.log("found interests:", selectedInterests);
 
         const recentPhotos = await db.any(
-            `SELECT photos.url, photos.description, posts.created_at
+            `SELECT photos.url, photos.description AS caption, posts.created_at
              FROM posts
              JOIN photos ON posts.photo_id = photos.id
              WHERE posts.user_id = $1
@@ -147,7 +147,7 @@ router.get('/:id', isAuthenticated, async (req, res) => {
         `, [targetId]);
 
         const recentPhotos = await db.any(`
-            SELECT photos.url, photos.description, posts.created_at
+            SELECT photos.url, photos.description AS caption, posts.created_at
             FROM posts
             JOIN photos ON posts.photo_id = photos.id
             WHERE posts.user_id = $1
@@ -180,7 +180,7 @@ router.get('/:id', isAuthenticated, async (req, res) => {
 // for updating the profile after the edit profile modal is submitted
 router.post('/update', isAuthenticated, async (req, res) => {
     const db = req.app.locals.db;
-    user = req.session.user; //getting user from session
+    const user = req.session.user; //getting user from session
     const userId = user.id;
     const { display_name, biography, interests, birthday, profile_picture_url, spotify_song_id } = req.body;
     // console.log("update called with song:", spotify_song_id)
@@ -239,6 +239,7 @@ router.post('/update', isAuthenticated, async (req, res) => {
                 [userId, interestId]
             );
         }
+        
 
 
         res.redirect('/profile');

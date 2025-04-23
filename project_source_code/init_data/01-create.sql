@@ -174,4 +174,12 @@ CREATE TABLE IF NOT EXISTS blogs_posts (
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE, -- to track which post is associated with the blog
     blog_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL
-)
+);
+
+-- table of user opinion on restaurants
+CREATE TABLE IF NOT EXISTS restaurants (
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- the user who liked the restaurant
+    place_id CHAR(500), -- Google Map PlaceAPI's place_id
+    opinion BOOLEAN NOT NULL -- (False) = dislike, (True) = like
+);

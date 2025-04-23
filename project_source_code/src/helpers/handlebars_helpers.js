@@ -41,4 +41,11 @@ module.exports = {
 
     json: (context) => JSON.stringify(context)
 
+    includes: function (array, value, options) {
+        const normalizedArray = array?.map(String);
+        if (normalizedArray?.includes(String(value))) {
+          return options.fn(this);
+        }
+        return options.inverse(this);
+    }
 };
