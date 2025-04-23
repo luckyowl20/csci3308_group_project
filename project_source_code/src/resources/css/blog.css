@@ -61,7 +61,7 @@
     color: var(--color-white);
 }
 #leftupper p {
-    font-family: var(--font-heading) !important;
+    font-family: var(--font-primary);
     font-size: 2rem;
 }
 
@@ -75,7 +75,7 @@
 }
 
 #leftlower p {
-    font-family: var(--font-alt) !important;
+    font-family: var(--font-alt);
     font-size: 1.5rem;
 }
 
@@ -128,8 +128,8 @@
 
 .blogcard-header p {
     margin-top: 10px;
-    font-family: var(--font-heading);
-    font-size: 1.8rem;
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
 }
 
 .blogcard-body {
@@ -200,6 +200,6 @@
 .blog.modal-header p {
     margin-top: 20px;
     color : var(--color-white);
-    font-family: var(--font-heading);
+    font-family: var(--font-primary);
     font-size: 2rem;
 }
