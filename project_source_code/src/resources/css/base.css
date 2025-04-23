@@ -4,8 +4,8 @@
 :root {
     --color-background: #F3F1EA;
     --color-primary: #184D47;
-    --color-secondary: hsl(86, 41%, 48%);
-    --color-accent: hsl(47, 90%, 60%); 
+    --color-secondary: #81ad48;
+    --color-accent: #f5cd3d; 
     /* alternate color scheme
     --color-primary: #3D655D;
     --color-secondary: #769353;

@@ -37,6 +37,8 @@ module.exports = {
 
     jsonParse: function(varName, string, options) {
         options.data.root[varName] = JSON.parse(string);
-    }
+    },
+
+    json: (context) => JSON.stringify(context)
 
 };

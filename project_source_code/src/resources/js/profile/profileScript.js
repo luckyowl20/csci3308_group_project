@@ -223,4 +223,92 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAgeDisplay();
   }
 
+  // friends / matches display logic
+  const btn     = document.getElementById('toggle-matches-btn');
+  const list    = document.getElementById('sidebar-list');
+  const heading = document.getElementById('sidebar-heading');
+
+  // grab the arrays we inlined
+  const friends = window.__FRIENDS__ || [];
+  const matches = window.__MATCHES__ || [];
+
+  // current mode: either 'friends' or 'matches'
+  let mode = 'friends';
+
+  // initial render
+  renderList(friends);
+
+  btn.addEventListener('click', () => {
+    if (mode === 'friends') {
+      mode = 'matches';
+      heading.textContent = 'Matches';
+      btn.textContent     = 'Show Friends';
+      renderList(matches);
+    } else {
+      mode = 'friends';
+      heading.textContent = 'Friends';
+      btn.textContent     = 'Show Matches';
+      renderList(friends);
+    }
+    btn.setAttribute('data-mode', mode);
+  });
+
+  function renderList(items) {
+    list.innerHTML = '';
+    if (items.length) {
+      items.forEach(user => {
+        // const li = document.createElement('li');
+        // li.className = 'mb-3 d-flex align-items-center';
+        // li.innerHTML = `
+        //   <img
+        //     src="${user.profilePictureUrl || '/images/default-avatar.png'}"
+        //     alt="${user.username}'s avatar"
+        //     class="rounded-circle me-2"
+        //     width="40" height="40"
+        //   >
+        //   <a href="/profile/${user.id}" class="primary-text">
+        //     ${user.username}
+        //   </a>
+        // `;
+        // list.appendChild(li);
+        const li = document.createElement("li");
+        li.className = "mb-3 d-flex align-items-center justify-content-center";
+
+        // 2) build the inner HTML
+        li.innerHTML = `
+          <div class="me-3">
+            ${user.profile_picture_url
+            ? `<img
+                    src="${user.profile_picture_url}"
+                    alt="${user.username}'s profile picture"
+                    class="profile-pic rounded-circle"
+                    width="40"
+                    height="40"
+                  >`
+            : `<img
+                    src="https://via.placeholder.com/40?text=U"
+                    alt="Default profile picture"
+                    class="profile-pic rounded-circle"
+                    width="40"
+                    height="40"
+                  >`
+          }
+          </div>
+          <a href="/profile/${user.id}"
+            class="friend-chat-link font-alt primary-text fw-semibold">
+            <span>${user.username}</span>
+          </a>
+        `;
+        list.appendChild(li);
+      });
+    } else {
+      const li = document.createElement('li');
+      li.className = 'fst-italic primary-text';
+      li.textContent = mode === 'friends'
+        ? 'No friends yet.'
+        : 'No matches yet.';
+      list.appendChild(li);
+    }
+  }
+
 });
