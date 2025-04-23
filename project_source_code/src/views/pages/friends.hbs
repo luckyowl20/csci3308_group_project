@@ -11,6 +11,7 @@
 {{/section}}
 
 <body>
+    <div class="fullscreen-bg"></div>
     {{#if noUsersLeft}}
     <div class="no-users">
         <h2>No more users to connect with!</h2>
@@ -18,7 +19,7 @@
     </div>
     {{else}}
     <div class="swipe-container friends">
-        {{> swipe_users user=user}}
+        {{> swipe_users user=swipeTarget}}
         <button id="left-swipe" class="swipe-button no-button">
             <i class="bi bi-x-lg" style="font-size: 2rem;"></i>
         </button>
@@ -29,7 +30,7 @@
     <div id="friend-modal" class="modal">
         <div class="modal-content">
             <h2>Friend Added!</h2>
-            <p>You and {{user.display_name}} are now friends.</p>
+            <p>You and {{swipeTarget.display_name}} are now friends.</p>
             <button id="close-friend-modal">Continue</button>
         </div>
     </div>
