@@ -28,7 +28,7 @@ router.get('/restaurants', isAuthenticated, async (req, res) => {
     [userId]
   );
 
-  console.log(userLocation);
+  // console.log(userLocation);
 
   if (!userLocation) {
     console.error('User location not found in database');
