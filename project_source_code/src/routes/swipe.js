@@ -6,11 +6,11 @@ const { getMatches } = require('../utils/matchAdapter');
 router.get('/', async (req, res) => {
   try {
     if (!req.session.user) {
-      console.log('No user session found — redirecting to login');
+      console.log('[SwipeDebug] No user session found — redirecting to login');
       return res.redirect('/auth/login');
     }
 
-    console.log(`Swipe page requested by user ID: ${req.session.user.id}`);
+    console.log(`[SwipeDebug] Swipe page requested by user ID: ${req.session.user.id}`);
 
     const { matches } = await getMatches(
       req.app.locals.db,
@@ -18,10 +18,10 @@ router.get('/', async (req, res) => {
       'romantic'
     );
 
-    console.log(`Found ${matches?.length || 0} potential matches`);
+    console.log(`[SwipeDebug] Found ${matches?.length || 0} potential matches`);
 
     if (!matches?.length) {
-      console.log('No users left to swipe on');
+      console.log('[SwipeDebug] No users left to swipe on');
       return res.render('pages/swipe', {
         noUsersLeft: true,
         currentUser: req.session.user
@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
       WHERE u.id = $1
     `, [matches[0].candidate.id]);
 
-    console.log(`Top match selected:`, topMatch);
+    console.log(`[SwipeDebug] Top match selected:`, topMatch);
 
     res.render('pages/swipe', {
       user: { ...topMatch, match_score: matches[0].finalScore },
@@ -64,7 +64,7 @@ router.get('/', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('SWIPE PAGE ERROR:', {
+    console.error('[SwipeDebug] SWIPE PAGE ERROR:', {
       message: error.message,
       stack: error.stack,
       user: req.session.user
@@ -80,17 +80,17 @@ router.get('/', async (req, res) => {
 router.post('/swipe', async (req, res) => {
   try {
     if (!req.session.user) {
-      console.warn('Swipe attempt without authentication');
+      console.warn('[SwipeDebug] Swipe attempt without authentication');
       return res.status(401).json({ success: false, message: 'Not authenticated' });
     }
 
     const { swipeeId, isLiked } = req.body;
     const swiperId = req.session.user.id;
 
-    console.log(`Swipe initiated: swiper=${swiperId}, swipee=${swipeeId}, isLiked=${isLiked}`);
+    console.log(`[SwipeDebug] Swipe initiated: swiper=${swiperId}, swipee=${swipeeId}, isLiked=${isLiked}`);
 
     if (!swipeeId || isNaN(parseInt(swipeeId))) {
-      console.warn('Invalid swipeeId received:', swipeeId);
+      console.warn('[SwipeDebug] Invalid swipeeId received:', swipeeId);
       return res.status(400).json({ 
         success: false, 
         message: "Invalid user ID" 
@@ -100,7 +100,7 @@ router.post('/swipe', async (req, res) => {
     const isLikedBool = isLiked === true || isLiked === 'true';
     const swipeType = 'match'; 
 
-    console.log(`Recording swipe of type "${swipeType}"`);
+    console.log(`[SwipeDebug] Recording swipe of type "${swipeType}"`);
 
     await req.app.locals.db.tx(async t => {
       const swipeeExists = await t.oneOrNone(
@@ -118,7 +118,7 @@ router.post('/swipe', async (req, res) => {
         [swiperId, swipeeId, isLikedBool]
       );
 
-      console.log('Swipe recorded in DB');
+      console.log('[SwipeDebug] Swipe recorded in DB');
 
       if (isLikedBool) {
         const match = await t.oneOrNone(
@@ -128,7 +128,7 @@ router.post('/swipe', async (req, res) => {
         );
 
         if (match) {
-          console.log('Match found! Creating match & friendship');
+          console.log('[SwipeDebug] Match found! Creating match & friendship');
 
           await t.none(
             `INSERT INTO matches (user_id, matched_user_id, matched_at) 
@@ -150,14 +150,14 @@ router.post('/swipe', async (req, res) => {
       return { isMatch: false };
     }).then(result => {
       if (result.isMatch) {
-        console.log(`Match success between ${swiperId} and ${swipeeId}`);
+        console.log(`[SwipeDebug] Match success between ${swiperId} and ${swipeeId}`);
         res.json({ 
           success: true, 
           isMatch: true,
           message: "It's a match!" 
         });
       } else {
-        console.log(`Swipe recorded without match`);
+        console.log(`[SwipeDebug] Swipe recorded without match`);
         res.json({ 
           success: true, 
           isMatch: false,
@@ -167,7 +167,7 @@ router.post('/swipe', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Swipe processing failed:', {
+    console.error('[SwipeDebug] Swipe processing failed:', {
       error: error.message,
       stack: error.stack,
       body: req.body,

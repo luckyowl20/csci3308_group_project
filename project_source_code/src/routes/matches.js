@@ -131,7 +131,7 @@ async function calculateMatches(db, userId, matchType) {
 
   // Sort by final score descending
   matches.sort((a, b) => b.finalScore - a.finalScore);
-  console.log("Matches found:", matches);
+  console.log("[MatchDebug] Matches found:", matches);
   return { matches };
 }
 
