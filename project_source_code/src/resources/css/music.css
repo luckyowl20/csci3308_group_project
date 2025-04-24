@@ -1,51 +1,49 @@
 /* music.css */
 
 html, body {
-    overflow-x: hidden;
-  }
+  overflow-x: hidden;
+}
 
-  .swipe-container {
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .swipe-content {
-    transform: translateY(-70px); /* Move only the content up */
-  }
-  
-  
-  .swipe-button {
-    width: 90px;
-    height: 90px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 40px;         /* Adjust size of emoji */
-    line-height: 1;          /* Keeps vertical alignment tight */
-    text-decoration: none;   /* Remove underline if <a> */
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    padding: 0;
-  }
+.swipe-container {
+  margin-top: -70px; /* Adjust this value to control vertical positioning */
+  margin-bottom: 0px;
+  height: calc(100vh - 40px); /* Optional: reduce height to compensate for margin */
+}
 
-  .swipe-button span {
-    display: inline-block;
-    line-height: 1;
-  }
-  
-  
+.music-title {
+  color: var(--color-primary); /* or use your --color-primary if set */
+}
+
+.swipe-button {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;         /* Adjust size of emoji */
+  line-height: 1;          /* Keeps vertical alignment tight */
+  text-decoration: none;   /* Remove underline if <a> */
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 0;
+}
+
+.swipe-button span {
+  display: inline-block;
+  line-height: 1;
+}
+
 
 /* .no-button {
-    left: 20%;
-    background-color: var(--color-button-no);
-    color: var(--color-white);
+  left: 20%;
+  background-color: var(--color-button-no);
+  color: var(--color-white);
 }
 
 .yes-button {
-    right: 20%;
-    background-color: var(--color-button-yes);
-    color: var(--color-white);
+  right: 20%;
+  background-color: var(--color-button-yes);
+  color: var(--color-white);
 } */
