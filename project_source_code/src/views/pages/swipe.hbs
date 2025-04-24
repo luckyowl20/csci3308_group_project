@@ -1,45 +1,51 @@
-<!-- views/pages/swipe.hbs -->
-{{!-- style sheets and carousel bootstrap--}}
+{{!-- Style Sheets and Bootstrap Carousel --}}
 <link rel="stylesheet" href="/resources/css/swipe.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
-{{!-- scripts --}}
+{{!-- Scripts --}}
 {{#section "scripts"}}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/resources/js/swipe_script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/resources/js/swipe_script.js"></script>
 {{/section}}
 
-
 <body>
-    <div class="fullscreen-bg"></div>
-    {{#if noUsersLeft}}
-    <div class="no-users">
-        <h2>No more users to swipe!</h2>
-        <p>Check back later for new users.</p>
+  <div class="fullscreen-bg"></div>
+
+  {{#if noUsersLeft}}
+    <div class="no-users text-center mt-5">
+      <h2>No more users to swipe!</h2>
+      <p>Check back later for new users.</p>
     </div>
-    {{else}}
+  {{else}}
+
+    <!-- Main Swiping Area -->
     <div class="swipe-container">
-        {{> swipe_users user=swipeTarget}}
+
+      <!-- Centered Swipe Card -->
+      <div class="swipe-card-wrapper">
+        {{> swipe_users user=swipeTarget }}
+      </div>
+
+      <!-- Centered Buttons -->
+      <div class="swipe-buttons">
         <button id="left-swipe" class="swipe-button no-button">
-            <i class="bi bi-x-lg" style="font-size: 2rem;"></i>
+          <i class="bi bi-x-lg" style="font-size: 2rem;"></i>
         </button>
         <button id="right-swipe" class="swipe-button yes-button">
-            <i class="bi bi-heart-fill" style="font-size: 2rem;"></i>
+          <i class="bi bi-heart-fill" style="font-size: 2rem;"></i>
         </button>
+      </div>
     </div>
+
+    <!-- Match Modal -->
     <div id="match-modal" class="modal">
-        <div class="modal-content">
-            <h2>It's a match!</h2>
-<<<<<<< HEAD
-            <p>You and {{user.display_name}} have liked each other.</p>
-            <button id="btn btn-primary">Continue Swiping</button>
-=======
-            <p>You and {{swipeTarget.display_name}} have liked each other.</p>
-            <button id="close-match-modal">Continue Swiping</button>
->>>>>>> 7828401c870eafbc5871ff3fae554d78bbbea542
-        </div>
+      <div class="modal-content text-center">
+        <h2>It's a match!</h2>
+        <p>You and {{swipeTarget.display_name}} have liked each other.</p>
+        <button id="close-match-modal">Continue Swiping</button>
+      </div>
     </div>
-    {{/if}}
+  {{/if}}
 
 </body>
