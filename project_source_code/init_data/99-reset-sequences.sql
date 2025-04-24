@@ -27,3 +27,9 @@ SELECT setval(
   GREATEST((SELECT COALESCE(MAX(id), 0) FROM blogs), 1),
   true
 );
+
+SELECT setval(
+  pg_get_serial_sequence('matches', 'id'),
+  GREATEST((SELECT COALESCE(MAX(id), 0) FROM matches), 1),
+  true
+);

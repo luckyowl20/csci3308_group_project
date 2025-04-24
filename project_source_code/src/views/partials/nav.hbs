@@ -1,52 +1,78 @@
-<nav class="navbar navbar-expand-lg bg-navbar px-4">
-  <div class="container-fluid d-flex justify-content-between align-items-center">
+<nav class="navbar navbar-expand-lg bg-navbar px-3">
+  <div class="container-fluid">
 
-    <!-- LuckyMoment Logo on the Left -->
+    <!-- Brand -->
     <a class="navbar-brand text-white fw-bold" href="/home">LuckyMoment</a>
 
-    <!-- Navigation Links on the Right -->
-    <ul class="navbar-nav d-flex flex-row align-items-center ">
+    <!-- Mobile Dropdown Toggle -->
+    <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+    </button>
 
-      <li class="nav-item">
-        <a class="nav-link text-white fw-semibold" href="/home">Home</a>
-      </li>
+    <!-- Collapsible Content -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
 
-      <li class="nav-item">
-        <a class="nav-link text-white fw-semibold" href="/explore">Discover</a>
-      </li>
+      <!-- ALL Nav Items on the Right (Desktop) -->
+      <ul class="navbar-nav ms-auto d-flex flex-column flex-lg-row align-items-lg-center gap-2">
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" href="/explore">Discover</a>
+        </li>
 
-      {{#if user}}
-      <li class="nav-item">
-        <a class="nav-link text-white fw-semibold" href="/chat">Chat</a>
-      </li>
-      
-      <li class="nav-item">
-        <a class="nav-link text-white fw-semibold" href="/blog">Blog</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white fw-semibold d-flex align-items-center" href="/profile/">
-          <span class="me-2">Profile</span>
-          <div class="profile-pic-small border border-white rounded-circle overflow-hidden">
-            {{#if user.profile_picture_url}}
-            <img src="{{user.profile_picture_url}}" alt="Profile">
-            {{else}}
-            <img src="https://via.placeholder.com/28?text=U" alt="Default">
-            {{/if}}
-          </div>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white fw-semibold" href="/auth/logout">Logout</a>
-      </li>
-      {{else}}
-      <li class="nav-item">
-        <a class="nav-link text-white fw-semibold" href="/auth/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white fw-semibold" href="/auth/register">Register</a>
-      </li>
-      {{/if}}
+        {{#if user}}
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" href="/chat">Chat</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" href="/blog">Blog</a>
+        </li>
 
-    </ul>
+        <!-- Profile (desktop & mobile) -->
+        <li class="nav-item d-lg-none">
+          <a class="nav-link text-white fw-semibold d-flex align-items-center" href="/profile/">
+            <span class="me-2">Profile</span>
+            <div class="profile-pic-small border border-white rounded-circle overflow-hidden">
+              {{#if user.profile_picture_url}}
+                <img src="{{user.profile_picture_url}}" alt="Profile">
+              {{else}}
+                <img src="https://via.placeholder.com/28?text=U" alt="Default">
+              {{/if}}
+            </div>
+          </a>
+        </li>
+        <li class="nav-item d-lg-none">
+          <a class="nav-link text-white fw-semibold" href="/auth/logout">Logout</a>
+        </li>
+
+        <!-- Desktop Profile/Logout -->
+        <li class="nav-item d-none d-lg-flex align-items-center">
+          <a href="/profile/" class="nav-link text-white fw-semibold d-flex align-items-center">
+            <span class="me-2">Profile</span>
+            <div class="profile-pic-small border border-white rounded-circle overflow-hidden">
+              {{#if user.profile_picture_url}}
+                <img src="{{user.profile_picture_url}}" alt="Profile">
+              {{else}}
+                <img src="https://via.placeholder.com/28?text=U" alt="Default">
+              {{/if}}
+            </div>
+          </a>
+        </li>
+        <li class="nav-item d-none d-lg-block">
+          <a class="nav-link text-white fw-semibold" href="/auth/logout">Logout</a>
+        </li>
+
+        {{else}}
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" href="/auth/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" href="/auth/register">Register</a>
+        </li>
+        {{/if}}
+      </ul>
+
+    </div>
   </div>
 </nav>

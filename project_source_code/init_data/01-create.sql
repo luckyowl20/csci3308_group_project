@@ -168,8 +168,6 @@ CREATE TABLE IF NOT EXISTS blogs (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-SELECT pg_get_serial_sequence('blogs', 'id');
-
 
 CREATE TABLE IF NOT EXISTS blogs_posts (
     PRIMARY KEY (blog_id, post_id),
