@@ -248,3 +248,11 @@ body {
     background-color: var(--color-background); /* Beige */
     z-index: -2;  /* Lower z-index to ensure it's behind all content */
 }
+
+/* Prevent match modal and friend modal buttons from turning blue on hover */
+#match-modal .btn-primary:hover,
+#friend-modal .btn-primary:hover {
+    background-color: #e1a800 !important; 
+    border-color: #e1a800 !important;
+    color: white !important;
+}
