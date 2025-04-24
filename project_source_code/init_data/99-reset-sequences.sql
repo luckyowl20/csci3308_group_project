@@ -28,8 +28,4 @@ SELECT setval(
   true
 );
 
-SELECT setval(
-  pg_get_serial_sequence('matches', 'id'),
-  GREATEST((SELECT COALESCE(MAX(id), 0) FROM matches), 1),
-  true
-);
+
