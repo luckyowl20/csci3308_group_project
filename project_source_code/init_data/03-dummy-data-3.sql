@@ -3413,6 +3413,3 @@ INSERT INTO matches (user_id, matched_user_id, matched_at) VALUES
 (10, 100, '2025-04-20 19:46:55'),
 (100, 17, '2025-04-21 08:03:31'),
 (17, 100, '2025-04-21 08:03:31');
-
--- === RESET ID SEQUENCES ===
-SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));

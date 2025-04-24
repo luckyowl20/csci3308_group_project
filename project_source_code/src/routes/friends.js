@@ -1,4 +1,4 @@
-// routes/swipe.js
+// routes/friends.js
 const express = require('express');
 const router = express.Router();
 const { getMatches } = require('../utils/matchAdapter');
@@ -6,38 +6,39 @@ const { getMatches } = require('../utils/matchAdapter');
 router.get('/', async (req, res) => {
   try {
     if (!req.session.user) {
-      console.log('[SwipeDebug] No user session found — redirecting to login');
+      console.log('No user session found — redirecting to login');
       return res.redirect('/auth/login');
     }
 
-    console.log(`[SwipeDebug] Swipe page requested by user ID: ${req.session.user.id}`);
+    console.log(`Friends page requested by user ID: ${req.session.user.id}`);
 
-    // Get the full logged-in user details first (for nav bar)
-    const loggedInUser = await req.app.locals.db.oneOrNone(`
-      SELECT 
-        u.*, 
-        p.*
-      FROM users u
-      JOIN profiles p ON p.user_id = u.id
-      WHERE u.id = $1
-    `, [req.session.user.id]);
-
-    if (!loggedInUser) {
-      console.error('Could not find logged in user details');
-      return res.redirect('/auth/login');
-    }
+        // Get the full logged-in user details first (for nav bar)
+        const loggedInUser = await req.app.locals.db.oneOrNone(`
+        SELECT 
+          u.*, 
+          p.*
+        FROM users u
+        JOIN profiles p ON p.user_id = u.id
+        WHERE u.id = $1
+      `, [req.session.user.id]);
+  
+      if (!loggedInUser) {
+        console.error('Could not find logged in user details');
+        return res.redirect('/auth/login');
+      }
+  
 
     const { matches } = await getMatches(
       req.app.locals.db,
       req.session.user.id,
-      'romantic'
+      'friend'
     );
 
-    console.log(`[SwipeDebug] Found ${matches?.length || 0} potential matches`);
+    console.log(`Found ${matches?.length || 0} potential friends`);
 
     if (!matches?.length) {
-      console.log('[SwipeDebug] No users left to swipe on');
-      return res.render('pages/swipe', {
+      console.log('No users left to swipe on');
+      return res.render('pages/friends', {
         noUsersLeft: true,
         // IMPORTANT: For nav compatibility, pass logged in user details in the way nav expects it
         user: loggedInUser,
@@ -47,7 +48,7 @@ router.get('/', async (req, res) => {
       });
     }
 
-    const topMatch = await req.app.locals.db.oneOrNone(`
+    const topFriend = await req.app.locals.db.oneOrNone(`
       SELECT 
         u.*, 
         p.*,
@@ -74,45 +75,45 @@ router.get('/', async (req, res) => {
       WHERE u.id = $1
     `, [matches[0].candidate.id]);
 
-    console.log(`[SwipeDebug] Top match selected:`, topMatch);
+    console.log(`Top friend selected:`, topFriend);
 
-    res.render('pages/swipe', {
-      // IMPORTANT: Keep logged-in user details for the navbar as 'user'
-      user: loggedInUser,
-      // Pass the potential match as a separate variable
-      swipeTarget: { ...topMatch, match_score: matches[0].finalScore },
+    res.render('pages/friends', {
+            // IMPORTANT: Keep logged-in user details for the navbar as 'user'
+            user: loggedInUser,
+            // Pass the potential match as a separate variable
+            swipeTarget: { ...topFriend, match_score: matches[0].finalScore },
       noUsersLeft: false,
       currentUser: req.session.user
     });
 
   } catch (error) {
-    console.error('[SwipeDebug] SWIPE PAGE ERROR:', {
+    console.error('FRIENDS PAGE ERROR:', {
       message: error.message,
       stack: error.stack,
       user: req.session.user
     });
-    res.status(500).render('pages/swipe', {
+    res.status(500).render('pages/friends', {
       noUsersLeft: true,
       currentUser: req.session.user
     });
   }
 });
 
-// POST /swipe/swipe - Handles swipe actions
+// POST /friends/swipe - Handles friend swipe actions
 router.post('/swipe', async (req, res) => {
   try {
     if (!req.session.user) {
-      console.warn('[SwipeDebug] Swipe attempt without authentication');
+      console.warn('Swipe attempt without authentication');
       return res.status(401).json({ success: false, message: 'Not authenticated' });
     }
 
     const { swipeeId, isLiked } = req.body;
     const swiperId = req.session.user.id;
 
-    console.log(`[SwipeDebug] Swipe initiated: swiper=${swiperId}, swipee=${swipeeId}, isLiked=${isLiked}`);
+    console.log(`Friend swipe initiated: swiper=${swiperId}, swipee=${swipeeId}, isLiked=${isLiked}`);
 
     if (!swipeeId || isNaN(parseInt(swipeeId))) {
-      console.warn('[SwipeDebug] Invalid swipeeId received:', swipeeId);
+      console.warn('Invalid swipeeId received:', swipeeId);
       return res.status(400).json({ 
         success: false, 
         message: "Invalid user ID" 
@@ -120,9 +121,9 @@ router.post('/swipe', async (req, res) => {
     }
 
     const isLikedBool = isLiked === true || isLiked === 'true';
-    const swipeType = 'match'; 
+    const swipeType = 'friend'; 
 
-    console.log(`[SwipeDebug] Recording swipe of type "${swipeType}"`);
+    console.log(`Recording friend swipe of type "${swipeType}"`);
 
     await req.app.locals.db.tx(async t => {
       const swipeeExists = await t.oneOrNone(
@@ -136,53 +137,54 @@ router.post('/swipe', async (req, res) => {
 
       await t.none(
         `INSERT INTO swipes (swiper_id, swipee_id, is_liked, swipe_type) 
-         VALUES ($1, $2, $3, 'match')`,
+         VALUES ($1, $2, $3, 'friend')`,
         [swiperId, swipeeId, isLikedBool]
       );
 
-      console.log('[SwipeDebug] Swipe recorded in DB');
+      console.log('Friend swipe recorded in DB');
 
       if (isLikedBool) {
-        const match = await t.oneOrNone(
+        const friend = await t.oneOrNone(
           `SELECT 1 FROM swipes 
            WHERE swiper_id = $1 AND swipee_id = $2 AND is_liked = true`,
           [swipeeId, swiperId]
         );
 
-        if (match) {
-          console.log('[SwipeDebug] Match found! Creating match & friendship');
+        if (friend) {
+          console.log('Friend connection made! Creating friendship');
 
           await t.none(
-            `INSERT INTO matches (user_id, matched_user_id, matched_at) 
-             VALUES ($1, $2, NOW()), ($2, $1, NOW())`,
+            `INSERT INTO friends (user_id, friend_id, created_at)
+             VALUES ($1, $2, NOW()), ($2, $1, NOW())
+             ON CONFLICT (user_id, friend_id) DO NOTHING`,
             [swiperId, swipeeId]
           );
 
-          return { isMatch: true };
+          return { isFriend: true }; // Changed from isMatch to isFriend
         }
       }
 
-      return { isMatch: false };
+      return { isFriend: false }; // Changed from isMatch to isFriend
     }).then(result => {
-      if (result.isMatch) {
-        console.log(`[SwipeDebug] Match success between ${swiperId} and ${swipeeId}`);
+      if (result.isFriend) {
+        console.log(`Friend connection success between ${swiperId} and ${swipeeId}`);
         res.json({ 
           success: true, 
-          isMatch: true,
-          message: "It's a match!" 
+          isFriend: true, // Changed from isMatch to isFriend
+          message: "You're now friends." 
         });
       } else {
-        console.log(`[SwipeDebug] Swipe recorded without match`);
+        console.log(`Friend swipe recorded`);
         res.json({ 
           success: true, 
-          isMatch: false,
-          message: "Swipe recorded" 
+          isFriend: false, // Changed from isMatch to isFriend
+          message: "Friend swipe recorded" 
         });
       }
     });
 
   } catch (error) {
-    console.error('[SwipeDebug] Swipe processing failed:', {
+    console.error('Friend swipe processing failed:', {
       error: error.message,
       stack: error.stack,
       body: req.body,

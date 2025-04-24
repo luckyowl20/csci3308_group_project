@@ -109,9 +109,10 @@ const homeRoutes = require('./routes/home');
 const take_picture = require('./routes/take_picture');
 const memories = require('./routes/memories');
 const swipeRoutes = require('./routes/swipe');
+const friendRoutes = require('./routes/friends');
 const matchesRoutes = require('./routes/matches'); // will be replaced later with a better version
-
 const blogRoutes = require('./routes/blogs');
+const exploreMusicRoutes = require('./routes/music');
 
 app.use('/', indexRoutes); 
 app.use('/auth', authRoutes); 
@@ -121,14 +122,15 @@ app.use('/profile', profileRoutes);
 app.use('/spotify', spotifyRoutes);
 app.use('/settings', settingsRoutes);
 app.use('/swipe', swipeRoutes);
+app.use('/friends', friendRoutes);
 app.use('/explore', exploreRoutes);
 app.use('/learnmore', learnmoreRoutes);
 app.use('/home', homeRoutes);
 app.use('/take_picture', take_picture);
 app.use('/matches', matchesRoutes); // will be replaced later with a better version
 app.use('/memories', memories)
-
 app.use('/blog', blogRoutes);
+app.use('/explore/music', exploreMusicRoutes);
 
 // -------------------------------------
 // http server setup

@@ -98,6 +98,18 @@ body {
     opacity: var(--button-hover-opacity);
 }
 
+/* Keep same look when focused or active */
+.btn.btn-primary:focus,
+.btn.btn-primary:active,
+.btn.btn-primary.active,
+.show > .btn.btn-primary.dropdown-toggle {
+  background-color: var(--color-button-primary) !important;
+  border-color: transparent !important;
+  color: var(--color-white) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 .btn.btn-secondary {
     background-color: var(--color-button-secondary);
     border: 3px solid transparent;
@@ -115,6 +127,17 @@ body {
     opacity: var(--button-hover-opacity);
 }
 
+/* keep same look when active */
+.btn.btn-secondary:focus,
+.btn.btn-secondary:active,
+.btn.btn-secondary.active {
+  background-color: var(--color-button-secondary) !important;
+  border-color: transparent !important;
+  color: var(--color-white) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 .btn.btn-outline-success {
     background-color: var(--color-background);
     border: 1px solid var(--color-primary);
@@ -129,6 +152,17 @@ body {
 .btn.btn-outline-success:hover {
     background-color: var(--color-primary);
     color: var(--color-white);
+}
+
+/* keep same look when active */
+.btn.btn-outline-success:focus,
+.btn.btn-outline-success:active,
+.btn.btn-outline-success.active {
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* ===== NAVBAR STYLES ===== */
