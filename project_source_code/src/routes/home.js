@@ -60,36 +60,48 @@ router.get('/', isAuthenticated, async (req, res) => {
   const userId = req.session.user.id;
 
   try {
-    const friends = await db.any(`
-      SELECT u.id, u.username, p.display_name, p.profile_picture_url
-      FROM friends f
-      JOIN users u ON f.friend_id = u.id
-      LEFT JOIN profiles p ON u.id = p.user_id
-      WHERE f.user_id = $1
-    `, [userId]);
+    // Get user's profile info for form completion check
+    const profile = await db.oneOrNone(
+      `SELECT display_name, birthday, gender, preferred_gender, user_location
+       FROM profiles WHERE user_id = $1`,
+      [userId]
+    );
+
+    const profileIncomplete =
+      !profile ||
+      !profile.display_name ||
+      !profile.birthday ||
+      !profile.gender ||
+      !profile.preferred_gender ||
+      !profile.user_location;
+
+    const friends = await db.any(
+      `SELECT u.id, u.username, p.display_name, p.profile_picture_url
+       FROM friends f
+       JOIN users u ON f.friend_id = u.id
+       LEFT JOIN profiles p ON u.id = p.user_id
+       WHERE f.user_id = $1`,
+      [userId]
+    );
 
     const today = new Date().toISOString().slice(0, 10);
 
     const feed = await Promise.all(friends.map(async friend => {
-      const post = await db.oneOrNone(`
-        SELECT posts.id AS post_id, photos.url, photos.description
-        FROM posts
-        JOIN photos ON posts.photo_id = photos.id
-        WHERE posts.user_id = $1
-          AND DATE(posts.created_at) = $2
-        ORDER BY posts.created_at DESC
-        LIMIT 1
-      `, [friend.id, today]);
+      const post = await db.oneOrNone(
+        `SELECT posts.id AS post_id, photos.url, photos.description
+         FROM posts
+         JOIN photos ON posts.photo_id = photos.id
+         WHERE posts.user_id = $1
+           AND DATE(posts.created_at) = $2
+         ORDER BY posts.created_at DESC
+         LIMIT 1`,
+        [friend.id, today]
+      );
 
       if (!post) return null;
 
-      const likeCount = await db.one(`
-        SELECT COUNT(*) FROM post_likes WHERE post_id = $1
-      `, [post.post_id]);
-
-      const likedByUser = await db.oneOrNone(`
-        SELECT 1 FROM post_likes WHERE post_id = $1 AND user_id = $2
-      `, [post.post_id, userId]);
+      const likeCount = await db.one(`SELECT COUNT(*) FROM post_likes WHERE post_id = $1`, [post.post_id]);
+      const likedByUser = await db.oneOrNone(`SELECT 1 FROM post_likes WHERE post_id = $1 AND user_id = $2`, [post.post_id, userId]);
 
       return {
         ...friend,
@@ -103,15 +115,16 @@ router.get('/', isAuthenticated, async (req, res) => {
 
     const visibleFeed = feed.filter(Boolean);
 
-    const selfPost = await db.oneOrNone(`
-      SELECT photos.url
-      FROM posts
-      JOIN photos ON posts.photo_id = photos.id
-      WHERE posts.user_id = $1
-        AND DATE(posts.created_at) = $2
-      ORDER BY posts.created_at DESC
-      LIMIT 1
-    `, [userId, today]);
+    const selfPost = await db.oneOrNone(
+      `SELECT photos.url
+       FROM posts
+       JOIN photos ON posts.photo_id = photos.id
+       WHERE posts.user_id = $1
+         AND DATE(posts.created_at) = $2
+       ORDER BY posts.created_at DESC
+       LIMIT 1`,
+      [userId, today]
+    );
 
     const userHasPostedToday = !!selfPost;
 
@@ -119,7 +132,8 @@ router.get('/', isAuthenticated, async (req, res) => {
       layout: 'main',
       user: req.session.user,
       feed: visibleFeed,
-      userHasPostedToday
+      userHasPostedToday,
+      profileIncomplete
     });
 
   } catch (err) {
@@ -141,31 +155,18 @@ router.post('/posts/:postId/like', isAuthenticated, async (req, res) => {
     );
 
     if (existingLike) {
-      // Unlike
-      await db.none(
-        'DELETE FROM post_likes WHERE post_id = $1 AND user_id = $2',
-        [postId, userId]
-      );
+      await db.none('DELETE FROM post_likes WHERE post_id = $1 AND user_id = $2', [postId, userId]);
     } else {
-      // Like
-      await db.none(
-        'INSERT INTO post_likes (post_id, user_id) VALUES ($1, $2)',
-        [postId, userId]
-      );
+      await db.none('INSERT INTO post_likes (post_id, user_id) VALUES ($1, $2)', [postId, userId]);
     }
 
-    // avoiding page refresh and dynamically updating the like count
-    // Fetch the updated like count
-    const { count } = await db.one(
-      'SELECT COUNT(*) FROM post_likes WHERE post_id = $1',
-      [postId]
-    );
+    const { count } = await db.one('SELECT COUNT(*) FROM post_likes WHERE post_id = $1', [postId]);
 
     res.json({
       liked: !existingLike,
       likeCount: parseInt(count, 10)
     });
-    
+
   } catch (err) {
     console.error('Error toggling like:', err);
     res.status(500).send('Something went wrong toggling the like.');
