@@ -328,8 +328,9 @@
 </section>
 
 <script>
-  document.getElementById('back-to-top')
-    .addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('back-to-top').addEventListener('click', () => {
+      location.reload();
     });
+  });
 </script>
