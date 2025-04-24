@@ -1,11 +1,18 @@
-<nav class="navbar navbar-expand-lg bg-navbar px-4">
-  <div class="container-fluid d-flex justify-content-between align-items-center">
+<nav class="navbar bg-navbar px-0">
+  <div class="w-100 px-3 d-flex align-items-center justify-content-between">
 
-    <!-- LuckyMoment Logo on the Left -->
+    <!-- Brand -->
     <a class="navbar-brand text-white fw-bold" href="/home">LuckyMoment</a>
 
-    <!-- Navigation Links on the Right -->
-    <ul class="navbar-nav d-flex flex-row align-items-center ">
+    <!-- Always Visible Menu Button -->
+    <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+    </button>
+  </div>
+
+  <!-- All nav items including Profile inside collapse -->
+  <div class="collapse navbar-collapse px-3" id="mainNavbar">
+    <ul class="navbar-nav d-flex flex-column gap-2 py-2">
 
       <li class="nav-item">
         <a class="nav-link text-white fw-semibold" href="/home">Home</a>
@@ -19,29 +26,34 @@
       <li class="nav-item">
         <a class="nav-link text-white fw-semibold" href="/chat">Chat</a>
       </li>
-      
+
       <li class="nav-item">
         <a class="nav-link text-white fw-semibold" href="/blog">Blog</a>
       </li>
+
       <li class="nav-item">
-        <a class="nav-link text-white fw-semibold d-flex align-items-center" href="/profile/">
+        <a href="/profile/" class="nav-link text-white fw-semibold d-flex align-items-center">
           <span class="me-2">Profile</span>
           <div class="profile-pic-small border border-white rounded-circle overflow-hidden">
             {{#if user.profile_picture_url}}
-            <img src="{{user.profile_picture_url}}" alt="Profile">
+              <img src="{{user.profile_picture_url}}" alt="Profile">
             {{else}}
-            <img src="https://via.placeholder.com/28?text=U" alt="Default">
+              <img src="https://via.placeholder.com/28?text=U" alt="Default">
             {{/if}}
           </div>
         </a>
       </li>
+
       <li class="nav-item">
         <a class="nav-link text-white fw-semibold" href="/auth/logout">Logout</a>
       </li>
+
       {{else}}
+
       <li class="nav-item">
         <a class="nav-link text-white fw-semibold" href="/auth/login">Login</a>
       </li>
+
       <li class="nav-item">
         <a class="nav-link text-white fw-semibold" href="/auth/register">Register</a>
       </li>

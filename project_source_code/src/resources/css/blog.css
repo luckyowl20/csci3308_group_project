@@ -1,205 +1,239 @@
 /* Button styling for "Share Your Lucky Moment Story" */
 
-
 /* Modal styling */
 .modal-content {
     display: flex;
     flex-direction: column;
-}
-
-/* Modal header styling */
-.modal-header {
+  }
+  
+  /* Modal header styling */
+  .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-/* Form styling */
-#postSelectionCarousel .form-check {
+  }
+  
+  /* Form styling */
+  #postSelectionCarousel .form-check {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-}
-
-#postSelectionCarousel img {
+  }
+  
+  #postSelectionCarousel img {
     width: 120px;
     height: 120px;
-}
-
-#postSelectionCarousel .carousel-control-prev-icon,
-#postSelectionCarousel .carousel-control-next-icon {
+  }
+  
+  #postSelectionCarousel .carousel-control-prev-icon,
+  #postSelectionCarousel .carousel-control-next-icon {
     filter: invert(100%);
-}
-.blog.box {
+  }
+  
+  /* Top blog box */
+  .blog.box {
     display: flex;
     border: 1px solid #dddd;
     border-radius: 18px;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-.blog.box-shadowless {
-    display: flex;
-    border-radius: 18px;
-    overflow: hidden;
-}
-#leftbox {
     flex-direction: column;
     align-items: center;
-    width: 470px;
-    height: 400px;
-    
-}
-
-#leftupper {
-    width: 110%;
-    height: 30%;
+    width: 100%;
+    max-width: 470px;
+    height: auto;
+    padding: 1rem;
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 768px) {
+    #leftbox {
+      margin: 0 1rem;
+    }
+  }
+  
+  /* Left box sections */
+  #leftbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 470px;
+    height: auto;
+    padding: 1rem;
+  }
+  
+  #leftupper {
+    width: 100%;
     background-color: var(--color-secondary);
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--color-white);
-}
-#leftupper p {
+    padding: 1rem;
+  }
+  
+  #leftupper p {
     font-family: var(--font-primary);
     font-size: 2rem;
-}
-
-#leftlower {
-    width: 110%;
-    height: 70%;
+    margin: 0;
+  }
+  
+  #leftlower {
+    width: 100%;
     background-color: var(--color-white);
     display: flex;
     flex-direction: column;
-    align-items: center
-}
-
-#leftlower p {
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  #leftlower p {
     font-family: var(--font-alt);
     font-size: 1.5rem;
-}
-
-.create-blog.btn.btn-primary {
-    margin-top: 50px;
+    margin: 0.5rem 0;
+  }
+  
+  .create-blog.btn.btn-primary {
+    margin-top: 1rem;
     height: 100px;
     width: 200px;
     font-family: var(--font-alt);
     font-size: 1.5rem;
-}
-
-#main {
+  }
+  
+  /* Main layout */
+  #main {
     display: flex;
     flex-direction: row;
     width: 100%;
     height: 100%;
-}
-/* Blog container styling */
-#content {
+  }
+  
+  /* Content area */
+  #content {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
     gap: 40px;
     width: 100%;
-    flex-wrap: wrap;
     margin: 0 auto;
-}
-
-/* Blog card styling */
-.blogcard {
+    box-sizing: border-box;
+  }
+  
+  /* Blog card styling */
+  .blogcard {
     display: flex;
-    background-color: var(--color-white);
     flex-direction: column;
     align-items: center;
-    width: 470px; /* Keep dvw as is */
-    height: 734px; /* Converted from 75dvh */
+    background-color: var(--color-white);
+    width: 100%;
+    max-width: 470px;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-radius: 1rem;
     margin-bottom: 20px;
-}
-
-.blogcard-header {
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .blogcard-header {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 91px; /* Converted from 10dvh */
-    width: 120%; /* Keep dvw as is */
+    width: 100%;
     color: var(--color-white);
     background-color: var(--color-secondary);
-}
-
-.blogcard-header p {
-    margin-top: 10px;
+    padding: 1rem;
+    border-radius: 1rem 1rem 0 0;
+  }
+  
+  .blogcard-header p {
     font-family: var(--font-primary);
     font-size: 1.5rem;
-}
-
-.blogcard-body {
+    margin: 0;
+  }
+  
+  .blogcard-body {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 137px; /* Converted from 15dvh */
-}
-
-.blogcard-body p {
-    max-width: 373px; /* Keep dvw as is */
+  }
+  
+  .blogcard-body p {
+    width: 100%;
+    max-width: 100%;
     overflow-wrap: break-word;
-    width: 320px; /* Keep dvw as is */
+    word-wrap: break-word;
+    word-break: break-word;
     margin-top: 10px;
     font-family: var(--font-alt);
-    font-size: 1.0rem;
-}
-
-/* Blog carousel styling */
-.blogcard .carousel-inner {
+    font-size: 1rem;
+  }
+  
+  /* Blog carousel styling */
+  .blogcard .carousel-inner {
     display: flex;
     align-items: center;
-    width: 98%;
-}
-.blogcard .carousel.slide {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .blogcard .carousel.slide {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
-    width : 100%;
-}
-/* Fix for overlapping carousel items */
-.blogcard .carousel-inner .carousel-item {
     width: 100%;
-    display: none; /* Hide all items by default */
+  }
+  
+  .blogcard .carousel-inner .carousel-item {
+    width: 100%;
+    display: none;
     flex-direction: column;
     align-items: center;
-}
-
-.blogcard .carousel-inner .carousel-item.active {
+    text-align: center;
+  }
+  
+  .blogcard .carousel-inner .carousel-item.active {
     display: flex;
-}
-
-.blogcard .carousel-inner img {
-    width: 300px;
-    height: 300px;
-}
-
-.blogcard .carousel-control-prev-icon,
-.blogcard .carousel-control-next-icon {
+  }
+  
+  .blogcard .carousel-inner img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .blogcard .carousel-control-prev-icon,
+  .blogcard .carousel-control-next-icon {
     filter: invert(100%);
-}
-
-.mb-1 {
-    margin-bottom: 0.1rem !important;
-}
-
-.blog.modal-header {
+  }
+  
+  /* Modal header styling */
+  .blog.modal-header {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: var(--color-secondary);
-}
-
-.blog.modal-header p {
+  }
+  
+  .blog.modal-header p {
     margin-top: 20px;
-    color : var(--color-white);
+    color: var(--color-white);
     font-family: var(--font-primary);
     font-size: 2rem;
-}
+  }
+  
+  .mb-1 {
+    margin-bottom: 0.1rem !important;
+  }
+  
