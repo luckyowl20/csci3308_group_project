@@ -3,12 +3,14 @@ const express = require('express');
 const router = express.Router();
 const { getMatches } = require('../utils/matchAdapter');
 const { isAuthenticated } = require('../middleware/auth');
-
+const { calculateMatches } = require('../utils/matcher');
 
 router.get('/', isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const userId = user.id;
   const db = req.app.locals.db;
+
+  console.log("current user:", user);
 
   console.log(`[SwipeDebug] Swipe page requested by user ID: ${userId}`);
 
@@ -22,14 +24,9 @@ router.get('/', isAuthenticated, async (req, res) => {
       WHERE u.id = $1
     `, [req.session.user.id]);
 
-  if (!loggedInUser) {
-    console.error('Could not find logged in user details');
-    return res.redirect('/auth/login');
-  }
-
-  const { matches } = await getMatches(
+  const { matches } = await calculateMatches(
     db,
-    req.session.user.id,
+    userId,
     'romantic'
   );
 
