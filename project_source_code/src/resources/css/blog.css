@@ -46,8 +46,9 @@
 #leftbox {
     flex-direction: column;
     align-items: center;
-    width: 470px;
-    height: 400px;
+    min-width: 300px;
+    width: 28dvw;
+    height: 44dvh;
     
 }
 
@@ -61,8 +62,10 @@
     color: var(--color-white);
 }
 #leftupper p {
+    width: 80%;
+    overflow-wrap: break-word;
     font-family: var(--font-primary);
-    font-size: 2rem;
+    font-size: 3dvh;
 }
 
 #leftlower {
@@ -75,8 +78,10 @@
 }
 
 #leftlower p {
+    width: 80%;
+    overflow-wrap: break-word;
     font-family: var(--font-alt);
-    font-size: 1.5rem;
+    font-size: 2.5dvh;
 }
 
 .create-blog.btn.btn-primary {
@@ -84,7 +89,7 @@
     height: 100px;
     width: 200px;
     font-family: var(--font-alt);
-    font-size: 1.5rem;
+    font-size: 2.5dvh;
 }
 
 #main {
@@ -127,9 +132,12 @@
 }
 
 .blogcard-header p {
+    margin-left: 3dvw;
+    width: 80%;
+    overflow-wrap: break-word;
     margin-top: 10px;
     font-family: var(--font-primary);
-    font-size: 1.5rem;
+    font-size: 2.5dvh;
 }
 
 .blogcard-body {
@@ -142,12 +150,11 @@
 }
 
 .blogcard-body p {
-    max-width: 373px; /* Keep dvw as is */
     overflow-wrap: break-word;
-    width: 320px; /* Keep dvw as is */
+    width: 80%;
     margin-top: 10px;
     font-family: var(--font-alt);
-    font-size: 1.0rem;
+    font-size: 1.8dvh;
 }
 
 /* Blog carousel styling */
@@ -187,7 +194,7 @@
 }
 
 .mb-1 {
-    margin-bottom: 0.1rem !important;
+    margin-bottom: 1px !important;
 }
 
 .blog.modal-header {
@@ -201,5 +208,5 @@
     margin-top: 20px;
     color : var(--color-white);
     font-family: var(--font-primary);
-    font-size: 2rem;
+    font-size: 3dvh;
 }
