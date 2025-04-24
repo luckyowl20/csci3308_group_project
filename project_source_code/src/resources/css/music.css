@@ -4,15 +4,16 @@ html, body {
     overflow-x: hidden;
   }
 
-.swipe-container {
-    margin-top: -70px; /* Adjust this value to control vertical positioning */
-    margin-bottom: 0px;
-    height: calc(100vh - 40px); /* Optional: reduce height to compensate for margin */
+  .swipe-container {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
   }
   
-.music-title {
-    color: var(--color-primary); /* or use your --color-primary if set */
+  .swipe-content {
+    transform: translateY(-70px); /* Move only the content up */
   }
+  
   
   .swipe-button {
     width: 90px;
