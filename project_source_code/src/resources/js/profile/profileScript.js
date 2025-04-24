@@ -48,9 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
           e.preventDefault();
           e.stopPropagation();
           hiddenInput.value = track.id;
-          console.log("Selected track ID:", track.id);
+          console.log("Selected track ID:", track.name);
 
-          selectedDisplay.innerText = `🎵 Selected: ${track.id} by ${track.artists[0].name}`;
+          selectedDisplay.innerText = `🎵 Selected: ${track.name} by ${track.artists[0].name}`;
         });
 
         resultsDiv.appendChild(preview);
