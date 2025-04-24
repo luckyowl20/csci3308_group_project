@@ -6,7 +6,17 @@ async function calculateMatches(db, userId, matchType) {
     // Step 1: Get current user's profile with user_location_ewkt
     const profile = await db.oneOrNone(`
       SELECT
-        p.*,
+        p.id AS profile_id,
+        p.user_id AS user_id, -- foreign key to users table
+        p.display_name,
+        p.biography,
+        p.birthday,
+        p.gender,
+        p.preferred_gender,
+        p.preferred_age_min,
+        p.preferred_age_max,
+        p.match_distance_miles,
+        p.profile_picture_url,
         ST_AsEWKT(p.user_location) AS user_location_ewkt
       FROM profiles p
       WHERE p.user_id = $1
@@ -15,7 +25,7 @@ async function calculateMatches(db, userId, matchType) {
     if (!profile) throw new Error("No profile found");
     console.log(`[MatchDebug] User profile:`, profile);
 
-    if (!profile.user_location) {
+    if (!profile.user_location_ewkt) {
         throw new Error("Please set a location in your profile first!");
     }
 
@@ -42,7 +52,17 @@ async function calculateMatches(db, userId, matchType) {
     // Step 5: Get potential matches with distance calculated in-DB
     const candidates = await db.any(`
       SELECT
-        p.*,
+        p.id AS profile_id,
+        p.user_id AS user_id, 
+        p.display_name,
+        p.biography,
+        p.birthday,
+        p.gender,
+        p.preferred_gender,
+        p.preferred_age_min,
+        p.preferred_age_max,
+        p.match_distance_miles,
+        p.profile_picture_url,
         ST_Distance(p.user_location, ST_GeogFromText($4)) AS distance_meters
       FROM profiles p
       WHERE p.user_id != $1
@@ -131,7 +151,7 @@ async function calculateMatches(db, userId, matchType) {
 
     // Sort by final score descending
     matches.sort((a, b) => b.finalScore - a.finalScore);
-    console.log("[MatchDebug] Matches found:", matches);
+    // console.log("[MatchDebug] Matches found:", matches);
     return { matches };
 }
 

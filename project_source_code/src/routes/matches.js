@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth');
-const { calculateMatches } = require('../utils/matchAdapter');
+const { calculateMatches } = require('../utils/matcher');
 
 
 /* 

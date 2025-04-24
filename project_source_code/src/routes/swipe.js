@@ -1,29 +1,34 @@
 // routes/swipe.js
 const express = require('express');
 const router = express.Router();
-const { getMatches } = require('../utils/matchAdapter');
-const { isAuthenticated } = require('../middleware/auth');
 const { calculateMatches } = require('../utils/matcher');
+const { isAuthenticated } = require('../middleware/auth');
+
 
 router.get('/', isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const userId = user.id;
   const db = req.app.locals.db;
 
-  console.log("current user:", user);
-
   console.log(`[SwipeDebug] Swipe page requested by user ID: ${userId}`);
 
   // Get the full logged-in user details first (for nav bar)
-  const loggedInUser = await req.app.locals.db.oneOrNone(`
+  const loggedInUser = await db.oneOrNone(`
       SELECT 
-        u.*, 
+        u.id AS user_id,
+        u.username, 
         p.*
       FROM users u
       JOIN profiles p ON p.user_id = u.id
       WHERE u.id = $1
-    `, [req.session.user.id]);
+    `, [userId]);
 
+  if (!loggedInUser) {
+    console.error('Could not find logged in user details');
+    return res.redirect('/auth/login');
+  }
+
+  console.log(`[SwipeDebug] attempting to find matches`);
   const { matches } = await calculateMatches(
     db,
     userId,
@@ -40,7 +45,7 @@ router.get('/', isAuthenticated, async (req, res) => {
       user: loggedInUser,
       // Add swipeTarget as null to indicate no users to swipe on
       swipeTarget: null,
-      currentUser: req.session.user
+      currentUser: user
     });
   }
 
@@ -48,8 +53,11 @@ router.get('/', isAuthenticated, async (req, res) => {
     SELECT 
     u.id AS user_id,
     u.username,
-    u.email,
-    p.*,
+    p.id as profile_id,
+    p.display_name,
+    p.biography,
+    p.birthday,
+    p.profile_picture_url,
     (
       SELECT json_agg(subq.post_data)
       FROM (
@@ -81,16 +89,18 @@ router.get('/', isAuthenticated, async (req, res) => {
     // Pass the potential match as a separate variable
     swipeTarget: { ...topMatch, match_score: matches[0].finalScore },
     noUsersLeft: false,
-    currentUser: req.session.user
+    currentUser: user
   });
 
 });
 
 // POST /swipe/swipe - Handles swipe actions
 router.post('/swipe', isAuthenticated, async (req, res) => {
+  console.log("[SwipeDebug] MADE IT TO POST");
   const user = req.session.user;
   const userId = user.id;
-
+  const db = req.app.locals.db;
+  console.log(`[SwipeDebug] Swipe action received from user ID: ${userId}`);
 
   const { swipeeId, isLiked } = req.body;
   const swiperId = userId;
@@ -105,19 +115,20 @@ router.post('/swipe', isAuthenticated, async (req, res) => {
     });
   }
 
+  // this should not exist ever in any codebase and hurts my sould -matt
   const isLikedBool = isLiked === true || isLiked === 'true';
   const swipeType = 'match';
 
   console.log(`[SwipeDebug] Recording swipe of type "${swipeType}"`);
 
-  await req.app.locals.db.tx(async t => {
+  await db.tx(async t => {
     const swipeeExists = await t.oneOrNone(
       'SELECT 1 FROM users WHERE id = $1',
       [swipeeId]
     );
 
     if (!swipeeExists) {
-      throw new Error('User to swipe on does not exist');
+      throw Error('User to swipe on does not exist');
     }
 
     await t.none(
@@ -166,8 +177,6 @@ router.post('/swipe', isAuthenticated, async (req, res) => {
       });
     }
   });
-
-
 });
 
 module.exports = router;
