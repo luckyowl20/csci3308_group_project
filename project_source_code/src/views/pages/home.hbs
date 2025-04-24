@@ -1,9 +1,20 @@
-<!-- views/pages/home.hbs -->
 <link rel="stylesheet" href="/resources/css/home.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 {{#section "scripts"}}
 <script src="/resources/js/home/homePageScript.js"></script>
+<script>
+  function showMessage(type) {
+    const alertBox = document.getElementById("home-alert-box");
+    if (type === "profile") {
+      alertBox.textContent = "Please complete your profile (display name, birthday, location, gender, preferred gender) in Preferences.";
+    } else if (type === "post") {
+      alertBox.textContent = "You need to post a photo today to use this feature.";
+    }
+    alertBox.classList.remove("d-none");
+    alertBox.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
 {{/section}}
 
 <div class="feed-wrapper container-fluid px-4 py-4 min-vh-100">
@@ -23,17 +34,28 @@
   </div>
 
   <!-- Main Row: Sidebar + Feed -->
+  <div id="home-alert-box" class="alert alert-warning d-none" role="alert"></div>
   <div class="row">
     <!-- Desktop Sidebar Buttons -->
     <div class="col-md-2 d-none d-md-flex flex-column align-items-start gap-3">
       {{#if userHasPostedToday}}
-        <a href="/swipe" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Someone</a>
-        <a href="/friends" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Friends</a>
+        {{#unless profileIncomplete}}
+          <a href="/swipe" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Someone</a>
+          <a href="/friends" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Friends</a>
+        {{else}}
+          <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="showMessage('profile')">Meet Someone</button>
+          <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="showMessage('profile')">Meet Friends</button>
+        {{/unless}}
       {{else}}
         <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Someone</button>
         <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Friends</button>
       {{/if}}
-      <a href="/take_picture" class="btn btn-primary tile fw-bold w-100 py-4 text-white">Upload Photo</a>
+
+      {{#unless profileIncomplete}}
+        <a href="/take_picture" class="btn btn-primary tile fw-bold w-100 py-4 text-white">Upload Photo</a>
+      {{else}}
+        <button class="btn btn-primary tile fw-bold w-100 py-4 text-white" onclick="showMessage('profile')">Upload Photo</button>
+      {{/unless}}
     </div>
 
     <!-- Feed Column -->
