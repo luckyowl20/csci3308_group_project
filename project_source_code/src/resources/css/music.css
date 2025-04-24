@@ -1,26 +1,17 @@
 /* music.css */
 
-html,
-body, html {
-  margin: 0;
-  padding: 0;
-  height: auto;         
+html, body {
   overflow-x: hidden;
 }
 
 .swipe-container {
-  /* Let it size itself instead of filling the screen */
-  width: 100%;          /* full-width so it’s centred nicely */
-  max-width: 480px;     /* cap the width on large screens */
-  height: auto;         /* allow height to collapse to content */
-  margin: 4rem auto;    /* space above & below; tweak as needed */
-  flex-direction: column;
-  gap: 1.5rem;          /* space between card and buttons */
+  margin-top: -70px; /* Adjust this value to control vertical positioning */
+  margin-bottom: 0px;
+  height: calc(100vh - 40px); /* Optional: reduce height to compensate for margin */
 }
 
 .music-title {
-  color: var(--color-primary);
-  /* or use your --color-primary if set */
+  color: var(--color-primary); /* or use your --color-primary if set */
 }
 
 .swipe-button {
@@ -29,12 +20,9 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 40px;
-  /* Adjust size of emoji */
-  line-height: 1;
-  /* Keeps vertical alignment tight */
-  text-decoration: none;
-  /* Remove underline if <a> */
+  font-size: 40px;         /* Adjust size of emoji */
+  line-height: 1;          /* Keeps vertical alignment tight */
+  text-decoration: none;   /* Remove underline if <a> */
   border-radius: 50%;
   border: none;
   cursor: pointer;
@@ -50,13 +38,13 @@ body, html {
 
 
 /* .no-button {
-    left: 20%;
-    background-color: var(--color-button-no);
-    color: var(--color-white);
+  left: 20%;
+  background-color: var(--color-button-no);
+  color: var(--color-white);
 }
 
 .yes-button {
-    right: 20%;
-    background-color: var(--color-button-yes);
-    color: var(--color-white);
+  right: 20%;
+  background-color: var(--color-button-yes);
+  color: var(--color-white);
 } */
