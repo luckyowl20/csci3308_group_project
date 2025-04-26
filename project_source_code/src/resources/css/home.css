@@ -54,3 +54,11 @@
   height: 100%;
   border-radius: 8px;
 }
+
+@media (max-width: 768px) {
+  .left-buttons {
+    width: 100%;
+    justify-content: space-around;
+  }
+}
+

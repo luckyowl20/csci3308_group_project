@@ -168,8 +168,6 @@ CREATE TABLE IF NOT EXISTS blogs (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-SELECT pg_get_serial_sequence('blogs', 'id');
-
 
 CREATE TABLE IF NOT EXISTS blogs_posts (
     PRIMARY KEY (blog_id, post_id),
@@ -193,5 +191,13 @@ CREATE TABLE IF NOT EXISTS restaurants (
     user_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- the user who liked the restaurant
     place_id CHAR(500), -- Google Map PlaceAPI's place_id
+    opinion BOOLEAN NOT NULL -- (False) = dislike, (True) = like
+);
+
+-- table of user opinion on activities
+CREATE TABLE IF NOT EXISTS activities (
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- the user who liked the activity
+    place_id CHAR(500), -- Google Maps PlaceAPI's place_id for the activity
     opinion BOOLEAN NOT NULL -- (False) = dislike, (True) = like
 );

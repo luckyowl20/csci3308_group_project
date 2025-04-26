@@ -27,3 +27,5 @@ SELECT setval(
   GREATEST((SELECT COALESCE(MAX(id), 0) FROM blogs), 1),
   true
 );
+
+
