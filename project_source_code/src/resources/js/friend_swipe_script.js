@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } else {
         console.error("[SwipeDebug] Right swipe button not found!");
-    }
+    } 
 
 
     // 🔽 Toggle view between profile details and user posts (same as original)

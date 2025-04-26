@@ -40,11 +40,11 @@
 
     <!-- Match Modal -->
     <div id="match-modal" class="modal">
-      <div class="modal-content text-center">
-        <h2>It's a match!</h2>
-        <p>You and {{swipeTarget.display_name}} have liked each other.</p>
-        <button id="close-match-modal">Continue Swiping</button>
-      </div>
+        <div class="modal-content">
+            <h2>It's a match!</h2>
+            <p>You and {{user.display_name}} have liked each other.</p>
+            <button id="close-match-modal" class="btn btn-primary">Continue Swiping</button>
+        </div>
     </div>
   {{/if}}
 

@@ -36,17 +36,13 @@
         <button id="right-swipe" class="swipe-button yes-button">
           <i class="bi bi-person-plus-fill" style="font-size: 2rem;"></i>
         </button>
-      </div>
     </div>
-
-    <!-- Friend Match Modal -->
-    <div id="friend-modal" class="modal">
-      <div class="modal-content text-center">
-        <h2>Friend Added!</h2>
+<div id="friend-modal" class="modal">
+    <div class="modal-content">
+        <h2>It's a match!</h2>
         <p>You and {{swipeTarget.display_name}} are now friends.</p>
-        <button id="close-friend-modal">Continue</button>
-      </div>
+        <button id="close-friend-modal" class="btn btn-primary">Continue Swiping</button>
     </div>
-  {{/if}}
-
+</div>
+    {{/if}}
 </body>
