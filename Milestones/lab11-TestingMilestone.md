@@ -22,7 +22,7 @@ This section verifies that the real-time messaging system using Socket.IO functi
   2. She selects Bob from her friend list and sends the message.  
   3. Bob (already logged in) views the message live.
 - **Expected Result:** Message is delivered and displayed in real time for both users.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : Test case passed clearly with not issues users were able to send and receive messages without any issues.
 
 ---
 
@@ -36,7 +36,7 @@ This section verifies that the real-time messaging system using Socket.IO functi
   1. Alice sends a message to Bob.  
   2. Bob logs in afterward and views the chat history.
 - **Expected Result:** The message is saved to the database and appears in Bob's chat upon login.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : This passed perfectly fine users were still able to send messages even if the other user is offline.
 
 ---
 
@@ -49,7 +49,7 @@ This section verifies that the real-time messaging system using Socket.IO functi
   1. User types a message with only spaces.  
   2. Clicks "Send".
 - **Expected Result:** Message is not sent; an error or silent failure prevents it.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : This worked no messages that had just pure whitespace where able to be sent between users.
 
 ---
 
@@ -63,7 +63,7 @@ This section verifies that the real-time messaging system using Socket.IO functi
   1. Alice manually navigates to `/chat?receiver_id=99`.  
   2. Attempts to send a message.
 - **Expected Result:** Backend rejects the message or shows an error; message is not saved.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : Users can't accesses any messaging with someone that is not their freind as they are not in control of new chats so no issues here.
 
 ---
 
@@ -100,7 +100,8 @@ This section ensures users can manage their own profile details safely and relia
   3. Clicks Save.  
   4. Page reloads.
 - **Expected Result:** All fields reflect the new values on the page and remain on refresh.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : All profile updates work as they should and the data is stored correctly as it should be.
+  
 
 ---
 
@@ -114,7 +115,7 @@ This section ensures users can manage their own profile details safely and relia
   2. Changes just the biography field.  
   3. Saves and reloads.
 - **Expected Result:** Only the updated field changes, others remain intact.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : This works correctly the user can update any part of the profile that they choose and no issues will arise with other profile settings or features.
 
 ---
 
@@ -126,7 +127,7 @@ This section ensures users can manage their own profile details safely and relia
 - **Steps:**  
   1. User enters an invalid image URL and tries to save.
 - **Expected Result:** App should reject or sanitize bad data and show feedback.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : This works as it should every url will be valid as the only url's being passed in are straight from the supabase database.
 
 ---
 
@@ -139,7 +140,7 @@ This section ensures users can manage their own profile details safely and relia
   1. Alice navigates to `/users/2`  
   2. Checks for Edit button or tries to trigger modal manually.
 - **Expected Result:** Edit modal is not accessible; changes are blocked by backend as well.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : No editing button shows up if users are on another users profile meaning that this test case passes and this feature works as it should.
 
 ---
 
@@ -152,7 +153,7 @@ This section ensures users can manage their own profile details safely and relia
   1. User changes name and saves.  
   2. User refreshes the profile page.
 - **Expected Result:** New name appears correctly and is stored in DB.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** Data is pulled from the data base and after a reload the data does stay on the profile meaning this test passes.
 
 ---
 
@@ -187,7 +188,7 @@ This section tests the integration between the user's profile and the Spotify We
   5. She saves the profile.
   6. She sees a Spotify player embedded on the page showing the chosen song.
 - **Expected Result:** Track ID is saved in the database and reloaded properly on refresh.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : User is able to search, sleclect, and save a track. Meaning this test passes.
 
 ---
 
@@ -200,7 +201,7 @@ This section tests the integration between the user's profile and the Spotify We
   1. User opens the Edit Profile modal.
   2. Leaves the search input blank or types just one letter.
 - **Expected Result:** No API call is made, results div remains empty, and no error is thrown.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : There are no results when the user has not entered any value in the search bar for the song, so this test passes.
 
 ---
 
@@ -212,7 +213,7 @@ This section tests the integration between the user's profile and the Spotify We
 - **Steps:**
   1. User enters the nonsense term into the Spotify search bar.
 - **Expected Result:** A “no results found” message is shown or results remain empty without error.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : stuff will show up but this is out of our control as it depends on whats listed in spotifys database.
 
 ---
 
@@ -226,7 +227,7 @@ This section tests the integration between the user's profile and the Spotify We
   2. User closes the modal without clicking “Save Changes”.
   3. User refreshes the page.
 - **Expected Result:** No song is saved to the profile (Spotify player should not appear).
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : The modal must be submitted otherwise the song will not be preserved so this test does pass.
 
 ---
 
@@ -241,7 +242,7 @@ This section tests the integration between the user's profile and the Spotify We
   2. Opens Edit Profile modal, searches for a different song, and selects it.
   3. Saves the form.
 - **Expected Result:** Spotify iframe updates to the new song after saving.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : The user is able to change their previsouly selected track to any track they choose so this test does pass.
 
 ---
 
@@ -253,7 +254,7 @@ This section tests the integration between the user's profile and the Spotify We
 - **Steps:**
   1. Load user profile for someone who hasn’t selected a song.
 - **Expected Result:** A placeholder message like “No favorite song selected yet.” is shown instead of a broken iframe.
-- **Actual Result:** _(to be filled during test)_
+- **Actual Result:** : A message saying no favorite song selected pops up so this test does pass.
 
 ---
 
