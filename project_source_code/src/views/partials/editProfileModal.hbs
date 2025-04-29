@@ -3,41 +3,52 @@
   <div class="modal-dialog">
     <form method="POST" action="/profile/update" class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title font-alt fw-bold" id="editProfileModalLabel">Edit Profile</h5>
+        <h5 class="modal-title alt-text font-alt fw-bold" id="editProfileModalLabel">Edit Profile</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body font-alt">
         <!-- Display Name -->
-        <label for="display_name" class="form-label fw-semibold">Display Name</label>
+        <label for="display_name" class="form-label alt-text font-alt fw-bold">Display Name</label>
         <input name="display_name" class="form-control mb-2" placeholder="Display Name"
           value="{{profile.display_name}}">
 
         <!-- Biography -->
-        <label for="biography" class="form-label fw-semibold">Biography</label>
+        <label for="biography" class="form-label alt-text font-alt fw-bold">Biography</label>
         <textarea name="biography" class="form-control mb-2" placeholder="Biography">{{profile.biography}}</textarea>
 
         <!-- Interests -->
         {{> interestsSelector profile=profile interestOptions=interestOptions }}
 
         <!-- Birthday -->
-        <label for="birthday" class="form-label fw-semibold">Birthday</label>
+        <label for="birthday" class="form-label alt-text font-alt fw-bold">Birthday</label>
         <input name="birthday" type="date" class="form-control mb-2" value="{{profile.birthday}}">
 
         <!-- Profile Picture URL -->
-      <label class="form-label">Profile Picture</label>
-      <div class="d-flex align-items-center gap-3 mb-2">
-      <img src="{{profile.profile_picture_url}}" alt="Current Profile Picture" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-      <a href="/take_picture/profile" class="btn btn-outline-success">Change Picture</a>
-      </div>
+        <label class="form-label alt-text font-alt fw-bold">Profile Picture</label>
+        <div class="d-flex align-items-center gap-3 mb-2">
+          <img src="{{profile.profile_picture_url}}" alt="Current Profile Picture" class="rounded-circle"
+            style="width: 60px; height: 60px; object-fit: cover;">
+          <a href="/take_picture/profile" class="btn btn-outline-success">Change Picture</a>
+        </div>
 
         <!-- Spotify Track Search -->
         <p id="spotify-selected-display" class="text-muted mb-2"></p>
-        <label for="spotify-search" class="form-label fw-semibold">Favorite Song</label>
+        <label for="spotify-search" class="form-label alt-text font-alt fw-bold">Favorite Song</label>
         <input type="text" id="spotify-search" class="form-control mb-2" placeholder="Search for a song...">
         <input type="hidden" name="spotify_song_id" id="spotify_song_id_input" value="{{profile.spotify_song_id}}">
         <div id="spotify-results" class="mb-3 spotify-scroll"></div>
+
+        <!-- Settings -->
+        <label for="settings-button" class="form-label alt-text fw-semibold">
+          User Settings
+        </label>
+        <a href="/settings" id="settings-button" class="btn btn-outline-success d-block mt-2">
+          Settings
+        </a>
       </div>
+
+
 
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary bg-navbar text-white font-alt">Save Changes</button>

@@ -4,92 +4,116 @@
 /* .font-alt {
     font-family: 'Lalezar', cursive;
   } */
-  
-  .primary-text {
-    color: var(--bs-success);
-  }
-  
-  /* Profile Picture */
-  img.rounded-circle {
-    object-fit: cover;
-  }
-  
-  .chat-box {
-    height: 400px;
-    overflow: auto;
+
+
+/* Profile Picture */
+img.rounded-circle {
+  object-fit: cover;
+}
+
+.chat-box {
+  height: 400px;
+  overflow: auto;
 }
 
 /* Style for all message bubbles */
 .message-bubble {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
-    font-size: 0.95rem;
-    max-width: 75%;
-    word-wrap: break-word;
-    transition: all 0.2s ease-in-out; /* ensures smooth update if anything changes */
-  }
-  
-  /* Outgoing message (sent by current user) */
-  .message-out {
-    background-color: var(--color-message-out-bubble, #f8c8dc); /* fallback soft pink */
-    color: var(--color-message-out-text, #fff); /* fallback white text */
-  }
-  
-  /* Incoming message (from others) */
-  .message-in {
-    background-color: var(--color-message-in-bubble, #e9ecef); /* fallback light gray */
-    color: var(--color-message-in-text, #343a40); /* fallback dark text */
-  }
-  
-  /* Font style for message content */
-  /* .message-bubble.font-alt {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.95rem;
+  max-width: 75%;
+  word-wrap: break-word;
+  transition: all 0.2s ease-in-out;
+  /* ensures smooth update if anything changes */
+}
+
+/* Outgoing message (sent by current user) */
+.message-out {
+  background-color: var(--color-message-out-bubble);
+  /* fallback soft pink */
+  color: var(--color-message-out-text);
+  /* fallback white text */
+}
+
+/* Incoming message (from others) */
+.message-in {
+  background-color: var(--color-message-in-bubble);
+  /* fallback light gray */
+  color: var(--color-message-in-text);
+  /* fallback dark text */
+}
+
+/* Font style for message content */
+/* .message-bubble.font-alt {
     font-family: 'Lalezar', cursive;
   } */
-  
-  /* Optional: Animate message appearance */
-  .message-bubble {
-    animation: fadeInMessage 0.3s ease;
-  }
-  
-  @keyframes fadeInMessage {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }  
 
+/* Optional: Animate message appearance */
+.message-bubble {
+  animation: fadeInMessage 0.3s ease;
+}
 
-  /* Chat Box Scrollable Area */
-  /* .chat-box {
-    height: 400px;
-    overflow-y: auto;
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0.5rem;
-  } */
-  
-  /* Message Styling – optional: define message bubble styles */
-  /* .message-bubble {
-    margin-bottom: 0.75rem;
-  } */
-  
-  /* Friend Link Hover Effect */
-  a.text-decoration-none:hover {
-    text-decoration: underline;
-    color: var(--bs-success-dark, #146c43); /* fallback if custom variable is missing */
-  }
-  
-  /* Chat Panel Header and Footer Styling (if needed) */
-  .card-footer {
-    background-color: #f1f3f5;
+@keyframes fadeInMessage {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
   }
 
-  input[name="message_text"] {
-    color: black !important; /* Force black text color */
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+
+/* Friend Link Hover Effect */
+.friend-chat-link {
+  text-decoration: none;
+  color: var(--color-primary-text);
+  /* fallback if custom variable is missing */
+}
+
+.friend-chat-link:hover {
+  text-decoration: underline;
+  color: var(--color-alt-text);
+  /* fallback if custom variable is missing */
+}
+
+/* Chat Panel Header and Footer Styling (if needed) */
+.card-footer {
+  background-color: #f1f3f5;
+}
+
+input[name="message_text"] {
+  color: black !important;
+  /* Force black text color */
+}
+
+html {
+  overflow-y: scroll;
+  /* if you want the newer spec way (Chrome/Firefox): 
+     scrollbar-gutter: stable both-edges; */
+}
+
+.sidebar {
+  /* if you wrapped your col in <div class="col-md-3 sidebar border-end"> */
+  flex: 0 0 300px;
+  /* don’t grow or shrink, always 250px */
+  max-width: 300px;
+}
+
+/* 3) Keep your toggle button “full width” *within* that fixed sidebar */
+#toggle-matches-btn {
+  width: 100%;
+  /* if you ever swap out w-100, you can instead do:
+       min-width: 150px;  /* big enough for either label */
   
+}
+
+/* 4) Scroll *inside* the friends list rather than on the whole page */
+#sidebar-list {
+  max-height: calc(100vh - 120px);
+  /* adjust 120px to match header+button height */
+  overflow-y: auto;
+}

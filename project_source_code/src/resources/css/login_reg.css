@@ -32,11 +32,13 @@
     width: 50%;
     padding: 20px 30px;
     background-color: var(--color-white);
-    overflow-y: auto;           /* enable vertical scroll if needed */
-    max-height: 440px;          /* match the height of the .body container */
+    overflow-y: auto;
+    /* enable vertical scroll if needed */
+    max-height: 440px;
+    /* match the height of the .body container */
 }
 
-.box-2 form{
+.box-2 form {
     margin-top: 10px;
 }
 
@@ -126,7 +128,7 @@ a:hover {
         flex-direction: column;
     }
 
-    .box-1, 
+    .box-1,
     .box-2 {
         width: 100%;
         height: auto;

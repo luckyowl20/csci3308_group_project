@@ -1,0 +1,35 @@
+{{#section "scripts"}}
+<script src="/resources/js/musicScript.js"></script>
+{{/section}}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/resources/css/swipe.css">
+<link rel="stylesheet" href="/resources/css/music.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+<div class="swipe-container">
+  <div class="track-card">
+    <h2 class="music-title mt-0">Random Music Explorer</h2>
+
+    <!-- Search form -->
+    <form method="GET" action="/explore/music" class="mb-4">
+      <input type="text" name="artist" placeholder="Search for an artist..." class="form-control mb-2"
+        value="{{artist}}" />
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{trackId}}" width="100%" height="352"
+      frameBorder="0" allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+    </iframe>
+
+  <div class="swipe-buttons">
+    <a href="/explore/music/dislike?trackId={{trackId}}" class="swipe-button no-button">
+      <i class="bi bi-x-lg" style="font-size: 2rem;"></i>
+    </a>
+    <a href="/explore/music/like?trackId={{trackId}}" class="swipe-button yes-button">
+      <i class="bi bi-heart-fill" style="font-size: 2rem;"></i>
+    </a>
+
+  </div>

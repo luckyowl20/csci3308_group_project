@@ -48,9 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
           e.preventDefault();
           e.stopPropagation();
           hiddenInput.value = track.id;
-          console.log("Selected track ID:", track.id);
+          console.log("Selected track ID:", track.name);
 
-          selectedDisplay.innerText = `🎵 Selected: ${track.id} by ${track.artists[0].name}`;
+          selectedDisplay.innerText = `🎵 Selected: ${track.name} by ${track.artists[0].name}`;
         });
 
         resultsDiv.appendChild(preview);
@@ -64,38 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsDiv.innerHTML = '';
     selectedDisplay.innerText = '';
   });
-
-  // === Picture viewer logic ===
-  // const panel = document.getElementById('viewerPanel');
-  // const slides = document.querySelectorAll('.day-slide');
-  // const prevBtn = document.getElementById('prevBtn');
-  // const nextBtn = document.getElementById('nextBtn');
-
-  // if (panel && slides.length && prevBtn && nextBtn) {
-  //   let currentIndex = 0;
-
-  //   const updateView = () => {
-  //     const offset = -currentIndex * 150; // slide width
-  //     panel.style.transform = `translateX(${offset}px)`;
-  //     panel.style.transition = 'transform 0.3s ease';
-  //   };
-
-  //   prevBtn.addEventListener('click', () => {
-  //     if (currentIndex > 0) {
-  //       currentIndex--;
-  //       updateView();
-  //     }
-  //   });
-
-  //   nextBtn.addEventListener('click', () => {
-  //     if (currentIndex < slides.length - 3) {
-  //       currentIndex++;
-  //       updateView();
-  //     }
-  //   });
-
-  //   updateView();
-  // }
 
   // === Interests editor logic ===
   const interestsSearchInput = document.getElementById('interests-search');
@@ -253,6 +221,87 @@ document.addEventListener('DOMContentLoaded', () => {
     ageMin.addEventListener('input', updateAgeDisplay);
     ageMax.addEventListener('input', updateAgeDisplay);
     updateAgeDisplay();
+  }
+
+  // friends / matches display logic
+  const btn = document.getElementById('toggle-matches-btn');
+  const list = document.getElementById('sidebar-list');
+  const heading = document.getElementById('sidebar-heading');
+
+  // grab the arrays we inlined
+  const friends = window.__FRIENDS__ || [];
+  const matches = window.__MATCHES__ || [];
+
+  // current mode: either 'friends' or 'matches'
+  let mode = 'friends';
+
+  // initial render
+  renderList(friends);
+
+  btn.addEventListener('click', () => {
+    if (mode === 'friends') {
+      mode = 'matches';
+      heading.textContent = 'Matches';
+      btn.textContent = 'Show Friends';
+      renderList(matches);
+    } else {
+      mode = 'friends';
+      heading.textContent = 'Friends';
+      btn.textContent = 'Show Matches';
+      renderList(friends);
+    }
+    btn.setAttribute('data-mode', mode);
+  });
+
+  function renderList(items) {
+    list.innerHTML = '';
+    if (items.length) {
+      items.forEach(user => {
+        const li = document.createElement("li");
+        li.className = "mb-3 d-flex align-items-center justify-content-center";
+
+        // 1) profile picture HTML
+        const profilePicHTML = user.profile_picture_url
+          ? `<img
+              src="${user.profile_picture_url}"
+              alt="${user.username}'s profile picture"
+              class="profile-pic rounded-circle"
+              width="40"
+              height="40"
+            >`
+          : `<img
+              src="https://via.placeholder.com/40?text=U"
+              alt="Default profile picture"
+              class="profile-pic rounded-circle"
+              width="40"
+              height="40"
+            >`;
+
+        // 2) username display (as link or plain text)
+        const usernameHTML = window.__OWN_PROFILE__
+          ? `<a href="/profile/${user.id}" class="friend-chat-link font-alt primary-text fw-semibold">
+            <span>${user.username}</span>
+            </a>`
+          : `<a class="font-alt primary-text fw-bold text-decoration-none"><span>${user.username}<span></a>`;
+
+        // 3) combine and inject
+        li.innerHTML = `
+          <div class="me-3">
+            ${profilePicHTML}
+          </div>
+          ${usernameHTML}
+        `;
+        list.appendChild(li);
+
+      });
+    } else {
+      const li = document.createElement('li');
+      li.className = 'fst-italic primary-text';
+      li.textContent = mode === 'friends'
+        ? 'No friends yet.'
+        : 'No matches yet.';
+      list.appendChild(li);
+    }
   }
 
 });

@@ -1,31 +1,66 @@
-<!-- views/pages/home.hbs -->
-<link rel="stylesheet" href="/resources/css/home.css"/>
+<link rel="stylesheet" href="/resources/css/home.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
 
 {{#section "scripts"}}
 <script src="/resources/js/home/homePageScript.js"></script>
+<script>
+  function showMessage(type) {
+    const alertBox = document.getElementById("home-alert-box");
+    if (type === "profile") {
+      alertBox.textContent = "Please complete your profile (display name, birthday, location, gender, preferred gender) in Preferences.";
+    } else if (type === "post") {
+      alertBox.textContent = "You need to post a photo today to use this feature.";
+    }
+    alertBox.classList.remove("d-none");
+    alertBox.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
 {{/section}}
 
 <div class="feed-wrapper container-fluid px-4 py-4 min-vh-100">
-  <div class="row">
 
-    <!-- Left buttons -->
-    <div class="col-md-2 d-flex flex-column align-items-start gap-4">
+  <!-- Mobile Buttons Row -->
+  <div class="row d-md-none mb-4">
+    <div class="col-12 d-flex flex-column align-items-start gap-3">
       {{#if userHasPostedToday}}
-        <a href="/swipe" class="btn btn-primary tile fw-bold w-100 py-4">Meet Someone</a>
-        <a href="/friends" class="btn btn-primary tile fw-bold w-100 py-4">Meet Friends</a>
+        <a href="/swipe" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Someone</a>
+        <a href="/friends" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Friends</a>
       {{else}}
-        <button class="btn btn-primary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Someone</button>
-        <button class="btn btn-primary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Friends</button>
+        <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Someone</button>
+        <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Friends</button>
+      {{/if}}
+      <a href="/take_picture" class="btn btn-primary tile fw-bold w-100 py-4 text-white">Upload Photo</a>
+    </div>
+  </div>
+
+  <!-- Main Row: Sidebar + Feed -->
+  <div id="home-alert-box" class="alert alert-warning d-none" role="alert"></div>
+  <div class="row">
+    <!-- Desktop Sidebar Buttons -->
+    <div class="col-md-2 d-none d-md-flex flex-column align-items-start gap-3">
+      {{#if userHasPostedToday}}
+        {{#unless profileIncomplete}}
+          <a href="/swipe" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Someone</a>
+          <a href="/friends" class="btn btn-secondary tile fw-bold w-100 py-4">Meet Friends</a>
+        {{else}}
+          <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="showMessage('profile')">Meet Someone</button>
+          <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="showMessage('profile')">Meet Friends</button>
+        {{/unless}}
+      {{else}}
+        <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Someone</button>
+        <button class="btn btn-secondary tile fw-bold w-100 py-4" onclick="alertMustPost()">Meet Friends</button>
       {{/if}}
 
-      <a href="/take_picture" class="btn btn-secondary tile fw-bold w-100 py-4 text-white">Upload Photo</a>
+      {{#unless profileIncomplete}}
+        <a href="/take_picture" class="btn btn-primary tile fw-bold w-100 py-4 text-white">Upload Photo</a>
+      {{else}}
+        <button class="btn btn-primary tile fw-bold w-100 py-4 text-white" onclick="showMessage('profile')">Upload Photo</button>
+      {{/unless}}
     </div>
 
-    <!-- Instagram-style Feed -->
-    <div class="col-md-10">
-      <h2 class="feed-header text-center mb-5">📸 Friends' Moments</h2>
+    <!-- Feed Column -->
+    <div class="col-12 col-md-10">
+      <h2 class="feed-header text-center mb-6">📸 Friends' Moments</h2>
 
       {{#if userHasPostedToday}}
         {{#each feed}}
@@ -39,7 +74,7 @@
                 {{/if}}
               </div>
               <h5 class="mb-0 fw-semibold">
-                <a href="/users/{{this.id}}" class="text-dark text-decoration-none">
+                <a href="/profile/{{this.id}}" class="text-dark text-decoration-none">
                   {{this.display_name}}
                 </a>
               </h5>
@@ -70,18 +105,10 @@
       {{else}}
         <div class="position-relative mb-4 text-center">
           <div class="d-flex align-items-center justify-content-center feed-blur-wrapper">
-            <img 
-              src="https://via.placeholder.com/600x400?text=Friends%27+Photos+Hidden" 
-              alt="Hidden Feed" 
-              class="img-fluid feed-image-blurred"
-            >
+            <img src="https://via.placeholder.com/600x400?text=Friends%27+Photos+Hidden" alt="Hidden Feed" class="img-fluid feed-image-blurred">
           </div>
 
-          <a 
-            href="/take_picture"
-            class="btn btn-warning position-absolute top-50 start-50 translate-middle fw-bold"
-            style="z-index: 10;"
-          >
+          <a href="/take_picture" class="btn btn-primary text-dark position-absolute top-50 start-50 translate-middle fw-bold" style="z-index: 10;">
             Post photo to see pictures
           </a>
         </div>

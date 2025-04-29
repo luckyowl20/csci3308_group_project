@@ -1,67 +1,336 @@
-<!-- Page Content -->
-<div class="container-fluid py-5 px-4 min-vh-100">
-  <div class="row justify-content-center align-items-center">
+{{!-- HERO (fills most of the first screen) --}}
 
-    <!-- Left Column: Headings & Buttons -->
-    <div class="col-lg-6 mb-4">
 
-      <!-- "LuckyMoment" big heading -->
-      <h1 class="fw-bold display-3 text-success">
-        Lucky<span class="text-dark">Moment</span>
-      </h1>
-
-      <!-- Sub-headings -->
-      <h3 class="fw-semibold text-success">Meet People Authentically</h3>
-      <h5 class="text-success mb-4">Snap, Swipe, Meet, Repeat</h5>
-
-      <!-- Buttons -->
-      <div class="d-flex gap-3 flex-wrap">
-        <!-- "Create an Account" with bold text -->
-        <a href="/auth/register" class="btn btn-primary fw-bold">
-          Create an Account
-        </a>
-
-        <!-- "Login" with bold text -->
-        <a href="/auth/login" class="btn btn-secondary fw-bold">
-          Login
-        </a>
-
-        <!-- "Learn More" with bold text -->
-        <a href="/learnmore" class="btn btn-outline-success fw-bold">
-          Learn More
-        </a>
-      </div>
-
-    </div>
-
-    <!-- Right Column: Carousel -->
-    <div class="col-lg-6">
-      <div id="carouselAboutImages" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
-        <div class="carousel-inner rounded shadow">
-
-          <div class="carousel-item active">
-            <img src="/resources/img/about_page_images/image1.jpg" class="d-block w-100" alt="Preview 1" />
-          </div>
-          <div class="carousel-item">
-            <img src="/resources/img/about_page_images/image2.jpg" class="d-block w-100" alt="Preview 2" />
-          </div>
-          <div class="carousel-item">
-            <img src="/resources/img/about_page_images/image3.jpg" class="d-block w-100" alt="Preview 3" />
-          </div>
-
+<link rel="stylesheet" href="/resources/css/about.css">
+<div class="container-fluid px-0 mx-0">
+  <div class="container py-5 py-sm-3 py-2 d-flex flex-column align-items-center justify-content-center text-center">
+    <div class="row w-100 justify-content-center">
+      <div class="col-lg-8 col-md-10 mx-auto">
+         <h1 class="fw-bold display-1 alt-text d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+           <img src="/resources/img/logo/LuckyMomentIcon.png" alt="LuckyMoment Logo" style="height: 80px;" class="mb-3 mb-md-0 me-md-2"/>
+             <span>
+               <span>Lucky</span><span class="text-dark">Moment</span>
+             </span>
+         </h1>
+        <h3 class="alt-text display-5">Meet People <span class="text-dark">Authentically</span></h3>
+        <h5 class="alt-text mb-5 display-6">Snap, Swipe, <span class="text-dark">Meet, Repeat</span></h5>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <a href="/auth/register" class="btn btn-primary btn-lrg fw-bold fs-4">Create an Account</a>
+          <a href="/auth/login" class="btn btn-secondary btn-lrg fw-bold fs-4">Login</a>
         </div>
-
-        <!-- Carousel Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAboutImages" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselAboutImages" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
     </div>
-
   </div>
 </div>
+
+{{!-- LEARN MORE: Hero-ish text + image --}}
+<section class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 mb-4">
+      <h1 class="display-5 fw-bold font-alt">Meet People Authentically</h1></h1>
+      <p class="fs-5">
+        Lucky Moment is a new way to meet people by combining authentic,
+        unfiltered photos with real-time connections. Each day, users get
+        the opportunity to snap and share a quick webcam photo. Whether 
+        you're at home or on campus, your snapshot helps others see the 
+        real you. Connect with people nearby or worldwide who are sharing 
+        their Lucky Moment at the same time, chat, and build meaningful 
+        connections beyond curated profiles.
+      </p>
+    </div>
+    <div class="col-lg-6">
+      <img src="/resources/img/learn_more_pages/image1.jpg" class="img-fluid rounded shadow hero-img"
+        alt="Social Preview">
+    </div>
+  </div>
+</section>
+
+{{!-- LEARN MORE: Features --}}
+<section class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 order-lg-2 mb-4">
+      <h1 class="fw-bold font-alt">We Do It Differently</h1>
+      <p class="fs-5">
+        Connect with others based on shared interests—from food
+        and music to activities and experiences. With a spontaneous,
+        BeReal-style format, users stay genuine and in-the-moment.
+        No filters. No fakes. Just real people, real photos, and real connections.
+      </p>
+      <p class="fs-5">
+        Snap once a day to interact, explore new interests,
+        and keep your streak alive. Authenticity is not only encouraged—it's required.
+      </p>
+    </div>
+    <div class="col-lg-6 order-lg-1">
+      <img src="/resources/img/learn_more_pages/image2.jpg" class="img-fluid rounded shadow feature-img"
+        alt="Engagement Preview">
+    </div>
+  </div>
+</section>
+
+<!-- Getting Started Section -->
+<section class="container py-5">
+  <h1 class="text-center mb-5 fw-bold primary-text font-alt">Getting Started</h1>
+
+  <div class="row g-4">
+    <!-- Step 1: Sign Up -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="fw-semibold alt-text">1. Sign Up</h5>
+          <p class="font-alt">
+            Click “Create an Account” to register with a username and password and you're in!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Profile Setup -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="fw-semibold alt-text">2. Set Up Your Profile</h5>
+          <p class="font-alt">
+            Add a display name, a profile picture, choose interests, pick your favorite song, and set your birthday to power up your match algorithm.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Post Your Daily Lucky Moment -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="fw-semibold alt-text">3. Share Your Lucky Moment</h5>
+          <p class="font-alt">
+            Snap and post a quick photo each day to unlock your friends' posts and activate the swipe & match features.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Discover & Match -->
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="fw-semibold alt-text">4. Discover & Match</h5>
+          <p class="font-alt">
+            Use our swipe deck to meet new people who share your interests—spark a chat and start building real connections.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preferences Subsection -->
+  <div class="mt-5">
+    <h4 class="fw-bold primary-text font-alt text-center">Customize Your Preferences</h4>
+    <p class="font-alt text-center">
+      Head to “Preferences” on your profile page to fine-tune your preferred match distance, age range, and gender settings. Tailor your match criteria
+      so you only see the people you really want to connect with.
+    </p>
+  </div>
+</section>
+
+{{!-- <section class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 mb-4">
+      <h1 class="display-5 fw-bold font-alt">Meet People Authentically</h1></h1>
+      <p class="fs-5"> --}}
+
+{{!-- swipe --}}
+<section class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 mb-4">
+      <h1 class="fw-bold font-alt">Find Your Moment</h1>
+      <p class="fs-5">
+        Swipe through real, unfiltered daily posts to discover potential romantic matches or new friends.
+        Every profile is refreshed daily—so you're always seeing people at their most authentic.
+      </p>
+      <p class="fs-5">
+        Whether you're here to date or just connect, our swipe experience is designed to
+        spark meaningful interactions through shared interests and genuine snapshots.
+      </p>
+    </div>
+    <div class="col-lg-6 order-lg-1">
+      <img src="/resources/img/about_page_images/swiping.jpg" class="w-100 img-fluid rounded shadow feature-img"
+        alt="Swipe Preview">
+    </div>
+  </div>
+</section>
+
+{{!-- chat --}}
+<section class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 order-lg-2 mb-4">
+      <h1 class="fw-bold font-alt">Start the Conversation</h1>
+      <p class="fs-5">
+        Our Chat feature makes it easy to connect in real time with people who matter most.
+        Whether it’s a new match or a long-time friend, meaningful messages start here.
+      </p>
+      <p class="fs-5">
+        Quick, simple, and live—our messaging lets you deepen connections without distractions.
+        Because staying genuine should never be hard.
+      </p>
+    </div>
+    <div class="col-lg-6 order-lg-1">
+      <img src="/resources/img/about_page_images/chat1.jpg" class="w-100 img-fluid rounded shadow feature-img"
+        alt="Chat Preview">
+    </div>
+  </div>
+</section>
+
+{{!-- feed  --}}
+<section class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 order-lg-1 mb-4">
+      <h1 class="fw-bold font-alt">Stay in the Loop</h1>
+      <p class="fs-5">
+        Your Feed is a dynamic stream of daily photos and moments shared by your friends and matches.
+        It’s where you stay updated and connected with those closest to you.
+      </p>
+      <p class="fs-5">
+        Every post is real-time and in-the-moment—no filters, no edits.
+        Just honest updates that spark conversations and keep relationships fresh.
+      </p>
+    </div>
+    <div class="col-lg-6 order-lg-2">
+      <img src="/resources/img/about_page_images/feed1.jpg" class="w-100 img-fluid rounded shadow feature-img"
+        alt="Feed Preview">
+    </div>
+  </div>
+</section>
+
+{{!-- blog --}}
+<section class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 order-lg-2 mb-4">
+      <h1 class="fw-bold font-alt">Share Your Story</h1>
+      <p class="fs-5">
+        Create and explore blogs that celebrate Lucky Moment success stories.
+        Whether it's about new friendships, unexpected adventures, or genuine connections—
+        your voice adds to the community.
+      </p>
+      <p class="fs-5">
+        Inspire others by sharing your journey and reading others'. Each blog post helps
+        build a more connected, thoughtful space where real moments thrive.
+      </p>
+    </div>
+    <div class="col-lg-6 order-lg-1">
+      <img src="/resources/img/about_page_images/blog.jpg" class="w-100 img-fluid rounded shadow feature-img"
+        alt="Blog Preview">
+    </div>
+  </div>
+</section>
+
+{{!-- memories --}}
+<section class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 order-lg-2 mb-4">
+      <h1 class="fw-bold font-alt">Relive Your Memories</h1>
+      <p class="fs-5">
+        Every daily photo you post becomes part of your personal story. The Memories page
+        lets you look back at all your snapshots—one authentic moment at a time.
+      </p>
+      <p class="fs-5">
+        Whether it’s a fun night out, a quiet coffee morning, or a spontaneous adventure,
+        revisit the moments that made you smile. It's your private timeline of realness.
+      </p>
+    </div>
+    <div class="col-md-6 order-md-2 mb-4">
+      <img src="/resources/img/about_page_images/memories.jpg" 
+           class="img-fluid w-100 rounded shadow" 
+           alt="Memories Preview">
+    </div>
+  </div>
+</section>
+
+{{!-- discover and connect --}}
+<section class="container py-5">
+  <h1 class="mb-4 text-center fw-bold font-alt">Discover & Connect</h1>
+  <p class="text-center mb-5 fs-5">
+    Our game-changing Discover tool doesn’t just show you cool new music, restaurants, and activities—it instantly
+    hooks you up with fellow fans and foodies and adventurers who share your passions.  Discover has already
+    sparked thousands of real conversations and lasting friendships by matching you with people who love the
+    same things you do.
+  </p>
+
+  <div class="row g-4">
+    <!-- Discover New Music -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h4 class="card-title fw-semibold primary-text">Discover New Music</h4>
+          <p class="card-text mt-3">
+            Supercharge your playlist and vibe out with tracks that match your style. Discover unearths trending
+            hits, hidden gems, and artists you haven’t heard before—then connects you with other listeners who
+            can’t get enough of the same beats.
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-0 px-3">
+          <a href="/explore/music" class="btn btn-secondary w-100">
+            Music
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discover New Restaurants -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h4 class="card-title fw-semibold primary-text">Discover New Restaurants</h4>
+          <p class="card-text mt-3">
+            Craving something fresh? Discover highlights local hotspots, off-the-radar eats and chef-approved
+            favorites curated just for you—then puts you in touch with fellow food lovers for instant recs,
+            reviews, and maybe a future dinner date.
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-0 px-3">
+          <a href="/explore/restaurants" class="btn btn-secondary w-100">
+            Restaurants
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discover New Activities -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h4 class="card-title fw-semibold primary-text">Discover New Activities</h4>
+          <p class="card-text mt-3">
+            Feeling spontaneous? Discover finds events, hobbies, hangouts, and one-of-a-kind experiences that
+            speak to your soul—and then connects you with others gearing up for the same adventures so you
+            never have to go it alone.
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-0 px-3">
+          <a href="/explore/activities" class="btn btn-secondary w-100">
+            Activities
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="container text-center py-5">
+  <h1 class="text-center mb-5 fw-bold primary-text font-alt">Ready to get <span class="alt-text">Lucky?</span></h1>
+  <a href="/auth/register" class="btn btn-primary btn-lg me-3">
+    Create an Account
+  </a>
+  <button id="back-to-top" class="btn btn-outline-success btn-lg">
+    Back to Top
+  </button>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('back-to-top').addEventListener('click', () => {
+      location.reload();
+    });
+  });
+</script>

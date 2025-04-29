@@ -1,111 +1,156 @@
-{{jsonParse 'blogs' blogs_string}} 
 {{#section 'scripts'}}
     <!-- Bootstrap JS bundle -->
+    
+    <script src = "/resources/js/blogs/blogScript.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {{/section}}
-    {{!-- Create Blog Modal --}}
-    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createBlogModal">
-            Share Your Lucky Moment Story
-        </button>
-        <div class="modal fade" id="createBlogModal" tabindex="-1" aria-labelledby="createBlogModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    {{!-- modal header --}}
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createBlogModalLabel">Create Blog</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<link rel="stylesheet" href="/resources/css/blog.css" />
+<div id = "main">
+    <div style="width: 2dvw"></div>
+    <div id = "content">
+        <div>   
+            <div style="display: flex; justify-content:center; margin-bottom: 20px;">
+                <div class = "blog box" id = "leftbox">
+                    <div id = "leftupper">
+                        <p class="mb-1 h-1 fw-bold">
+                            <span>Lucky Moment Blogs</span>
+                        </p>
                     </div>
-                    {{!-- modal body --}}
-                    <div class="modal-body">
-                        {{!-- modal form --}}
-                        <form id="createBlogForm" action="/blog/create" method="POST">
-                            {{!-- user id --}}
-                            {{!-- title form --}}
-                            <div class="mb-3">
-                                <label for="blogTitle" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="blogTitle" name="title" required>
-                            </div>
-                            {{!-- post selection form --}}
-                            <div>
-                                <div id="postSelectionCarousel" class="carousel slide" data-interval="false">
-                                    <div class="carousel-inner">
-                                        {{#each user_posts}}
-                                        <div class="carousel-item {{#if @first}}active{{/if}}">
-                                            
-                                            <div class="form-check" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
-                                                {{#if this.url}}
-                                                    <img style="width: 120px; height: 120px;" src="{{this.url}}" alt="Invalid Image URL">
-                                                {{else}}
-                                                    <p>&#60;No Image&#62;</p>
-                                                {{/if}}
-                                                <p>{{this.body}}</p>
-                                                <div style="display: flex; flex-direction: row; align-items: center;">
-                                                    <input class="form-check-input" type="checkbox" name="postSelection" id="post{{@index}}" value="{{this.id}}">
-                                                    <label class="form-check-label" for="post{{@index}}">
-                                                        {{this.title}}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{/each}}
-                                        {{#each friend_posts}}
-                                        <div class="carousel-item">
-                                            
-                                            <div class="form-check" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
-                                                {{#if this.url}}
-                                                    <img style="width: 120px; height: 120px;" src="{{this.url}}" alt="Invalid Image URL">
-                                                {{else}}
-                                                    <p>&#60;No Image&#62;</p>
-                                                {{/if}}
-                                                <p>{{this.body}}</p>
-                                                <div style="display: flex; flex-direction: row; align-items: center;">
-                                                    <input class="form-check-input" type="checkbox" name="postSelection" id="post{{@index}}" value="{{this.id}}">
-                                                    <label class="form-check-label" for="post{{@index}}">
-                                                        {{this.title}}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{/each}}
-                                    </div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#postSelectionCarousel" data-bs-slide="prev">
-                                        <span style = "filter: invert(100%);" class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#postSelectionCarousel" data-bs-slide="next">
-                                        <span style = "filter: invert(100%);" class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    </button>
+                    <div id = "leftlower">
+                        <div style="margin-top: 20px;"></div>
+                        <p class="mb-1 primary-text fw-bold">
+                            <span>Want to Share Your Story?</span>
+                        </p>
+                        <button type="button" class="create-blog btn btn-primary" data-bs-toggle="modal" data-bs-target="#createBlogModal">
+                            Create a Blog
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {{!-- blog modal --}}
+            <div class="modal fade" id="createBlogModal" tabindex="-1" aria-labelledby="createBlogModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="blog box-shadowless modal-content">
+                        {{!-- modal header --}}
+                        <div class="blog modal-header">
+                            <p id="createBlogModalLabel">Create Blog</p>
+                        </div>
+                        {{!-- modal body --}}
+                        <div class="modal-body">
+                            {{!-- modal form --}}
+                            <form id="createBlogForm" action="/blog/create" method="POST">
+                                {{!-- user id --}}
+                                {{!-- title form --}}
+                                <div class="mb-3">
+                                    <label for="blogTitle" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="blogTitle" name="title" maxlength="35" required>
                                 </div>
-                            </div>
+                                {{!-- post selection form --}}
+                                <div>
+                                    <div id="postSelectionCarousel" class="carousel slide" data-interval="false">
+                                        <div class="carousel-inner">
+                                            {{#each user_posts}}
+                                            <div class="carousel-item {{#if @first}}active{{/if}}">
+                                                <div class="form-check" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+                                                    <p>{{this.author}}</p>
+                                                    {{#if this.url}}
+                                                        <img style="width: 180px; height: 180px;" src="{{this.url}}" alt="Invalid Image URL">
+                                                    {{else}}
+                                                        <p>&#60;No Image&#62;</p>
+                                                    {{/if}}
+                                                    <p>{{this.description}}</p>
+                                                    <div style="display: flex; flex-direction: row; align-items: center;">
+                                                        <input style="form-check-input" type="checkbox" name="postSelection" id="post{{@index}}" value="{{this.id}}">
+                                                        <label style = "margin-left: 5px" class ="form-check-label" for="post{{@index}}">
+                                                            Select Post?
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{/each}}
+                                            {{#each friend_posts}}
+                                            <div class="carousel-item">
+                                                <div class="form-check" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+                                                    <p>{{this.author}}</p>
+                                                    {{#if this.url}}
+                                                        <img style="width: 180px; height: 180px;" src="{{this.url}}" alt="Invalid Image URL">
+                                                    {{else}}
+                                                        <p>&#60;No Image&#62;</p>
+                                                    {{/if}}
+                                                    <p>{{this.description}}</p>
+                                                    <div style="display: flex; flex-direction: row; align-items: center;">
+                                                        <input style="form-check-input" type="checkbox" name="postSelection" id="post{{@index}}" value="{{this.id}}">
+                                                        <label style = "margin-left: 5px" class ="form-check-label" for="post{{@index}}">
+                                                            Select Post?
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#postSelectionCarousel" data-bs-slide="prev">
+                                            <span style = "filter: invert(100%);" class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#postSelectionCarousel" data-bs-slide="next">
+                                            <span style = "filter: invert(100%);" class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </div>
 
-                            {{!-- body form --}}
-                            <div class="mb-3">
-                                <label for="blogContent" class="form-label">Content</label>
-                                <textarea class="form-control" id="blogContent" name="body" rows="5" required></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" form="createBlogForm">Save Blog</button>
+                                {{!-- body form --}}
+                                <div class="mb-3">
+                                    <label for="blogContent" class="form-label">Description</label>
+                                    <textarea class="form-control" id="blogContent" name="body" rows="5" maxlength="250" required></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" form="createBlogForm">Save Blog</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    {{#if blogs}}
+        {{#each blogs}}
+        <div class="blog box blogcard">
+            <div class="blogcard-header">
+                <p>{{title}}</p>
+            </div>
+            <div id="carousel-{{id}}" class="carousel slide" data-interval="false">
+                <div class="blog carousel-inner">
+                    {{#each blogposts}}
+                    <div class="carousel-item {{#if @first}}active{{/if}}">
+                        <p>{{author}}</p>
+                        {{#if url}}
+                        <img src="{{url}}" alt="Blog image {{id}}">
+                        {{/if}}
+                        <p>{{body}}</p>
+                        {{!-- <p>{{created_at}}</p> --}}
+                    </div>
+                    {{!-- <script>
+                        //console.log("{{id}}")
+                    </script> --}}
+                    {{/each}}
+                    <a class="carousel-control-prev" href="#carousel-{{id}}" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-{{id}}" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </div>
+            <div class="blogcard-body">
+                <p>{{body}}</p>
+                <p>{{formatDate this.created_at}}</p>
+            </div>
+            
+        </div>
+        {{/each}}
+    {{else}}
+        <p>No blogs available.</p>
+    {{/if}}
     </div>
-
-    {{! -- Blog Container -- }}
-    <div id = "blog-container"></div> 
-    {{!-- Script containing function to populate blog container, must be defined before funtion call --}}
-    <script src="/resources/js/blogs/blogScript.js"></script> 
-
-{{#if blogs}}
-    <script>
-        populateBlogs({{{blogs_string}}}); //blog population using an external javascript function defined in blogScript.js
-    </script>
-{{else}}
-    <script>
-        document.getElementById('blog-container').innerHTML = '<p>No blogs available.</p>'; //message for when there are no blogs
-        //to test you can comment out the first line above
-    </script>
-{{/if}}
+</div>

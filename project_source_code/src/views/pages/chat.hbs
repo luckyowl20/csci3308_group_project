@@ -11,41 +11,18 @@
   <div class="row">
 
     <!-- Friends List Sidebar -->
-    <div class="col-md-3 border-end">
-      <!-- "Friends" heading, 2rem font size with Lalezar and green text -->
-      <p class="mb-1 fs-2 fw-bold primary-text">Friends</p>
+    <!-- Friends/Matches List Sidebar -->
+    <div class="col-md-3 sidebar border-end">
+      <div class="mb-3 sidebar-header text-center">
+        <p class="mb-2 fs-2 fw-semibold primary-text" id="sidebar-heading">Friends</p>
+        <button id="toggle-matches-btn" class="btn btn-secondary w-90" data-mode="friends">Show Matches</button>
+      </div>
 
-      {{!--
-      Old commented-out list, keep the comment:
-      <ul class="list-unstyled">
+      <ul id="sidebar-list" class="list-unstyled">
+        {{!-- initial friends list --}}
         {{#each friends}}
-        <li class="mb-3">
-          ...
-        </li>
-        {{/each}}
-      </ul>
-      --}}
-
-      <ul class="list-unstyled">
-        {{#each friends}}
-        <li class="mb-3 d-flex align-items-center">
-          {{!-- <img src="{{this.profilePicture}}" alt="{{this.username}}'s profile picture" class="rounded-circle me-2"
-            width="40" height="40"> --}}
-          <div class="profile-pic me-3">
-            {{#if this.profile_picture_url}}
-              <img src="{{this.profile_picture_url}}" alt="{{this.username}}'s profile picture" class="rounded-circle me-2" width="40" height="40">
-            {{else}}
-              <img src="https://via.placeholder.com/40?text=U" alt="Default profile picture" class="rounded-circle me-2" width="40" height="40">
-            {{/if}}
-          </div>
-
-          <!-- 
-              Click friend to load messages. 
-              We pass friend.id in the URL to identify which conversation. 
-            -->
-          <a href="/chat/{{this.id}}" class="text-decoration-none font-alt primary-text">
-            <span>{{this.username}}</span>
-          </a>
+        <li class="mb-3 d-flex align-items-center justify-content-center">
+          {{> chat_sidebar user=this }}
         </li>
         {{/each}}
       </ul>
@@ -57,23 +34,24 @@
       {{> chat_header user=chatPartner}}
 
       <div class="card">
-      
+
         <!-- 
           Chat messages container 
           Replaced inline style with class="chat-box"
         -->
-        <div class="card-body chat-box" id="chat-box" data-current-user-id="{{currentUserId}}">
+        <div class="card-body chat-box" id="chat-box" data-current-user-id="{{currentUserId}}"
+          data-chat-partner-id="{{chatPartnerId}}">
 
           {{#if chatPartner}}
-            {{#if messages.length}}
-              {{#each messages}}
-                {{> message_bubble message=this }}
-              {{/each}}
-            {{else}}
-              <p id="no-messages" class="text-muted primary-text">No messages yet.</p>
-            {{/if}}
-            {{else}}
-              <p class="text-muted primary-text">Select a friend from the list to start chatting.</p>
+          {{#if messages.length}}
+          {{#each messages}}
+          {{> message_bubble message=this }}
+          {{/each}}
+          {{else}}
+          <p id="no-messages" class="text-muted primary-text">No messages yet.</p>
+          {{/if}}
+          {{else}}
+          <p class="text-muted primary-text">Select a friend from the list to start chatting.</p>
           {{/if}}
         </div>
 

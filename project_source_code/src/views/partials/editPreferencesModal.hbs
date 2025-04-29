@@ -4,25 +4,25 @@
     <div class="modal-dialog">
         <form method="POST" action="/profile/update-preferences" class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editPreferencesModalLabel">Edit Profile</h5>
+                <h5 class="modal-title alt-text font-alt fw-bold" id="editPreferencesModalLabel">Edit Preferences</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Location -->
-                <label for="location" class="form-label">Location</label>
+                <label for="location" class="form-label alt-text font-alt fw-bold">Location</label>
                 <div class="input-group mb-2">
                     <input name="location" id="location" class="form-control" placeholder="e.g. Denver, CO"
                         value="{{profile.user_location_text}}">
-                    <button type="button" id="detectLocationBtn" class="btn btn-outline-secondary">Update My
+                    <button type="button" id="detectLocationBtn" class="btn btn-outline-success">Update My
                         Location</button>
                 </div>
 
                 <!-- Hidden coordinates -->
-                <input type="hidden" name="latitude" id="latitude">
-                <input type="hidden" name="longitude" id="longitude">
+                <input type="hidden" name="latitude" id="latitude" value="{{profile.latitude}}">
+                <input type="hidden" name="longitude" id="longitude" value="{{profile.longitude}}">
 
                 <!-- Gender -->
-                <label for="gender" class="form-label">Your Gender</label>
+                <label for="gender" class="form-label alt-text font-alt fw-bold">Your Gender</label>
                 <select name="gender" class="form-select mb-2">
                     <option value="">Select</option>
                     <option value="male" {{#if (eq profile.gender 'male' )}}selected{{/if}}>Male</option>
@@ -33,8 +33,8 @@
                 </select>
 
                 <!-- Preferred Gender -->
-                <label for="preferred_gender" class="form-label">Preferred Match Gender</label>
-                <select name="preferred_gender" class="form-select mb-2">
+                <label for="preferred_gender" class="form-label alt-text font-alt fw-bold">Preferred Match Gender</label>
+                <select name="preferred_gender" class="form-select primary-text mb-2">
                     <option value="">Select</option>
                     <option value="male" {{#if (eq profile.preferred_gender 'male' )}}selected{{/if}}>Male</option>
                     <option value="female" {{#if (eq profile.preferred_gender 'female' )}}selected{{/if}}>Female
@@ -46,7 +46,7 @@
 
                 <!-- Match Distance Preference -->
                 <div class="mb-3">
-                    <label for="match-distance" class="form-label">
+                    <label for="match-distance" class="form-label alt-text font-alt fw-bold">
                         Max Match Distance:
                         <span id="distance-display">
                             {{#if profile.match_distance_miles}}{{profile.match_distance_miles}} miles{{else}}No
@@ -59,7 +59,7 @@
 
                 <!-- Age Range Preference -->
                 <div class="mb-3">
-                    <label class="form-label">
+                    <label class="form-label alt-text font-alt fw-bold">
                         Preferred Age Range:
                         <span id="age-range-display">
                             {{#if profile.preferred_age_min}}{{profile.preferred_age_min}} -
@@ -67,7 +67,7 @@
                         </span>
                     </label>
                     <div class="d-flex gap-2">
-                        <input type="number" class="form-control" id="preferred_age_min" name="preferred_age_min"
+                        <input type="number" class="form-control primary-text" id="preferred_age_min" name="preferred_age_min"
                             min="18" max="100" value="{{profile.preferred_age_min}}">
                         <span class="align-self-center">to</span>
                         <input type="number" class="form-control" id="preferred_age_max" name="preferred_age_max"
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn" style="background-color: #2d6842; color: white;">Save Changes</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
         </form>
     </div>

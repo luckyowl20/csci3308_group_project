@@ -1,0 +1,105 @@
+<link rel="stylesheet" href="/resources/css/restaurants.css">
+
+<main class="container py-4">
+  <h2 class="mb-4">Nearby Restaurants</h2>
+
+  {{#if restaurants.length}}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {{#each restaurants}}
+        <div class="col">
+          <div class="card h-100 shadow-sm" data-place-id="{{place_id}}">
+            {{#if photo}}
+              <img src="{{photo}}" alt="{{name}}" class="card-img-top" style="height: 200px; object-fit: cover;" referrerpolicy="no-referrer">
+            {{else}}
+              <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                No image
+              </div>
+            {{/if}}
+
+            <div class="card-body">
+              <h5 class="card-title">{{name}}</h5>
+              <p class="card-text">{{address}}</p>
+              {{#if rating}}<p class="card-text">⭐ {{rating}}</p>{{/if}}
+
+              {{#includes ../likedPlaceIds place_id}}
+                <form action="/explore/restaurants/like" method="POST" class="d-inline like-form">
+                  <input type="hidden" name="placeId" value="{{place_id}}">
+                  <button type="submit" class="btn-like--active like-btn" disabled>👍 Like</button>
+                </form>
+              {{else}}
+                <form action="/explore/restaurants/like" method="POST" class="d-inline like-form">
+                  <input type="hidden" name="placeId" value="{{place_id}}">
+                  <button type="submit" class="btn-like like-btn">👍 Like</button>
+                </form>
+              {{/includes}}
+
+              {{#includes ../dislikedPlaceIds place_id}}
+                <form action="/explore/restaurants/dislike" method="POST" class="d-inline dislike-form">
+                  <input type="hidden" name="placeId" value="{{place_id}}">
+                  <button type="submit" class="btn-dislike--active dislike-btn" disabled>👎 Dislike</button>
+                </form>
+              {{else}}
+                <form action="/explore/restaurants/dislike" method="POST" class="d-inline dislike-form">
+                  <input type="hidden" name="placeId" value="{{place_id}}">
+                  <button type="submit" class="btn-dislike dislike-btn">👎 Dislike</button>
+                </form>
+              {{/includes}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+  {{else}}
+    <div class="text-center py-4">
+      <p class="mb-2">No restaurants found near you.</p>
+      <a href="/profile#editPreferencesModal" class="btn btn-outline-success">
+        Try updating your location in Profile
+      </a>
+    </div>
+  {{/if}}
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function handleFormSubmit(form, isLike) {
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const card = e.target.closest(".card");
+      const thisBtn = form.querySelector("button");
+      const otherForm = card.querySelector(isLike ? ".dislike-form" : ".like-form");
+      const otherBtn = otherForm.querySelector("button");
+
+      const formData = new URLSearchParams(new FormData(form));
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData
+        });
+        if (response.ok) {
+          if (isLike) {
+            thisBtn.disabled = true;
+            thisBtn.classList.replace("btn-like", "btn-like--active");
+            if (otherBtn) {
+              otherBtn.disabled = false;
+              otherBtn.classList.replace("btn-dislike--active", "btn-dislike");
+            }
+          } else {
+            thisBtn.disabled = true;
+            thisBtn.classList.replace("btn-dislike", "btn-dislike--active");
+            if (otherBtn) {
+              otherBtn.disabled = false;
+              otherBtn.classList.replace("btn-like--active", "btn-like");
+            }
+          }
+        } else {
+          console.error("Unexpected status:", response.status);
+        }
+      } catch (err) {
+        console.error("Error sending form:", err);
+      }
+    });
+  }
+  document.querySelectorAll(".like-form").forEach(f => handleFormSubmit(f, true));
+  document.querySelectorAll(".dislike-form").forEach(f => handleFormSubmit(f, false));
+});
+</script>

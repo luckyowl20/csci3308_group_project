@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Debug log to see which user's profile is currently being shown
     if (card) {
-        console.log("Current swipe card user ID:", card.dataset.userId);
+        console.log("[SwipeDebug] Current swipe card user ID:", card.dataset.userId);
     }
 
     // Handle closing the match modal popup when user clicks the "close" button
     if (closeMatchModal) {
         closeMatchModal.addEventListener('click', () => {
             if (matchModal) matchModal.style.display = 'none';
-            window.location.reload(); // Refresh page to load next profile
+            window.location.reload(); // Reload to get next profile
         });
     }
 
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!card) return;
 
         const userId = card.dataset.userId;
-        console.log("Attempting swipe on user:", userId);
+        console.log("[SwipeDebug] Attempting swipe on user:", userId);
 
         // Animate card swipe direction and fade out
         card.style.transform = `translateX(${isLiked ? '100%' : '-100%'})`;
@@ -52,13 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 matchModal.style.display = 'flex';
             } else {
                 // If not a match, wait for animation then load next profile
-                setTimeout(() => window.location.reload(), 300);
+                setTimeout(() => window.location.href = '/swipe', 300);
             }
         } catch (error) {
             // Handle errors and reload to allow retry
-            console.error('Swipe failed:', error);
+            console.error('[SwipeDebug] Swipe failed:', error);
             alert(`Swipe error: ${error.message}`);
-            setTimeout(() => window.location.reload(), 300);
+            setTimeout(() => window.location.href = '/swipe', 300);
         }
     }
 
