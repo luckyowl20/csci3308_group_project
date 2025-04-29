@@ -60,10 +60,10 @@ This section verifies that the real-time messaging system using Socket.IO functi
   - User A: Alice  
   - User B: Unknown user not on Alice’s friend list
 - **Steps:**  
-  1. Alice manually navigates to `/chat?receiver_id=99`.  
+  1. Alice manually navigates to `/chat/(user id)`.  
   2. Attempts to send a message.
 - **Expected Result:** Backend rejects the message or shows an error; message is not saved.
-- **Actual Result:** : Users can't accesses any messaging with someone that is not their freind as they are not in control of new chats so no issues here.
+- **Actual Result:** : User is able to send a message to a user that they are not friends/matched with. User is still not able to send message to themselves (database reject self messages)
 
 ---
 
