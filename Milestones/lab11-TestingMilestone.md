@@ -127,7 +127,7 @@ This section ensures users can manage their own profile details safely and relia
 - **Steps:**  
   1. User enters an invalid image URL and tries to save.
 - **Expected Result:** App should reject or sanitize bad data and show feedback.
-- **Actual Result:** : This works as it should every url will be valid as the only url's being passed in are straight from the supabase database.
+- **Actual Result:** : We do not allow profile pictures to be submitted as URLs, thus test case passes. URLs come from supabase database. Similarly, all empty fields are handled correctly
 
 ---
 
