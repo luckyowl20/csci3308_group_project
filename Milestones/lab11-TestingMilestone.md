@@ -22,7 +22,7 @@ This section verifies that the real-time messaging system using Socket.IO functi
   2. She selects Bob from her friend list and sends the message.  
   3. Bob (already logged in) views the message live.
 - **Expected Result:** Message is delivered and displayed in real time for both users.
-- **Actual Result:** : Test case passed clearly with not issues users were able to send and receive messages without any issues.
+- **Actual Result:** Test case passed clearly with no issues users were able to send and receive messages without any issues.
 
 ---
 
@@ -36,7 +36,7 @@ This section verifies that the real-time messaging system using Socket.IO functi
   1. Alice sends a message to Bob.  
   2. Bob logs in afterward and views the chat history.
 - **Expected Result:** The message is saved to the database and appears in Bob's chat upon login.
-- **Actual Result:** : This passed perfectly fine users were still able to send messages even if the other user is offline.
+- **Actual Result:** This passed perfectly fine users were still able to send messages even if the other user is offline.
 
 ---
 
@@ -49,7 +49,7 @@ This section verifies that the real-time messaging system using Socket.IO functi
   1. User types a message with only spaces.  
   2. Clicks "Send".
 - **Expected Result:** Message is not sent; an error or silent failure prevents it.
-- **Actual Result:** : This worked no messages that had just pure whitespace where able to be sent between users.
+- **Actual Result:** This worked no messages that had just pure whitespace where able to be sent between users.
 
 ---
 
@@ -63,7 +63,7 @@ This section verifies that the real-time messaging system using Socket.IO functi
   1. Alice manually navigates to `/chat/(user id)`.  
   2. Attempts to send a message.
 - **Expected Result:** Backend rejects the message or shows an error; message is not saved.
-- **Actual Result:** : User is able to send a message to a user that they are not friends/matched with. User is still not able to send message to themselves (database reject self messages)
+- **Actual Result:** This test fails partially. User is able to navigate to chat/(user id) and send messages to that user they are not friends/matched with. User is not able to send messages to themselves.
 
 ---
 
@@ -100,7 +100,7 @@ This section ensures users can manage their own profile details safely and relia
   3. Clicks Save.  
   4. Page reloads.
 - **Expected Result:** All fields reflect the new values on the page and remain on refresh.
-- **Actual Result:** : All profile updates work as they should and the data is stored correctly as it should be.
+- **Actual Result:** All profile updates work as they should and the data is stored correctly as it should be.
   
 
 ---
@@ -115,7 +115,7 @@ This section ensures users can manage their own profile details safely and relia
   2. Changes just the biography field.  
   3. Saves and reloads.
 - **Expected Result:** Only the updated field changes, others remain intact.
-- **Actual Result:** : This works correctly the user can update any part of the profile that they choose and no issues will arise with other profile settings or features.
+- **Actual Result:** This works correctly the user can update any part of the profile that they choose and no issues will arise with other profile settings or features.
 
 ---
 
@@ -127,7 +127,7 @@ This section ensures users can manage their own profile details safely and relia
 - **Steps:**  
   1. User enters an invalid image URL and tries to save.
 - **Expected Result:** App should reject or sanitize bad data and show feedback.
-- **Actual Result:** : We do not allow profile pictures to be submitted as URLs, thus test case passes. URLs come from supabase database. Similarly, all empty fields are handled correctly
+- **Actual Result:** We do not allow profile pictures to be submitted as URLs, thus test case passes. URLs come from supabase database. Similarly, all empty fields are handled correctly
 
 ---
 
@@ -140,7 +140,7 @@ This section ensures users can manage their own profile details safely and relia
   1. Alice navigates to `/users/2`  
   2. Checks for Edit button or tries to trigger modal manually.
 - **Expected Result:** Edit modal is not accessible; changes are blocked by backend as well.
-- **Actual Result:** : No editing button shows up if users are on another users profile meaning that this test case passes and this feature works as it should.
+- **Actual Result:** No editing button shows up if users are on another users profile meaning that this test case passes and this feature works as it should.
 
 ---
 
@@ -188,7 +188,7 @@ This section tests the integration between the user's profile and the Spotify We
   5. She saves the profile.
   6. She sees a Spotify player embedded on the page showing the chosen song.
 - **Expected Result:** Track ID is saved in the database and reloaded properly on refresh.
-- **Actual Result:** : User is able to search, sleclect, and save a track. Meaning this test passes.
+- **Actual Result:** User is able to search, select, and save a track. Meaning this test passes.
 
 ---
 
@@ -201,7 +201,7 @@ This section tests the integration between the user's profile and the Spotify We
   1. User opens the Edit Profile modal.
   2. Leaves the search input blank or types just one letter.
 - **Expected Result:** No API call is made, results div remains empty, and no error is thrown.
-- **Actual Result:** : There are no results when the user has not entered any value in the search bar for the song, so this test passes.
+- **Actual Result:** There are no results when the user has not entered any value in the search bar for the song, so this test passes.
 
 ---
 
@@ -213,7 +213,8 @@ This section tests the integration between the user's profile and the Spotify We
 - **Steps:**
   1. User enters the nonsense term into the Spotify search bar.
 - **Expected Result:** A “no results found” message is shown or results remain empty without error.
-- **Actual Result:** : stuff will show up but this is out of our control as it depends on whats listed in spotifys database.
+- **Actual Result:** There are no search results from spotify that do not result in some type of result. This this test case somewhat fails, although it is out of our control
+
 
 ---
 
@@ -227,7 +228,7 @@ This section tests the integration between the user's profile and the Spotify We
   2. User closes the modal without clicking “Save Changes”.
   3. User refreshes the page.
 - **Expected Result:** No song is saved to the profile (Spotify player should not appear).
-- **Actual Result:** : The modal must be submitted otherwise the song will not be preserved so this test does pass.
+- **Actual Result:** The modal must be submitted otherwise the song will not be preserved so this test does pass.
 
 ---
 
@@ -242,7 +243,7 @@ This section tests the integration between the user's profile and the Spotify We
   2. Opens Edit Profile modal, searches for a different song, and selects it.
   3. Saves the form.
 - **Expected Result:** Spotify iframe updates to the new song after saving.
-- **Actual Result:** : The user is able to change their previsouly selected track to any track they choose so this test does pass.
+- **Actual Result:** The user is able to change their previously selected track to any track they choose so this test does pass.
 
 ---
 
