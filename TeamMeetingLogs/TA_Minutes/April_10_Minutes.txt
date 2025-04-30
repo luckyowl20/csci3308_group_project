@@ -1,0 +1,26 @@
+ALSO DON'T DELETE BRANCHES, I'M SORRY
+
+Matt: Algorithm Matching with Varnum w/ what happens after swiping.
+Vivian: Make sure data base records swiping!!!
+Daniel: Geotagging - reasturant swipes
+Nina: Music swiping / blogs (help)
+John: Message/Match notifications, / what happens after swiping / blogs (lead), last priority finish light dark mode.
+Alec: Profile page finish image upload, work on algorithm
+
+Algotihm: (Simple, similarity, weighted sum, cosine similarity? which works for both swipes)
+Make sure no double meet, across the world, etc.
+
+Confused about distinction about reasturants
+Reccomends: Don't mix reasturant & music swipes & relationship/friends
+two different 
+
+Our social media's blog. 
+
+Maybe combine post (complex)
+
+What comes out of swiping for music and reasturants.
+
+Remember to put what private and public mean on presentation
+
+Make sure, not so off base that ui doesn't work, consitant communication
+Make sure timestamps on messages

@@ -1,0 +1,10 @@
+Need to pick up the pace. Not suitable for a update.
+Need to see something. Be more organized in what we've accomplished.
+
+Alec- working on external database
+Matt - working on chat
+Varun- working home page and profile
+Daniel - working on test cases
+Nina-finishing up login and register
+Vivian- styling about with css
+John - Home and other profile
