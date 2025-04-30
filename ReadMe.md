@@ -23,17 +23,17 @@
 ### * APIS: Spotify, Google Maps
 
 ## DIRECTORY STRUCTURE
-### Meeting_Logs:
-  - Contains minutes of our TA meetings and weekly team meetings
-
-### Milestones 
+### MilestoneSubmissions
   - Containes project milestones and UAT plan for lab 11
+
+### TeamMeetingLogs:
+  - Contains minutes of our TA meetings and weekly team meetings
 
 ### data_generator
   - GoogleImageScraper.py: contains class used to define the image scraping tool used in main.py to scrape dummy images from the web based on search criteria, convers URL list for each search criteria into a CSV.
   - sql_generator.py: Main generator script that uses gathererd URLs from CSV file to generate posts, complete profiles, messages (unused), matches, friendships, and compile them into SQL commands to be run in our database
 
-### project_source_code
+### ProjectSourceCode
   - contains docker compose file and package.json required packages for our project
   - init_data:
       - 00-RESTART-db.sql: file to completely drop all tables from database, used in resetting database on Render
